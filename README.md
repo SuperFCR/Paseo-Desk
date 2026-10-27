@@ -4,6 +4,12 @@
 
 ![架构示意](docs/architecture.svg)
 
+## 30 秒看懂手机与 Mac 如何接续
+
+[![手机发起、Mac 接续的脱敏演示](docs/demo/poster.png)](docs/demo/paseo-phone-mac.mp4)
+
+[播放 / 下载短片](docs/demo/paseo-phone-mac.mp4) · [离线交互演示](docs/demo/index.html) · [分镜与制作说明](docs/demo/README.md)。画面由代码重建，账号、主机、路径、指标和用量均为虚构示例。
+
 固定链路（macOS 使用每用户 LaunchDaemon）：
 
 ```text

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Paseo · 从手机到 Mac｜流程示意</title>
+<style>
+:root{--paper:#f5f3eb;--ink:#193d32;--muted:#65766b;--line:#d8dfd4;--green:#275c46;--mint:#e4eddc;--white:#fffef9;--gold:#bb8736}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#e3e7df;color:var(--ink);font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif}body{display:flex;flex-direction:column;align-items:center;padding:24px 0}button,input{font:inherit}button{cursor:pointer}.stage-wrap{width:min(1280px,100vw);aspect-ratio:16/9;position:relative;overflow:hidden;border-radius:18px;box-shadow:0 18px 60px #183b3220}.stage{width:1280px;height:720px;position:absolute;top:0;left:0;transform-origin:top left;background:var(--paper);overflow:hidden}.top{height:83px;position:absolute;top:0;left:54px;right:54px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);z-index:10}.brand{font-size:23px;font-weight:750;letter-spacing:.4px;display:flex;align-items:center;gap:12px}.brand-mark{width:28px;height:28px;border-radius:9px;background:var(--green);display:grid;place-items:center;color:white;font-size:18px}.disclosure{font-size:16px;border:1px solid #c7d1bd;background:#eaf0df;padding:8px 15px;border-radius:30px;font-weight:650}.scene{position:absolute;inset:83px 0 63px;display:none}.scene.active{display:block}.footer{position:absolute;left:54px;right:54px;bottom:21px;display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:15px}.steps{display:flex;gap:7px}.steps i{width:34px;height:4px;background:#d6ddcf;border-radius:3px}.steps i.on{background:var(--green)}.eyebrow{font-size:16px;font-weight:700;letter-spacing:2px;color:#648353;margin-bottom:16px}.copy{position:absolute;left:64px;top:85px;width:550px}.copy.narrow{width:490px}h1{font-size:48px;line-height:1.28;letter-spacing:-1.7px;font-weight:750;margin:0 0 22px}h2{font-size:39px;line-height:1.35;letter-spacing:-.8px;margin:0 0 20px}p{font-size:21px;line-height:1.8;margin:0;color:#536c5b}.pills{display:flex;gap:9px;margin-top:26px;flex-wrap:wrap}.pill{font-size:15px;padding:9px 13px;border-radius:8px;border:1px solid #c9d5c2;background:#edf1e7;color:#395a44}.note{margin-top:24px;font-size:17px;line-height:1.7;color:var(--muted)}.phone{position:absolute;width:278px;height:516px;right:152px;top:20px;border:8px solid #214334;border-radius:38px;background:var(--white);box-shadow:15px 20px 0 #dfe5d8;overflow:hidden}.phone .status{height:34px;font-size:12px;display:flex;justify-content:space-between;align-items:center;padding:0 17px;font-weight:700}.island{width:74px;height:17px;border-radius:12px;background:#214334}.apphead{padding:13px 17px;border-bottom:1px solid var(--line);font-size:17px;font-weight:700}.sub{font-size:12px;font-weight:400;color:#738170;margin-top:6px}.phone-body{padding:16px 13px}.bubble{background:var(--mint);border-radius:13px 13px 3px 13px;padding:14px;font-size:16px;line-height:1.65}.reply{font-size:15px;line-height:1.8;margin:19px 6px 13px}.code{font-family:"SFMono-Regular",Consolas,monospace;font-size:14px;background:#1c3b30;color:#ecf2df;border-radius:9px;padding:14px 15px;line-height:1.8;white-space:pre-wrap}.ok{color:#497342;font-size:14px;font-weight:700;margin-top:12px}.compose{position:absolute;bottom:17px;left:13px;right:13px;padding:11px 12px;border:1px solid var(--line);border-radius:20px;font-size:13px;color:#738170}.badge{display:inline-flex;align-items:center;gap:7px;font-size:15px;font-weight:650;color:#3f6742}.dot{width:7px;height:7px;border-radius:50%;background:#6a9554;display:inline-block}.connection{margin-top:30px;padding-top:21px;border-top:1px solid var(--line);display:flex;align-items:center;gap:13px;font-size:17px;font-weight:650}.arrow{color:#8ca17e}.mac{position:absolute;right:54px;top:91px;width:725px;height:367px;border:7px solid #274336;border-radius:16px 16px 7px 7px;background:var(--white);box-shadow:0 15px 38px #28483315}.mac:after{content:"";position:absolute;bottom:-22px;left:-22px;width:755px;height:16px;background:#b9c7b5;border-radius:2px 2px 18px 18px}.windowbar{height:37px;display:flex;align-items:center;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);gap:6px;padding:0 14px}.windowbar i{width:8px;height:8px;border-radius:50%;background:#c2cdbb}.windowbar span{margin-left:auto;margin-right:auto}.app{display:grid;grid-template-columns:175px 1fr;height:316px}.sidebar{background:#f0f3e9;border-right:1px solid var(--line);padding:19px 13px;font-size:12px;color:var(--muted)}.side-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:7px}.selected{margin-top:20px;background:#dfe9d5;padding:10px;border-radius:7px;color:var(--ink);line-height:1.7}.chat{padding:19px 24px}.chathead{font-size:16px;font-weight:700;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.tag{font-size:12px;padding:4px 7px;background:#eaf0e1;border-radius:5px;font-weight:400}.chat .bubble{font-size:15px;padding:10px 14px;margin-left:75px}.chat .reply{font-size:15px;line-height:1.7;margin:14px 0 10px}.files{display:flex;gap:9px;margin-top:13px}.file{background:#f3f5ed;border:1px solid #d6dfcc;border-radius:7px;padding:8px 10px;font-size:13px}.smallcopy{position:absolute;top:79px;left:64px;width:360px}.smallcopy h2{font-size:41px}.smallcopy p{font-size:19px}.handoff{position:absolute;left:64px;bottom:45px;font-size:17px;color:#58724f}.title-row{position:absolute;left:64px;top:32px;right:64px;display:flex;justify-content:space-between;align-items:flex-end}.title-row h2{font-size:34px;margin:0}.title-row p{font-size:17px}.report{position:absolute;left:64px;top:121px;width:650px;height:351px;background:var(--white);border:1px solid var(--line);border-radius:16px;padding:25px 29px}.reporthead{display:flex;justify-content:space-between;align-items:center;font-size:19px;font-weight:700}.reporthead span{font-size:13px;font-weight:400;color:var(--muted)}.bars{margin-top:24px}.barrow{display:grid;grid-template-columns:65px 1fr 35px;align-items:center;gap:16px;margin:18px 0;font-size:16px}.track{height:20px;background:#eaf0e2;border-radius:4px;overflow:hidden}.bar{height:100%;background:#639058;border-radius:4px}.totals{margin-top:27px;display:flex;gap:35px;font-size:15px;color:var(--muted)}.totals b{font-size:24px;color:var(--ink);padding-left:8px}.result-copy{position:absolute;right:64px;top:148px;width:415px}.result-copy h2{font-size:32px}.result-copy p{font-size:19px}.result-copy .code{margin-top:19px;font-size:16px}.boundary{position:absolute;left:64px;right:64px;top:140px;display:grid;grid-template-columns:1fr 60px 1fr;gap:13px;align-items:center}.machine{height:285px;border:1px solid #ccd8c3;border-radius:17px;padding:26px 30px;background:var(--white)}.machine.dark{background:#234b39;color:#f5f3e8;border-color:#234b39}.machine .label{font-size:14px;letter-spacing:1px;color:#6e8464;margin-bottom:12px}.machine.dark .label{color:#bbd0ab}.machine h3{font-size:28px;margin:0 0 16px}.machine p{font-size:20px;line-height:1.95}.machine.dark p{color:#d7e3ca}.boundary-arrow{text-align:center;font-size:30px;color:#769365}.ssh-tag{font-size:14px;margin-top:5px}.boundary-note{position:absolute;left:64px;bottom:42px;right:64px;text-align:center;font-size:17px;color:#66795f}.usage{position:absolute;left:64px;top:113px;width:500px;background:var(--white);border:1px solid var(--line);border-radius:17px;padding:27px 31px}.usage-title{font-size:22px;font-weight:700}.identity{margin:7px 0 25px;color:var(--muted);font-size:16px}.usage-row{display:flex;justify-content:space-between;font-size:17px;margin-top:23px;margin-bottom:11px}.usage .track{height:9px}.usage-foot{font-size:14px;line-height:1.7;color:var(--muted);border-top:1px solid var(--line);margin-top:27px;padding-top:16px}.privacy{position:absolute;left:625px;right:64px;top:116px}.privacy h2{font-size:35px;margin-bottom:21px}.privacy-row{font-size:19px;line-height:1.65;margin-top:16px;display:flex;gap:12px}.check{color:#5d8050;font-weight:700}.endline{font-size:19px;color:#476c43;margin-top:31px;padding-top:22px;border-top:1px solid var(--line);font-weight:650}.controls{width:min(1100px,calc(100vw - 32px));display:flex;align-items:center;gap:12px;padding:20px 0}.controls button{border:1px solid #bdcbb5;background:#fffef6;color:var(--ink);border-radius:8px;padding:8px 14px}.controls input{flex:1;accent-color:var(--green);min-width:40px}.clock{font-variant-numeric:tabular-nums;font-size:14px;white-space:nowrap}.help{font-size:13px;color:#62725b;margin:0 16px;text-align:center}.export body{padding:0;background:var(--paper);display:block}.export .stage-wrap{width:1280px;height:720px;border-radius:0;box-shadow:none}.export .stage{transform:none!important}.export .controls,.export .help{display:none}
+</style>
+</head>
+<body>
+<div class="stage-wrap"><main class="stage" aria-label="Paseo 手机与 Mac 接续开发流程示意">
+<header class="top"><div class="brand"><span class="brand-mark">↗</span> Paseo <span style="font-weight:400;color:#72816b;font-size:18px">多用户开发工作站</span></div><div class="disclosure">流程示意 / 虚构数据</div></header>
+<section class="scene active" data-title="手机发起轻量任务">
+<div class="copy narrow"><div class="eyebrow">01 / 从手机开始</div><h1>灵感来了，<br>先把任务发出去。</h1><p>手机连上 Tailscale，<br>进入自己的 Paseo 工作区。</p><div class="pills"><span class="pill">Host · demo-workstation</span><span class="pill">成员 · alice</span></div><div class="connection"><span>手机</span><span class="arrow">→</span><span>Tailscale</span><span class="arrow">→</span><span>工作站</span></div><div class="note">仅演示代码与少量模拟数据。<br>界面为代码绘制，不是真实产品录屏。</div></div>
+<div class="phone"><div class="status"><span>09:41</span><span class="island"></span><span>● ▰</span></div><div class="apphead">样例报告 <div class="sub">demo-workstation · alice / demo-project</div></div><div class="phone-body"><div class="bubble">用这 4 条模拟记录生成<br>report.md 和 metrics.svg。<br>只做轻量样例统计。</div><div class="reply">已确认当前工作区。<br>读取模拟记录并生成报告。</div><div class="code">alpha  12   beta   18<br>gamma   9   delta  15</div><div class="ok">● 任务已接收 · 示意状态</div></div><div class="compose">继续发送消息 <span style="float:right">↑</span></div></div>
+</section>
+<section class="scene" data-title="Mac 进入同一会话">
+<div class="smallcopy"><div class="eyebrow">02 / 换个屏幕，接着做</div><h2>回到 Mac，<br>继续同一会话。</h2><p>同一 Host、成员身份、<br>工作区和会话。</p><div class="pills"><span class="pill">Mac 在这里是客户端</span></div><div class="note">文件与代理留在工作站。<br>每次只用一个主要操作入口。</div></div>
+<div class="mac"><div class="windowbar"><i></i><i></i><i></i><span>Paseo · demo-workstation</span></div><div class="app"><aside class="sidebar"><div class="side-title">alice 的工作区</div>demo-workstation<div class="selected">demo-project<br><b>↳ 样例报告</b></div><div style="margin-top:18px;font-size:11px">/home/alice/projects/demo-project</div></aside><div class="chat"><div class="chathead">样例报告 <span class="tag">同一会话 · 示意</span></div><div class="bubble">报告生成后，把标题改成<br>“手机到 Mac · 复核结果”。</div><div class="reply">已接续手机发起的任务。<br>报告标题已更新，模拟记录保持一致。</div><div class="files"><div class="file">▤ report.md</div><div class="file">▥ metrics.svg</div></div><div class="ok">● 可在同一工作区继续查看与修改</div></div></div></div>
+<div class="handoff">手机发起 → Mac 复核 → 在工作站保存</div>
+</section>
+<section class="scene" data-title="查看小型结果">
+<div class="title-row"><div><div class="eyebrow">03 / 结果，一眼看清</div><h2>报告与图表，随手查看。</h2></div><p>4 条模拟记录 · 无真实数据或模型</p></div>
+<div class="report"><div class="reporthead">手机到 Mac · 复核结果 <span>metrics.svg · 示意图</span></div><div class="bars"><div class="barrow"><span>alpha</span><div class="track"><div class="bar" style="width:60%"></div></div><b>12</b></div><div class="barrow"><span>beta</span><div class="track"><div class="bar" style="width:90%"></div></div><b>18</b></div><div class="barrow"><span>gamma</span><div class="track"><div class="bar" style="width:45%"></div></div><b>9</b></div><div class="barrow"><span>delta</span><div class="track"><div class="bar" style="width:75%"></div></div><b>15</b></div></div><div class="totals"><span>记录数<b>4</b></span><span>合计<b>54</b></span><span>均值<b>13.5</b></span></div></div>
+<div class="result-copy"><h2>小任务，完整接续。</h2><p>手机提出需求，Mac 查看产物，<br>继续修改代码与说明。</p><div class="code">demo-project/<br>├── report.md<br>└── metrics.svg</div><div class="note">本片演示预期流程与虚构结果，<br>不代表端到端部署验收已通过。</div></div>
+</section>
+<section class="scene" data-title="重计算留在远程节点">
+<div class="title-row"><div><div class="eyebrow">04 / 计算边界不变</div><h2>工作站做开发，节点做计算。</h2></div><p>手机 / Mac → 本人 Paseo → 本人 SSH 身份</p></div>
+<div class="boundary"><div class="machine"><div class="label">DEVELOPMENT</div><h3>demo-workstation</h3><p>编辑代码 · 版本管理<br>模拟样例 · 轻量测试<br>查看小型日志与图表</p></div><div class="boundary-arrow">→<div class="ssh-tag">SSH</div></div><div class="machine dark"><div class="label">REMOTE COMPUTE</div><h3>compute-node-1</h3><p>真实数据处理 · 模型加载<br>训练 · 评估 · 推理<br>完整数据与产物留在节点</p></div></div>
+<div class="boundary-note">仅按需取回小型结果　·　手机断线不等于远程任务结束　·　CLI 控制不等于桌面 CUA</div>
+</section>
+<section class="scene" data-title="独立身份与用量">
+<div class="title-row"><div><div class="eyebrow">05 / 每个人，都有自己的入口</div><h2>共享工作站，使用自己的账号。</h2></div></div>
+<div class="usage"><div class="usage-title">alice 的用量概览</div><div class="identity">alice@example.com · 虚构账号</div><div class="usage-row"><span>短周期用量（模拟）</span><b>24%</b></div><div class="track"><div class="bar" style="width:24%"></div></div><div class="usage-row"><span>周用量（模拟）</span><b>38%</b></div><div class="track"><div class="bar" style="width:38%"></div></div><div class="usage-foot">百分比仅用于画面示意，不对应真实额度。<br>订阅用量百分比不能换算成美元费用。</div></div>
+<div class="privacy"><h2>alice 与 bob，各自独立。</h2><div class="privacy-row"><span class="check">✓</span><span>系统用户、Paseo 实例、项目与会话</span></div><div class="privacy-row"><span class="check">✓</span><span>模型账号、SSH 身份与连接密码</span></div><div class="privacy-row"><span class="check">✓</span><span>只展示虚构主机、路径、账号与指标</span></div><div class="endline">手机发起，Mac 接续，计算各就其位。</div><div class="note" style="font-size:14px;margin-top:16px">适用于相互信任的小团队；管理员在信任边界内。</div></div>
+</section>
+<footer class="footer"><span id="caption">手机发起轻量任务</span><div class="steps" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div><span>手机 ↔ Mac　/　界面重建 · 非真实录屏</span></footer>
+</main></div>
+<nav class="controls" aria-label="演示播放控制"><button id="prev" aria-label="上一场景">←</button><button id="play">暂停</button><button id="next" aria-label="下一场景">→</button><input id="seek" type="range" min="0" max="30" step="0.1" value="0" aria-label="定位到秒"><span class="clock" id="clock">00:00 / 00:30</span></nav>
+<p class="help">空格：播放 / 暂停　← →：切换场景　Home / End：跳到首尾　·　离线演示，无外部资源或遥测</p>
+<script>
+(() => {
+'use strict';
+const params = new URLSearchParams(location.search);
+const exporting = params.get('export') === '1';
+const scenes = [...document.querySelectorAll('.scene')];
+const dots = [...document.querySelectorAll('.steps i')];
+const stage = document.querySelector('.stage');
+const wrap = document.querySelector('.stage-wrap');
+const play = document.getElementById('play');
+const seek = document.getElementById('seek');
+const total = 30, duration = 6;
+const requested = Number(params.get('scene'));
+const initial = Number.isInteger(requested) && requested >= 1 && requested <= scenes.length ? requested - 1 : 0;
+let time = initial * duration, playing = !exporting && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+let last = performance.now();
+if (exporting) document.documentElement.classList.add('export');
+function draw() {
+  const index = Math.min(scenes.length - 1, Math.floor(time / duration));
+  scenes.forEach((scene, i) => {scene.classList.toggle('active', i === index); scene.setAttribute('aria-hidden', String(i !== index));});
+  dots.forEach((dot, i) => dot.classList.toggle('on', i === index));
+  document.getElementById('caption').textContent = scenes[index].dataset.title;
+  document.getElementById('clock').textContent = `00:${String(Math.floor(time)).padStart(2, '0')} / 00:30`;
+  seek.value = time;
+  play.textContent = playing ? '暂停' : (time >= total ? '重播' : '播放');
+  document.documentElement.dataset.scene = index + 1;
+}
+function resize() {if (!exporting) stage.style.transform = `scale(${wrap.clientWidth / 1280})`;}
+function toggle() {if (time >= total) time = 0; playing = !playing; last = performance.now(); draw();}
+function move(delta) {time = Math.max(0, Math.min(24, Math.floor(time / duration) * duration + delta * duration)); last = performance.now(); draw();}
+play.addEventListener('click', toggle);
+document.getElementById('prev').addEventListener('click', () => move(-1));
+document.getElementById('next').addEventListener('click', () => move(1));
+seek.addEventListener('input', () => {time = Number(seek.value); last = performance.now(); draw();});
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input,button') || exporting) return;
+  if (e.code === 'Space') {e.preventDefault(); toggle();}
+  if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') {e.preventDefault(); move(e.code === 'ArrowLeft' ? -1 : 1);}
+  if (e.code === 'Home' || e.code === 'End') {e.preventDefault(); time = e.code === 'Home' ? 0 : total; playing = false; draw();}
+});
+window.addEventListener('resize', resize);
+function tick(now) {if (playing) {time = Math.min(total, time + (now - last) / 1000); if (time >= total) playing = false; draw();} last = now; requestAnimationFrame(tick);}
+resize(); draw();
+document.fonts.ready.then(() => {document.documentElement.dataset.ready = 'true';});
+if (!exporting) requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
