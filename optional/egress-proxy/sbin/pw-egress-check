@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# 出口检查：既可手动运行，也作为 /etc/paseo-workstation/pre-launch.d/50-egress 在启动 CLI 前执行。
+# 绕开应用代理变量直连检测地址，验证的是透明 TUN 路径本身。
+set -euo pipefail
+# shellcheck source=/dev/null
+. /etc/paseo-workstation/egress.conf
+if [ ! -r /run/pw-egress/ready ] || ! systemctl is-active --quiet pw-egress-proxy.service \
+   || ! ip link show "$EGRESS_IFACE" >/dev/null 2>&1; then
+  echo '出口网关未就绪（防直连规则、代理核心或 TUN 接口缺失）。' >&2
+  exit 1
+fi
+if ! trace=$(curl -q -fsS --proxy '' --noproxy '*' --connect-timeout 5 --max-time 15 "$EGRESS_CHECK_URL"); then
+  echo "经出口网关访问 $EGRESS_CHECK_URL 失败。" >&2
+  exit 1
+fi
+country=$(printf '%s\n' "$trace" | sed -n 's/^loc=//p')
+egress=$(printf '%s\n' "$trace" | sed -n 's/^ip=//p')
+if [ -n "${EGRESS_EXPECT_COUNTRY:-}" ] && [ "$country" != "$EGRESS_EXPECT_COUNTRY" ]; then
+  echo "出口地区应为 $EGRESS_EXPECT_COUNTRY，实际为 ${country:-未知}。" >&2
+  exit 1
+fi
+printf '出口网关就绪：%s / %s\n' "${egress:-?}" "${country:-?}"

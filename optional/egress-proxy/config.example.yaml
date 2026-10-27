@@ -1,0 +1,46 @@
+# /etc/paseo-workstation/egress/config.yaml —— mihomo 配置模板
+# 只需填写 proxies 中的节点参数；tun.device、tun.route-exclude-address、dns.listen
+# 由 pw-egress-guard 每次启动时按 egress.conf 自动改写。
+# 本文件含节点凭据：权限 640，属主 root:pw-egress，不要提交到任何仓库。
+mixed-port: 17899
+bind-address: 127.0.0.1
+allow-lan: false
+mode: rule
+log-level: warning
+ipv6: false
+
+tun:
+  enable: true
+  stack: system
+  device: pw-egress
+  auto-route: true
+  auto-redirect: false
+  auto-detect-interface: true
+  strict-route: false
+  route-exclude-address: []
+
+dns:
+  enable: true
+  listen: 127.0.0.1:1053
+  ipv6: false
+  enhanced-mode: redir-host
+  # 上游 DoH 同样经代理节点
+  nameserver:
+    - https://1.1.1.1/dns-query#egress-node
+    - https://8.8.8.8/dns-query#egress-node
+
+proxies:
+  # 节点的 server 必须是 IPv4 字面地址：防直连规则在 DNS 可用之前就要放行它
+  - name: egress-node
+    type: vless
+    server: 203.0.113.10
+    port: 443
+    uuid: 00000000-0000-0000-0000-000000000000
+    network: tcp
+    tls: true
+    udp: true
+    servername: example.com
+    client-fingerprint: chrome
+
+rules:
+  - MATCH,egress-node

@@ -1,0 +1,16 @@
+# /etc/ssh/sshd_config.d/00-paseo-workstation.conf
+# WSL 场景：sshd 只在 WSL 内监听 2223，由 Windows portproxy 把 <Tailscale IP>:2222 转到 127.0.0.1:2223。
+# 原生 Linux 可直接使用 22 或其他端口，并用 Tailscale ACL 限制来源。
+Port 2223
+AddressFamily inet
+ListenAddress 0.0.0.0
+PermitRootLogin no
+PasswordAuthentication yes
+KbdInteractiveAuthentication no
+PubkeyAuthentication yes
+# paseo-user add / remove 自动维护此白名单；首次部署先写入管理员自己
+AllowUsers admin
+MaxAuthTries 3
+LoginGraceTime 30
+X11Forwarding no
+AllowAgentForwarding no

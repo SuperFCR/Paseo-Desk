@@ -1,0 +1,286 @@
+#!/usr/bin/env python3
+"""管理每用户 Paseo 实例（以 root 执行）。
+
+  paseo-user add USER PORT          创建/补齐用户、生成连接密码、写配置、启用 paseo@USER
+  paseo-user reset-password USER    重新生成连接密码并重启实例
+  paseo-user remove USER [--revoke-cli] [--revoke-ssh]
+                                    停用实例；HOME、项目与凭据保留
+  paseo-user list [--json]          列出已分配的用户与端口（Windows 同步脚本读取 --json）
+
+明文密码只写入 ~USER/.paseo/client.env（600），不会打印到终端。
+"""
+import argparse
+import grp
+import json
+import os
+import pwd
+import re
+import secrets
+import shlex
+import subprocess
+import sys
+from pathlib import Path
+
+ETC = Path('/etc/paseo-workstation')
+USERS = ETC / 'users'
+SHARE = Path('/usr/local/share/paseo-workstation')
+WRAPPERS = Path('/usr/local/lib/paseo-workstation/bin')
+NAME_RE = re.compile(r'[a-z_][a-z0-9_-]{0,31}')
+
+
+def die(msg):
+    sys.exit(f'paseo-user: {msg}')
+
+
+def load_conf():
+    conf = {}
+    for line in (ETC / 'workstation.conf').read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith('#') or '=' not in line:
+            continue
+        key, value = line.split('=', 1)
+        conf[key.strip()] = shlex.split(value)[0] if value.strip() else ''
+    return conf
+
+
+def read_env(path):
+    out = {}
+    for line in path.read_text().splitlines():
+        if '=' in line:
+            key, value = line.split('=', 1)
+            out[key] = value
+    return out
+
+
+def assigned_ports():
+    ports = {}
+    for env in sorted(USERS.glob('*.env')):
+        listen = read_env(env).get('PASEO_LISTEN', '')
+        if ':' in listen:
+            ports[env.stem] = int(listen.rsplit(':', 1)[1])
+    return ports
+
+
+def account(user):
+    if not NAME_RE.fullmatch(user):
+        die(f'无效用户名：{user}')
+    try:
+        u = pwd.getpwnam(user)
+    except KeyError:
+        return None
+    if u.pw_uid < 1000 or u.pw_dir != f'/home/{user}':
+        die('只管理 /home 下 UID >= 1000 的普通用户')
+    return u
+
+
+class Owner:
+    def __init__(self, u):
+        self.u = u
+
+    def file(self, path, text):
+        # 先建空文件并收紧权限，再写入内容，避免明文短暂可读
+        path.touch(mode=0o600, exist_ok=True)
+        os.chown(path, self.u.pw_uid, self.u.pw_gid)
+        path.chmod(0o600)
+        path.write_text(text)
+
+    def directory(self, path):
+        path.mkdir(parents=True, exist_ok=True)
+        os.chown(path, self.u.pw_uid, self.u.pw_gid)
+        path.chmod(0o700)
+
+
+def hash_password(conf, password):
+    auth_js = Path(conf['PW_PASEO_PREFIX']) / 'node_modules/@getpaseo/server/dist/server/server/auth.js'
+    if not auth_js.exists():
+        die(f'找不到 {auth_js}；Paseo 版本可能已调整内部路径，请改用本人终端执行 paseo daemon set-password')
+    js = (f"import {{hashDaemonPassword}} from {json.dumps(str(auth_js))};"
+          "let s='';for await(const c of process.stdin)s+=c;console.log(hashDaemonPassword(s));")
+    result = subprocess.run([conf['PW_NODE'], '--input-type=module', '-e', js],
+                            input=password, text=True, capture_output=True)
+    if result.returncode:
+        die('生成密码哈希失败：' + result.stderr.strip())
+    return result.stdout.strip()
+
+
+def new_password(conf, owner, paseo_dir):
+    password = secrets.token_urlsafe(24)
+    hashed = hash_password(conf, password)
+    owner.file(paseo_dir / 'client.env', 'export PASEO_PASSWORD=' + shlex.quote(password) + '\n')
+    return hashed
+
+
+def write_config(owner, paseo_dir, listen, hashed):
+    path = paseo_dir / 'config.json'
+    cfg = json.loads(path.read_text()) if path.exists() else {'version': 1}
+    daemon = cfg.setdefault('daemon', {})
+    daemon.update({'listen': listen, 'relay': {'enabled': False}})
+    daemon.setdefault('auth', {})['password'] = hashed
+    features = cfg.setdefault('features', {})
+    features.setdefault('webUi', {})['enabled'] = True
+    # 默认关闭本地语音，避免在开发入口下载并运行语音模型；需要时按用户单独开启
+    features.setdefault('dictation', {'enabled': False})
+    features.setdefault('voiceMode', {'enabled': False})
+    cfg.setdefault('agents', {}).setdefault('providers', {}).update({
+        'claude': {'command': [str(WRAPPERS / 'claude')]},
+        'codex': {'command': [str(WRAPPERS / 'codex')]},
+    })
+    owner.file(path, json.dumps(cfg, indent=2) + '\n')
+
+
+def edit_allow_users(conf, user, add):
+    path = Path(conf.get('PW_SSHD_CONF') or '/nonexistent')
+    if not path.exists():
+        return
+    text = path.read_text()
+    lines = text.splitlines()
+    changed = False
+    for i, line in enumerate(lines):
+        if not line.startswith('AllowUsers '):
+            continue
+        names = line.split()[1:]
+        if add and user not in names:
+            names.append(user)
+        elif not add and user in names:
+            names.remove(user)
+        else:
+            continue
+        if not names:
+            die('移除后 AllowUsers 将为空，请手动处理')
+        lines[i] = 'AllowUsers ' + ' '.join(names)
+        changed = True
+    if not changed:
+        return
+    path.write_text('\n'.join(lines) + '\n')
+    check = subprocess.run(['sshd', '-t'], capture_output=True, text=True)
+    if check.returncode:
+        path.write_text(text)
+        die('sshd 配置校验失败，已还原：' + check.stderr.strip())
+    for service in ('ssh', 'sshd'):
+        if subprocess.run(['systemctl', 'reload', service], capture_output=True).returncode == 0:
+            break
+    print(f'已更新 {path} 的 AllowUsers')
+
+
+def cmd_add(conf, a):
+    if not 1024 <= a.port <= 65535:
+        die('端口必须在 1024 到 65535 之间')
+    for other, port in assigned_ports().items():
+        if port == a.port and other != a.user:
+            die(f'端口 {a.port} 已分配给 {other}')
+    u = account(a.user)
+    if u is None:
+        subprocess.run(['useradd', '-m', '-s', '/bin/bash', a.user], check=True)
+        u = account(a.user)
+        print(f'已创建用户 {a.user}；请执行 passwd {a.user} 或为其配置 SSH 公钥')
+    owner = Owner(u)
+    home = Path(u.pw_dir)
+    paseo_dir = home / '.paseo'
+    home.chmod(0o700)
+    for sub in ('.paseo', 'projects', 'results'):
+        owner.directory(home / sub)
+
+    cfg_path = paseo_dir / 'config.json'
+    hashed = None
+    if (paseo_dir / 'client.env').exists() and cfg_path.exists():
+        hashed = json.loads(cfg_path.read_text()).get('daemon', {}).get('auth', {}).get('password')
+    if not hashed:
+        hashed = new_password(conf, owner, paseo_dir)
+    listen = f"{conf.get('PW_LISTEN_HOST') or '127.0.0.1'}:{a.port}"
+    write_config(owner, paseo_dir, listen, hashed)
+
+    group = conf.get('PW_GROUP')
+    if group:
+        try:
+            grp.getgrnam(group)
+        except KeyError:
+            subprocess.run(['groupadd', '--system', group], check=True)
+        subprocess.run(['usermod', '-aG', group, a.user], check=True)
+
+    USERS.mkdir(parents=True, exist_ok=True)
+    env = USERS / f'{a.user}.env'
+    env.touch(mode=0o600, exist_ok=True)
+    env.write_text(f'HOME={home}\nPASEO_HOME={paseo_dir}\nPASEO_LISTEN={listen}\n')
+
+    sync = SHARE / 'sync-agent-policy.sh'
+    if sync.exists():
+        subprocess.run(['runuser', '-u', a.user, '--', 'env', f'HOME={home}', 'bash', str(sync)], check=True)
+    if not a.no_ssh:
+        edit_allow_users(conf, a.user, add=True)
+
+    subprocess.run(['systemctl', 'daemon-reload'], check=True)
+    subprocess.run(['systemctl', 'enable', f'paseo@{a.user}.service'], check=True)
+    # 已在运行的实例需要重启才能读取新的监听地址或密码
+    subprocess.run(['systemctl', 'restart', f'paseo@{a.user}.service'], check=True)
+    print(f'{a.user}: 监听 {listen}；连接密码在 {paseo_dir}/client.env（600）。')
+    print('WSL 部署：Windows 同步任务会在下一轮自动建立端口转发，也可手动运行 Sync-PaseoEndpoints.ps1。')
+
+
+def cmd_reset(conf, a):
+    u = account(a.user)
+    if u is None:
+        die(f'用户不存在：{a.user}')
+    env = USERS / f'{a.user}.env'
+    if not env.exists():
+        die(f'{a.user} 尚未通过 paseo-user add 配置')
+    owner = Owner(u)
+    paseo_dir = Path(u.pw_dir) / '.paseo'
+    hashed = new_password(conf, owner, paseo_dir)
+    write_config(owner, paseo_dir, read_env(env)['PASEO_LISTEN'], hashed)
+    subprocess.run(['systemctl', 'restart', f'paseo@{a.user}.service'], check=True)
+    print(f'{a.user}: 已重设连接密码并重启实例；请通知本人更新所有客户端。')
+
+
+def cmd_remove(conf, a):
+    account(a.user)
+    subprocess.run(['systemctl', 'disable', '--now', f'paseo@{a.user}.service'], check=False)
+    (USERS / f'{a.user}.env').unlink(missing_ok=True)
+    group = conf.get('PW_GROUP')
+    if a.revoke_cli and group:
+        subprocess.run(['gpasswd', '-d', a.user, group], check=False)
+    if a.revoke_ssh:
+        edit_allow_users(conf, a.user, add=False)
+    print(f'{a.user}: 实例已停用；HOME、项目和凭据保留。Windows 同步任务会移除对应转发。')
+
+
+def cmd_list(conf, a):
+    rows = []
+    for user, port in assigned_ports().items():
+        state = subprocess.run(['systemctl', 'is-active', f'paseo@{user}.service'],
+                               capture_output=True, text=True).stdout.strip()
+        rows.append({'User': user, 'Port': port, 'State': state})
+    if a.json:
+        print(json.dumps(rows))
+    else:
+        for row in rows:
+            print(f"{row['User']:<16} {row['Port']:<6} {row['State']}")
+
+
+def main():
+    p = argparse.ArgumentParser(prog='paseo-user', description=__doc__,
+                                formatter_class=argparse.RawDescriptionHelpFormatter)
+    sub = p.add_subparsers(dest='cmd', required=True)
+    s = sub.add_parser('add')
+    s.add_argument('user')
+    s.add_argument('port', type=int)
+    s.add_argument('--no-ssh', action='store_true', help='不加入 sshd AllowUsers')
+    s.set_defaults(func=cmd_add)
+    s = sub.add_parser('reset-password')
+    s.add_argument('user')
+    s.set_defaults(func=cmd_reset)
+    s = sub.add_parser('remove')
+    s.add_argument('user')
+    s.add_argument('--revoke-cli', action='store_true', help='同时移出公共 CLI 用户组')
+    s.add_argument('--revoke-ssh', action='store_true', help='同时移出 sshd AllowUsers')
+    s.set_defaults(func=cmd_remove)
+    s = sub.add_parser('list')
+    s.add_argument('--json', action='store_true')
+    s.set_defaults(func=cmd_list)
+    a = p.parse_args()
+    if os.geteuid() != 0:
+        die('请用 sudo 执行')
+    a.func(load_conf(), a)
+
+
+if __name__ == '__main__':
+    main()

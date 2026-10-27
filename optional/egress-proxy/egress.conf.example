@@ -1,0 +1,17 @@
+# /etc/paseo-workstation/egress.conf —— 可选出口网关模块配置（bash 与 python 共同读取，只写简单赋值）
+
+# 运行代理核心的系统用户与 TUN 接口名
+EGRESS_USER=pw-egress
+EGRESS_IFACE=pw-egress
+# 本机 DNS 入口端口；所有 53 端口 DNS 请求重定向到这里
+EGRESS_DNS_PORT=1053
+# 应用代理入口（与 config.yaml 的 mixed-port 一致），写入 /etc/paseo-workstation/proxy.env
+EGRESS_HTTP_PROXY=http://127.0.0.1:17899
+
+# 不经代理、直接访问的 IPv4 网段，空格分隔。例如计算节点所在内网：10.0.0.0/8 192.168.1.0/24
+EGRESS_DIRECT_CIDRS=""
+
+# 启动前检查：访问该地址并读取 loc= / ip= 字段（Cloudflare trace 格式）
+EGRESS_CHECK_URL=https://www.cloudflare.com/cdn-cgi/trace
+# 期望的出口国家/地区代码（如 SG）；留空则只检查连通性
+EGRESS_EXPECT_COUNTRY=""

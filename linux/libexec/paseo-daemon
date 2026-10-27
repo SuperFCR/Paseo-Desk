@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# paseo@.service 的前台入口；监听地址、HOME 等由 /etc/paseo-workstation/users/<user>.env 提供。
+set -euo pipefail
+# shellcheck source=SCRIPTDIR/env.sh
+. /usr/local/lib/paseo-workstation/libexec/env.sh
+exec "$PW_NODE" --disable-warning=DEP0040 "$PW_PASEO_CLI" daemon run

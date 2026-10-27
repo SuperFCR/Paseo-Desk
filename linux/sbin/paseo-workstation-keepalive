@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# WSL 常驻入口：由 Windows 计划任务以 root 启动并保持运行，WSL 实例因此不会空闲退出。
+# systemd 服务本身不能维持 WSL 存活。
+set -euo pipefail
+for unit in pw-egress-guard.service pw-egress-proxy.service ssh.service; do
+  if systemctl cat "$unit" >/dev/null 2>&1; then
+    systemctl start "$unit" || echo "启动失败：$unit" >&2
+  fi
+done
+exec /usr/bin/sleep infinity

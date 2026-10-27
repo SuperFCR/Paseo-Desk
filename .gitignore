@@ -1,0 +1,11 @@
+# 实际部署配置与运行状态（可能含地址、节点凭据）不入库
+windows/config.json
+windows/state.json
+windows/paseo-endpoints.json
+windows/logs/
+optional/egress-proxy/config.yaml
+*.env
+!*.env.example
+client.env
+*.bak-*
+mihomo*

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Codex 公共入口：Paseo provider command 和终端都指向这里。参数原样传递。
+set -euo pipefail
+# shellcheck source=SCRIPTDIR/../libexec/env.sh
+. /usr/local/lib/paseo-workstation/libexec/env.sh
+pw_pre_launch codex
+exec "$PW_CODEX_BIN" "$@"

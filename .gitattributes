@@ -1,0 +1,6 @@
+*.ps1 text eol=crlf
+*.sh text eol=lf
+linux/bin/* text eol=lf
+linux/libexec/* text eol=lf
+linux/sbin/* text eol=lf
+optional/egress-proxy/sbin/* text eol=lf

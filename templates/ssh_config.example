@@ -1,0 +1,17 @@
+# ~/.ssh/config —— 成员本人的计算节点配置示例。尖括号内容替换为管理员分配的实际值。
+# 私钥权限 600，不要复制他人私钥。
+
+Host compute-node-1
+    HostName <节点地址>
+    User <本人远程用户名>
+    IdentityFile ~/.ssh/id_ed25519_compute
+    IdentitiesOnly yes
+    ServerAliveInterval 30
+    ServerAliveCountMax 4
+
+# 需要经跳板机时
+# Host compute-node-2
+#     HostName <内网地址>
+#     User <本人远程用户名>
+#     ProxyJump <跳板机别名>
+#     IdentityFile ~/.ssh/id_ed25519_compute

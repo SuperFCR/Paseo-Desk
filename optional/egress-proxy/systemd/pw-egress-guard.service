@@ -1,0 +1,13 @@
+[Unit]
+Description=Fail-closed egress guard for all local users
+DefaultDependencies=no
+After=local-fs.target
+Before=network-pre.target network.target sysinit.target ssh.service systemd-resolved.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/pw-egress-guard
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target

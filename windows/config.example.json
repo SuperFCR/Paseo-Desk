@@ -1,0 +1,9 @@
+{
+  "Distro": "Ubuntu",
+  "WslExe": "C:\\Program Files\\WSL\\wsl.exe",
+  "TailscaleExe": "C:\\Program Files\\Tailscale\\tailscale.exe",
+  "SshListenPort": 2222,
+  "SshTargetPort": 2223,
+  "LoopSeconds": 30,
+  "KeepAlive": true
+}

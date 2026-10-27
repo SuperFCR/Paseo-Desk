@@ -1,0 +1,14 @@
+// Tailscale 访问策略片段示例：按成员身份只放行其专属 Paseo 端口与工作站 SSH。
+// 合并进 tailnet policy file 前，检查并移除旧的全放行规则，否则窄规则不起作用。
+{
+  "tagOwners": {
+    "tag:paseo-ws": ["autogroup:admin"],
+  },
+  "grants": [
+    // 管理员：工作站全部端口
+    {"src": ["admin@example.com"], "dst": ["tag:paseo-ws"], "ip": ["*"]},
+    // 成员：SSH（Windows 入口 2222）+ 本人 Paseo 端口
+    {"src": ["alice@example.com"], "dst": ["tag:paseo-ws"], "ip": ["tcp:2222", "tcp:6767"]},
+    {"src": ["bob@example.com"],   "dst": ["tag:paseo-ws"], "ip": ["tcp:2222", "tcp:6768"]},
+  ],
+}

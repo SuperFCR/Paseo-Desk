@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# 不重启 WSL 的恢复：重装防直连规则 → 重启代理核心 → 确保 SSH 仍在运行 → 检查出口。
+# Windows 侧：wsl -d <发行版> -u root -- /usr/local/sbin/pw-egress-repair
+set -euo pipefail
+[ "$(id -u)" = 0 ] || { echo '请用 sudo 执行' >&2; exit 1; }
+# shellcheck source=/dev/null
+. /etc/paseo-workstation/egress.conf
+trap 'systemctl start ssh.service 2>/dev/null || true' EXIT
+/usr/local/sbin/pw-egress-guard
+systemctl reset-failed pw-egress-proxy.service
+systemctl restart pw-egress-proxy.service
+for _ in 1 2 3 4 5; do
+  ip link show "$EGRESS_IFACE" >/dev/null 2>&1 && break
+  sleep 1
+done
+/usr/local/sbin/pw-egress-check

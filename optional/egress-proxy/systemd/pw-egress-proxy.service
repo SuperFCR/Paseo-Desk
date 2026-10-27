@@ -1,0 +1,28 @@
+[Unit]
+Description=Transparent TCP/UDP/DNS egress via mihomo
+Requires=pw-egress-guard.service
+After=pw-egress-guard.service network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=pw-egress
+Group=pw-egress
+Environment=SKIP_SYSTEM_IPV6_CHECK=1
+Environment=SAFE_PATHS=/etc/paseo-workstation/egress
+ExecStartPre=/usr/local/libexec/pw-egress/mihomo -t -d /var/lib/pw-egress -f /etc/paseo-workstation/egress/config.yaml
+ExecStart=/usr/local/libexec/pw-egress/mihomo -d /var/lib/pw-egress -f /etc/paseo-workstation/egress/config.yaml
+Restart=always
+RestartSec=2
+TimeoutStopSec=15
+UMask=0027
+LimitNOFILE=65536
+NoNewPrivileges=true
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/pw-egress
+
+[Install]
+WantedBy=multi-user.target

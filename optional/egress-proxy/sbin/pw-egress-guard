@@ -1,0 +1,125 @@
+#!/usr/bin/env bash
+# 防直连规则（root，开机早期由 pw-egress-guard.service 执行，可重复运行）。
+#
+# 1. 先装“只允许回环与 TUN”的拒绝基线，保证读配置之前也不会直连；
+# 2. 再按 egress.conf 与 config.yaml 装完整规则：
+#    - 公网 TCP/UDP 只能经 TUN 接口；代理核心用户只能连代理节点；
+#    - 所有 53 端口 DNS 重定向到本机代理 DNS；
+#    - EGRESS_DIRECT_CIDRS 中的网段（如计算节点内网）直连。
+# 代理核心停止时，外联因此失败而不是回落到直连。
+set -euo pipefail
+conf=/etc/paseo-workstation/egress.conf
+# shellcheck source=/dev/null
+. "$conf"
+table=pw_egress_guard
+iface=$EGRESS_IFACE
+
+if ! nft list table inet "$table" >/dev/null 2>&1; then
+  nft -f - <<BASELINE || nft list table inet "$table" >/dev/null
+create table inet $table
+add chain inet $table output { type filter hook output priority filter; policy accept; }
+add rule inet $table output ct direction reply accept
+add rule inet $table output oifname "lo" accept
+add rule inet $table output ip daddr 127.0.0.0/8 accept
+add rule inet $table output ip6 daddr ::1 accept
+add rule inet $table output oifname "$iface" meta l4proto { tcp, udp } accept
+add rule inet $table output reject with icmpx type admin-prohibited
+add chain inet $table forward { type filter hook forward priority filter; policy accept; }
+add rule inet $table forward ct direction reply accept
+add rule inet $table forward oifname "$iface" meta l4proto { tcp, udp } accept
+add rule inet $table forward reject with icmpx type admin-prohibited
+BASELINE
+fi
+
+proxy_uid=$(id -u "$EGRESS_USER")
+# 读取节点地址，并把排除路由写回 mihomo 配置（节点、直连网段和回环不进 TUN）
+read -r node_ip node_port direct_set < <(python3 - "$iface" "$EGRESS_DNS_PORT" "$EGRESS_DIRECT_CIDRS" <<'PY'
+import ipaddress, sys
+from pathlib import Path
+import yaml
+
+iface, dns_port, direct = sys.argv[1], int(sys.argv[2]), sys.argv[3].split()
+path = Path('/etc/paseo-workstation/egress/config.yaml')
+c = yaml.safe_load(path.read_text())
+node = c['proxies'][0]
+server = str(ipaddress.IPv4Address(node['server']))  # 必须是 IPv4 字面地址
+port = int(node['port'])
+cidrs = [str(ipaddress.IPv4Network(x)) for x in direct]
+want_routes = [server + '/32', *cidrs, '127.0.0.0/8', '::1/128']
+changed = False
+for keys, value in ((('tun', 'route-exclude-address'), want_routes),
+                    (('tun', 'device'), iface),
+                    (('dns', 'listen'), f'127.0.0.1:{dns_port}')):
+    section = c.setdefault(keys[0], {})
+    if section.get(keys[1]) != value:
+        section[keys[1]] = value
+        changed = True
+if changed:
+    path.write_text(yaml.safe_dump(c, sort_keys=False, allow_unicode=True))
+print(server, port, '{ ' + ', '.join(cidrs) + ' }' if cidrs else '-')
+PY
+)
+
+[ -n "${node_ip:-}" ] || { echo '读取代理节点地址失败，请检查 config.yaml' >&2; exit 1; }
+direct_rule=''
+if [ "$direct_set" != - ]; then
+  direct_rule="ip daddr $direct_set counter accept"
+fi
+
+# 入站连接（SSH、Paseo 转发）的回包按主路由表走，不被 TUN 的自动路由劫持
+for family in -4 -6; do
+  if ! ip "$family" rule show | grep -q 'fwmark 0x50574547 lookup main'; then
+    if ip "$family" rule show | grep -q '^100:'; then
+      echo '策略路由优先级 100 已被占用' >&2
+      exit 1
+    fi
+    ip "$family" rule add priority 100 fwmark 0x50574547 lookup main
+  fi
+done
+
+install -d -m 755 /run/pw-egress
+rules=$(mktemp /run/pw-egress/guard.XXXXXX)
+trap 'rm -f "$rules"' EXIT
+cat > "$rules" <<RULES
+flush table inet $table
+table inet $table {
+  chain reply_route {
+    type route hook output priority mangle; policy accept;
+    ct direction reply meta mark set 0x50574547
+  }
+  chain dns_redirect {
+    type nat hook output priority dstnat; policy accept;
+    meta skuid $proxy_uid return
+    ct direction reply return
+    udp dport 53 counter redirect to :$EGRESS_DNS_PORT
+    tcp dport 53 counter redirect to :$EGRESS_DNS_PORT
+  }
+  chain output {
+    type filter hook output priority filter; policy accept;
+    ct direction reply counter accept
+    oifname "lo" counter accept
+    ip daddr 127.0.0.0/8 counter accept
+    ip6 daddr ::1 counter accept
+    oifname "$iface" meta l4proto { tcp, udp } counter accept
+    meta skuid $proxy_uid ip daddr $node_ip tcp dport $node_port counter accept
+    meta skuid $proxy_uid ip daddr $node_ip udp dport $node_port counter accept
+    $direct_rule
+    counter reject with icmpx type admin-prohibited
+  }
+  chain forward {
+    type filter hook forward priority filter; policy accept;
+    ct direction reply counter accept
+    oifname "$iface" meta l4proto { tcp, udp } counter accept
+    counter reject with icmpx type admin-prohibited
+  }
+  chain dns_input {
+    type filter hook input priority filter; policy accept;
+    iifname != "lo" udp dport $EGRESS_DNS_PORT counter reject with icmpx type admin-prohibited
+    iifname != "lo" tcp dport $EGRESS_DNS_PORT counter reject with tcp reset
+  }
+}
+RULES
+nft -c -f "$rules"
+nft -f "$rules"
+date -Is > /run/pw-egress/ready
+chmod 644 /run/pw-egress/ready

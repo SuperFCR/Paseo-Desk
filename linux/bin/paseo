@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Paseo CLI 入口：自动加载本人 ~/.paseo/client.env，连到本人实例。
+set -euo pipefail
+# shellcheck source=SCRIPTDIR/../libexec/env.sh
+. /usr/local/lib/paseo-workstation/libexec/env.sh
+if [ -r "$HOME/.paseo/client.env" ]; then
+  # shellcheck source=/dev/null
+  . "$HOME/.paseo/client.env"
+fi
+exec "$PW_NODE" --disable-warning=DEP0040 "$PW_PASEO_CLI" "$@"

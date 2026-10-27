@@ -1,0 +1,19 @@
+[Unit]
+Description=Paseo daemon for %i
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=%i
+WorkingDirectory=~
+Environment=PATH=/usr/local/lib/paseo-workstation/bin:/usr/local/bin:/usr/bin:/bin
+EnvironmentFile=/etc/paseo-workstation/users/%i.env
+ExecStart=/usr/local/lib/paseo-workstation/libexec/paseo-daemon
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=30
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
