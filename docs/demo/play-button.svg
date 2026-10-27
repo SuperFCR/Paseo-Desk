@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="58" viewBox="0 0 300 58" role="img" aria-labelledby="title">
+  <title id="title">播放 30 秒演示 · 在线观看</title>
+  <rect x="1" y="1" width="298" height="56" rx="12" fill="#234b39" stroke="#315e48"/>
+  <path d="M25 17v24l20-12z" fill="#fffef6"/>
+  <text x="61" y="36" fill="#fffef6" font-family="system-ui, -apple-system, PingFang SC, Microsoft YaHei, sans-serif" font-size="18" font-weight="600">播放 30 秒演示</text>
+  <text x="215" y="35" fill="#c4d5b7" font-family="system-ui, sans-serif" font-size="12">在线观看 ↗</text>
+</svg>

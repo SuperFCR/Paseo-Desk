@@ -2,11 +2,15 @@
 
 30 秒无声流程短片，5 个场景，每场 6 秒。手机和 Mac 都是客户端，接入同一工作站上的本人 Paseo 实例；本片不演示 macOS 工作站部署。
 
-**[▶ 下载 MP4 后播放](https://github.com/SuperFCR/Paseo-Desk/raw/refs/heads/main/docs/demo/paseo-phone-mac.mp4)**（720p，约 255 KiB）。画面与分镜由 GPT-6 Astra 制作，在计算节点渲染。
+[![播放 30 秒演示 · 在线观看](play-button.svg)](https://paseo-desk-demo.chic-alder-0364.chatgpt.site)
 
-[![脱敏短片静态封面，点击下载 MP4](poster.png)](https://github.com/SuperFCR/Paseo-Desk/raw/refs/heads/main/docs/demo/paseo-phone-mac.mp4)
+[在线播放](https://paseo-desk-demo.chic-alder-0364.chatgpt.site) · [下载 MP4](https://paseo-desk-demo.chic-alder-0364.chatgpt.site/paseo-phone-mac.mp4)（720p，约 255 KiB）。画面与分镜由 GPT-6 Astra 制作，在计算节点渲染。
 
-下载 MP4 后用系统播放器打开。也可以下载 [`index.html`](index.html)，在本地用浏览器打开以离线播放（GitHub 文件页显示的是源码）。支持暂停、前后场景、时间拖动，以及空格、方向键、Home / End。页面不加载外部字体、脚本、图片，也不采集信息；字形使用本机中文字体。
+[![脱敏短片封面，点击打开播放器](poster.png)](https://paseo-desk-demo.chic-alder-0364.chatgpt.site)
+
+README 中的按钮打开独立播放页，由 Sites 托管；不是 GitHub README 内嵌播放器。播放页源码为 [`player.html`](player.html)，与 MP4、`poster.png` 放在同一目录即可独立部署，也可本地打开。无需登录，页面没有模型调用、账户连接或自行添加的分析脚本。
+
+也可以下载 [`index.html`](index.html)，在本地用浏览器打开交互分镜（GitHub 文件页显示的是源码）。支持暂停、前后场景、时间拖动，以及空格、方向键、Home / End。分镜页面不加载外部字体、脚本、图片，也不采集信息；字形使用本机中文字体。
 
 | 时间 | 画面 |
 | --- | --- |

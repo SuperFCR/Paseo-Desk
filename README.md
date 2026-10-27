@@ -6,11 +6,11 @@
 
 ## 30 秒看懂手机与 Mac 如何接续
 
-**[▶ 下载演示视频后播放（30 秒 · 720p · 255 KiB）](https://github.com/SuperFCR/Paseo-Desk/raw/refs/heads/main/docs/demo/paseo-phone-mac.mp4)**
+[![播放 30 秒演示 · 在线观看](docs/demo/play-button.svg)](https://paseo-desk-demo.chic-alder-0364.chatgpt.site)
 
-[![手机发起、Mac 接续的脱敏演示封面，点击下载 MP4](docs/demo/poster.png)](https://github.com/SuperFCR/Paseo-Desk/raw/refs/heads/main/docs/demo/paseo-phone-mac.mp4)
+[![手机发起、Mac 接续的脱敏演示，点击打开播放器](docs/demo/poster.png)](https://paseo-desk-demo.chic-alder-0364.chatgpt.site)
 
-封面是静态预览；下载 MP4 后用系统播放器打开。[离线交互演示源码](docs/demo/index.html) · [分镜与制作说明](docs/demo/README.md)。画面由代码重建，账号、主机、路径、指标和用量均为虚构示例。
+点击按钮或封面打开在线播放器，支持播放、暂停、拖动进度和全屏。[下载 MP4](https://paseo-desk-demo.chic-alder-0364.chatgpt.site/paseo-phone-mac.mp4) · [离线交互演示源码](docs/demo/index.html) · [分镜与制作说明](docs/demo/README.md)。画面由代码重建，账号、主机、路径、指标和用量均为虚构示例。
 
 ## 工作方式
 
