@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1260" viewBox="0 0 1800 1260">
-<title>Paseo 多用户工作站架构</title>
+<title>Paseo Desk 多用户开发工作台架构</title>
 <desc>Windows + WSL2、Linux 或 macOS 工作站；每人独立系统身份、Paseo及代理进程，通过 SSH 访问远程计算节点。</desc>
 <style>text{font-family:"Heiti SC","PingFang SC","Microsoft YaHei",sans-serif}</style>
 <rect x="0" y="0" width="1800" height="1260" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"/>
-<text x="48" y="63" font-size="42" fill="#17243A" font-weight="600" text-anchor="start">Paseo 多用户开发工作站</text>
+<text x="48" y="63" font-size="42" fill="#17243A" font-weight="600" text-anchor="start">Paseo Desk · 多用户开发工作台</text>
 <text x="48" y="108" font-size="25" fill="#5C6B80" font-weight="400" text-anchor="start">共享程序、网络与宿主资源；每人独立身份、进程、目录、会话与模型登录。</text>
 <rect x="60" y="150" width="480" height="102" rx="18" fill="#EEF5FF" stroke="#B7CCE8" stroke-width="2"/>
 <text x="300" y="192" font-size="28" fill="#2966AA" font-weight="600" text-anchor="middle">alice 的手机 / 笔记本</text>
@@ -89,5 +89,5 @@
 <rect x="1260" y="1100" width="480" height="102" rx="16" fill="#EAF6F1" stroke="#B7D9C9" stroke-width="2"/>
 <text x="1500" y="1140" font-size="28" fill="#187D70" font-weight="600" text-anchor="middle">Compute Node n</text>
 <text x="1500" y="1177" font-size="22" fill="#17243A" font-weight="400" text-anchor="middle">重计算 / 实验 / 大数据与完整产物</text>
-<text x="48" y="1240" font-size="19" fill="#5C6B80" font-weight="400" text-anchor="start">paseo-multiuser-workstation · 架构示意</text>
+<text x="48" y="1240" font-size="19" fill="#5C6B80" font-weight="400" text-anchor="start">SuperFCR/paseo-desk · 架构示意</text>
 </svg>

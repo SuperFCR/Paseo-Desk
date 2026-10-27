@@ -1,4 +1,6 @@
-# Paseo 多用户开发工作站
+# Paseo Desk
+
+基于 Paseo 与 Tailscale 的多用户 AI 开发工作台。
 
 把一台常开的电脑（Windows + WSL2、原生 Linux 或 macOS）变成小团队共用的 AI 编程入口：每位成员用手机或笔记本，经 [Tailscale](https://tailscale.com) 连接到**自己的** [Paseo](https://paseo.sh) 实例，驱动 Claude Code / Codex 写代码；训练、推理等重计算通过各自的 SSH 身份提交到远程计算节点。
 
@@ -58,6 +60,8 @@ tests/                 不依赖真实用户、服务或模型的安装与运行
 1. 阅读 [设计方案](docs/design.md)，确认适用场景与信任边界；按 [宿主平台对照](docs/platforms.md) 选择部署路线。
 2. Linux / WSL 管理员按 [部署指南](docs/admin-guide.md) 安装公共部分并创建成员（macOS 按平台文档配置 launchd）：
    ```bash
+   git clone https://github.com/SuperFCR/paseo-desk.git
+   cd paseo-desk
    sudo ./linux/install.sh --install-node 24.22.1 --install-packages   # 版本号按需选择
    sudo paseo-user add alice 6767
    sudo paseo-user add bob 6768

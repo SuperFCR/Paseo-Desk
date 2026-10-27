@@ -18,7 +18,8 @@
 ## 1. 安装公共部分
 
 ```bash
-git clone <本仓库地址> && cd paseo-multiuser-workstation
+git clone https://github.com/SuperFCR/paseo-desk.git
+cd paseo-desk
 sudo ./linux/install.sh --install-node 24.22.1 --install-packages
 ```
 
