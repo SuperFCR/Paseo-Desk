@@ -18,8 +18,8 @@
 ## 1. 安装公共部分
 
 ```bash
-git clone https://github.com/SuperFCR/paseo-desk.git
-cd paseo-desk
+git clone https://github.com/SuperFCR/Paseo-Desk.git
+cd Paseo-Desk
 sudo ./linux/install.sh --install-node 24.22.1 --install-packages
 ```
 

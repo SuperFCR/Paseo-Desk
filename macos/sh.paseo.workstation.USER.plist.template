@@ -37,9 +37,10 @@
   <!-- 077：新建文件仅本人可读写 -->
   <key>Umask</key>
   <integer>63</integer>
+  <!-- launchd 可能以 root 打开日志：放在 root 专有目录，不要放进成员可写的 HOME（防符号链接覆盖） -->
   <key>StandardOutPath</key>
-  <string>/Users/__USER__/.paseo/launchd.log</string>
+  <string>/var/log/paseo-workstation/__USER__.log</string>
   <key>StandardErrorPath</key>
-  <string>/Users/__USER__/.paseo/launchd.log</string>
+  <string>/var/log/paseo-workstation/__USER__.log</string>
 </dict>
 </plist>

@@ -124,7 +124,9 @@ class TemplateTests(TestCase):
         self.assertEqual(config['Umask'], 0o077)
         self.assertTrue(config['KeepAlive'])
         self.assertEqual(config['EnvironmentVariables']['HOME'], '/Users/alice')
-        self.assertEqual(config['StandardErrorPath'], '/Users/alice/.paseo/launchd.log')
+        # launchd 可能以 root 打开日志文件，日志不能放在成员可写的目录中
+        for key in ('StandardOutPath', 'StandardErrorPath'):
+            self.assertEqual(config[key], '/var/log/paseo-workstation/alice.log')
         entry = REPO / 'linux/libexec/paseo-daemon'
         self.assertIn('daemon run', entry.read_text())
         self.assertEqual(config['ProgramArguments'],

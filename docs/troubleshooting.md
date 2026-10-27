@@ -60,7 +60,8 @@ SSH 端口按交付单填写：WSL 示例为 `2222`，原生 Linux / macOS 通�
 ```bash
 sudo launchctl print system/sh.paseo.workstation.alice
 sudo lsof -nP -iTCP:6767 -sTCP:LISTEN
-sudo -iu alice tail -n 80 /Users/alice/.paseo/launchd.log
+sudo tail -n 80 /var/log/paseo-workstation/alice.log
+sudo -iu alice tail -n 80 /Users/alice/.paseo/daemon.log
 ```
 
 - `claude` / `codex` 找不到：检查成员的 `~/.zprofile` 或 `~/.bash_profile` 中是否加入公共入口目录；服务通过 plist 使用独立 PATH。

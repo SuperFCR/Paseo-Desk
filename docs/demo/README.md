@@ -4,7 +4,7 @@
 
 [![播放 30 秒演示 · 在线观看](play-button.svg)](https://paseo-desk-demo.chic-alder-0364.chatgpt.site)
 
-[在线播放](https://paseo-desk-demo.chic-alder-0364.chatgpt.site) · [下载 MP4](https://paseo-desk-demo.chic-alder-0364.chatgpt.site/paseo-phone-mac.mp4)（720p，约 255 KiB）。画面与分镜由 GPT-6 Astra 制作，在计算节点渲染。
+[在线播放](https://paseo-desk-demo.chic-alder-0364.chatgpt.site) · [下载 MP4](paseo-phone-mac.mp4)（720p，约 255 KiB）。画面与分镜由 GPT-6 Astra 制作，在计算节点渲染。
 
 [![脱敏短片封面，点击打开播放器](poster.png)](https://paseo-desk-demo.chic-alder-0364.chatgpt.site)
 

@@ -10,7 +10,7 @@
 
 [![手机发起、Mac 接续的脱敏演示，点击打开播放器](docs/demo/poster.png)](https://paseo-desk-demo.chic-alder-0364.chatgpt.site)
 
-点击按钮或封面打开在线播放器，支持播放、暂停、拖动进度和全屏。[下载 MP4](https://paseo-desk-demo.chic-alder-0364.chatgpt.site/paseo-phone-mac.mp4) · [离线交互演示源码](docs/demo/index.html) · [分镜与制作说明](docs/demo/README.md)。画面由代码重建，账号、主机、路径、指标和用量均为虚构示例。
+点击按钮或封面打开在线播放器，支持播放、暂停、拖动进度和全屏。[下载 MP4](docs/demo/paseo-phone-mac.mp4) · [离线交互演示源码](docs/demo/index.html) · [分镜与制作说明](docs/demo/README.md)。画面由代码重建，账号、主机、路径、指标和用量均为虚构示例。
 
 ## 工作方式
 
@@ -64,8 +64,8 @@ tests/                 不依赖真实用户、服务或模型的安装与运行
 1. 阅读 [设计方案](docs/design.md)，确认适用场景与信任边界；按 [宿主平台对照](docs/platforms.md) 选择部署路线。
 2. Linux / WSL 管理员按 [部署指南](docs/admin-guide.md) 安装公共部分并创建成员（macOS 按平台文档配置 launchd）：
    ```bash
-   git clone https://github.com/SuperFCR/paseo-desk.git
-   cd paseo-desk
+   git clone https://github.com/SuperFCR/Paseo-Desk.git
+   cd Paseo-Desk
    sudo ./linux/install.sh --install-node 24.22.1 --install-packages   # 版本号按需选择
    sudo paseo-user add alice 6767
    sudo paseo-user add bob 6768

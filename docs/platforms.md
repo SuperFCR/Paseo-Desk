@@ -167,8 +167,7 @@ sudo dseditgroup -o edit -a "$U" -t user com.apple.access_ssh   # “远程登�
 sudo chmod 700 "/Users/$U"                                       # macOS 默认 HOME 为 755
 sudo -u "$U" mkdir -p "/Users/$U/.paseo" "/Users/$U/projects" "/Users/$U/results"
 sudo chmod 700 "/Users/$U/.paseo" "/Users/$U/projects" "/Users/$U/results"
-sudo -u "$U" touch "/Users/$U/.paseo/launchd.log"
-sudo chmod 600 "/Users/$U/.paseo/launchd.log"
+sudo install -d -m 700 -o root -g wheel /var/log/paseo-workstation   # launchd 日志目录，仅管理员可读
 ```
 
 **成员本人（或管理员 `sudo -iu alice`）：配置实例与密码**
@@ -216,7 +215,7 @@ sudo launchctl print "system/sh.paseo.workstation.$U" | grep -E 'state|pid'
 | --- | --- |
 | 查看状态 | `sudo launchctl print system/sh.paseo.workstation.alice` |
 | 重启实例 | `sudo launchctl kickstart -k system/sh.paseo.workstation.alice` |
-| 查看日志 | 本人 `tail -n 80 ~/.paseo/launchd.log` 和 `~/.paseo/daemon.log` |
+| 查看日志 | 管理员 `sudo tail -n 80 /var/log/paseo-workstation/alice.log`；成员本人 `tail -n 80 ~/.paseo/daemon.log` |
 | 重设连接密码 | 成员执行 `paseo daemon set-password` 并更新 `client.env`，管理员 kickstart 重启实例 |
 | 修改端口 | 修改 plist 中的 `PASEO_LISTEN`，先 `bootout` 再 `bootstrap` |
 | 停用成员 | `sudo launchctl bootout system/sh.paseo.workstation.alice`，删除 plist；按需执行 `dseditgroup -o edit -d alice -t user ai-cli-users`。HOME 保留 |
@@ -227,7 +226,7 @@ sudo launchctl print "system/sh.paseo.workstation.$U" | grep -E 'state|pid'
 - `PASEO_LISTEN` 由 plist 提供，优先级高于 `~/.paseo/config.json` 中的监听设置。
 - 只有 `/Users` 下的内容受上述权限保护。外接数据盘若格式化时选择了“忽略此宗卷上的所有权”，chmod 不会生效。
 - LaunchDaemon 不读取 `.zprofile` / `.bash_profile`，也不等同于成员的图形登录会话。必须在该服务里实际验证模型认证；终端登录成功不代表后台服务能访问同样的凭据或钥匙串。不要为此共享其他成员凭据，或把令牌写进公开可读的 plist。
-- 启动后用 `paseo provider diagnostic claude` / `codex` 检查包装脚本路径，再通过 Paseo 完成一次模型调用。失败时先查 `launchd.log` 的认证错误，并按本人所用账号的后台认证方式配置。
+- 启动后用 `paseo provider diagnostic claude` / `codex` 检查包装脚本路径，再通过 Paseo 完成一次模型调用。失败时先查 `/var/log/paseo-workstation/<user>.log`（管理员）和本人 `~/.paseo/daemon.log` 中的认证错误，并按本人所用账号的后台认证方式配置。
 
 ### 6. 验收
 

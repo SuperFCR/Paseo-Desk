@@ -44,7 +44,7 @@ CLI 显示 completed 后用 `paseo logs` 核对实际回复。
 | 服务由成员身份运行 | `sudo launchctl print system/sh.paseo.workstation.alice` 取得 PID，再 `ps -o user= -p <PID>` | |
 | 包装脚本路径正确 | 本人执行 `paseo provider diagnostic claude` / `codex`，命令指向公共入口 | |
 | 后台认证可用 | 通过 Paseo 执行上面的两个模型调用；不能只验证 SSH 终端里的登录 | |
-| 日志与配置私有 | `~/.paseo` 为 700，`client.env`、`config.json`、`launchd.log` 为 600 | |
+| 日志与配置私有 | `~/.paseo` 为 700，`client.env`、`config.json` 为 600；macOS 的 `/var/log/paseo-workstation` 为 root 所有、700 | |
 
 ## 整机常驻（WSL 部署）
 
