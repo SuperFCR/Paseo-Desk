@@ -77,7 +77,7 @@ if [ -n "$node_version" ]; then
   install -d -m 755 /usr/local/bin
   ln -sfn "$PW_NODE" /usr/local/bin/node
 fi
-[ -x "$PW_NODE" ] || { echo "找不到 Node：$PW_NODE（可加 --install-node 版本号）" >&2; exit 1; }
+[ -x "$PW_NODE" ] || { echo "找不到 Node：${PW_NODE}（可加 --install-node 版本号）" >&2; exit 1; }
 
 if [ "$install_packages" = 1 ]; then
   npm_bin="$(dirname "$PW_NODE")/npm"
@@ -109,7 +109,7 @@ if [ "$os" = Linux ]; then
 fi
 
 for path in "$PW_PASEO_PREFIX/node_modules/@getpaseo/cli/dist/index.js" "$PW_CLAUDE_BIN" "$PW_CODEX_BIN"; do
-  [ -e "$path" ] || echo "警告：缺少 $path（可加 --install-packages，或修改 $etc/workstation.conf）" >&2
+  [ -e "$path" ] || echo "警告：缺少 ${path}（可加 --install-packages，或修改 $etc/workstation.conf）" >&2
 done
 echo "公共部分安装完成。版本："
 "$PW_NODE" --version

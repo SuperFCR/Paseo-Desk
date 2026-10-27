@@ -43,6 +43,15 @@ class WrapperTests(StagedCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(result.stdout, '')
         self.assertIn('DENIED', result.stderr)
+        self.assertIn(f'启动前检查失败：{self.hooks}/10-deny，已拒绝启动 codex。',
+                      result.stderr)
+
+    def test_group_denial_reports_provider_name_in_utf8(self):
+        self.configure(PW_GROUP='demo-team')
+        result = self.shell(self.checkout / 'bin/codex', '--version')
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(result.stdout, '')
+        self.assertIn('请以 demo-team 组成员身份运行 codex（不要用 sudo）。', result.stderr)
 
 
 class UserConfigTests(StagedCase):

@@ -16,7 +16,7 @@ fi
 country=$(printf '%s\n' "$trace" | sed -n 's/^loc=//p')
 egress=$(printf '%s\n' "$trace" | sed -n 's/^ip=//p')
 if [ -n "${EGRESS_EXPECT_COUNTRY:-}" ] && [ "$country" != "$EGRESS_EXPECT_COUNTRY" ]; then
-  echo "出口地区应为 $EGRESS_EXPECT_COUNTRY，实际为 ${country:-未知}。" >&2
+  echo "出口地区应为 ${EGRESS_EXPECT_COUNTRY}，实际为 ${country:-未知}。" >&2
   exit 1
 fi
 printf '出口网关就绪：%s / %s\n' "${egress:-?}" "${country:-?}"

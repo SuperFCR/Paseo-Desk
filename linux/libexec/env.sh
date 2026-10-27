@@ -23,13 +23,13 @@ fi
 pw_pre_launch() {
   local tool=$1 hook
   if [ -n "${PW_GROUP:-}" ] && ! id -nG | tr ' ' '\n' | grep -qx "$PW_GROUP"; then
-    echo "请以 $PW_GROUP 组成员身份运行 $tool（不要用 sudo）。" >&2
+    echo "请以 $PW_GROUP 组成员身份运行 ${tool}（不要用 sudo）。" >&2
     exit 1
   fi
   for hook in "$PW_ETC"/pre-launch.d/*; do
     [ -x "$hook" ] || continue
     if ! "$hook" "$tool" >&2; then
-      echo "启动前检查失败：$hook，已拒绝启动 $tool。" >&2
+      echo "启动前检查失败：${hook}，已拒绝启动 ${tool}。" >&2
       exit 1
     fi
   done

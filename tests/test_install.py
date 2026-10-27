@@ -96,3 +96,9 @@ else:
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('PW_NODE', result.stderr)
         self.assertFalse(self.log.exists())
+
+    def test_missing_node_reports_its_path_in_utf8(self):
+        self.configure()
+        result = self.install()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn(f'找不到 Node：{self.node_dir}/bin/node（', result.stderr)
