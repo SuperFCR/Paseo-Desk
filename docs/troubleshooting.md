@@ -9,8 +9,9 @@ SSH 端口按交付单填写：WSL 示例为 `2222`，原生 Linux / macOS 通�
 | SSH 连不上 | Tailscale 是否连接、是否获授权、端口 2222 | 先查网络与 ACL；新增成员核对 sshd `AllowUsers` |
 | SSH 密码被拒绝 | 用户名、认证方式 | 向管理员确认本人凭据，不要尝试别人的账号 |
 | Paseo 连接超时 | 本人端口与 Tailscale 授权 | SSH 正常不代表 Paseo 端口已放行；请管理员核对 ACL 与转发 |
+| iPhone 切到 Shadowrocket 后 Paseo 不通 | 内置 Tailscale 新设备是否入网、身份与审批是否正确、原 App 的 On Demand 是否仍启用 | 按[专门教程](ios-shadowrocket.md)检查；普通代理连接成功不代表 Tailscale 已入网 |
 | Paseo 连接被拒绝 | 实例是否运行 | 本人终端 `paseo daemon status`；联系管理员 `systemctl status paseo@<user>` |
-| Password 错误 | 是否误填 SSH 密码 | 使用 `~/.paseo/client.env` 中的 Paseo 密码；遗失请管理员 `paseo-user reset-password` |
+| Password 错误 | 是否误填 SSH 密码或 Tailscale Auth key | 使用 `~/.paseo/client.env` 中的 Paseo 密码；遗失请管理员 `paseo-user reset-password` |
 | Claude / Codex 无法启动 | 启动前检查的报错 | 本人终端运行 `paseo provider diagnostic claude`（或 `codex`），把 stderr 中的检查信息发给管理员 |
 | 模型登录过期 | 本人登录状态 | 本人终端重新 `claude auth login` / `codex login`，再新建会话验证 |
 | 任务停在权限请求 | Paseo 中待处理的操作 | 核对目录和具体动作后处理，不要为排错开放全部权限 |
