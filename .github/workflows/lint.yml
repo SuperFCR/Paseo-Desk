@@ -22,7 +22,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: isolated installer and runtime checks
-        run: python3 -m unittest discover -s tests -v
+        run: |
+          python3 - <<'PY'
+          import sys
+          import unittest
+
+          suite = unittest.defaultTestLoader.discover('tests')
+          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          # Make failure details visible in public checks, even without log access.
+          for test, traceback in result.failures + result.errors:
+              message = f'{test}\n{traceback}'
+              message = message.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+              print(f'::error title=Smoke test failure::{message}', flush=True)
+          sys.exit(not result.wasSuccessful())
+          PY
   powershell:
     runs-on: windows-latest
     steps:
