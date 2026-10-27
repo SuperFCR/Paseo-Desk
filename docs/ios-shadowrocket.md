@@ -2,7 +2,7 @@
 
 适用于已经使用 Shadowrocket（小火箭）、希望同时访问本人 Paseo 工作站的成员。iOS 限制同时运行的 VPN；这里让 Shadowrocket 的内置 Tailscale 接入组网，由 Shadowrocket 建立手机的 VPN 连接。无需此组合时，直接使用[成员教程](user-guide.md)中的官方 Tailscale App 登录方式即可。[Tailscale：与其他 VPN 共用](https://tailscale.com/docs/reference/faq/other-vpns)
 
-Shadowrocket 的 [App Store 更新记录](https://apps.apple.com/us/app/shadowrocket/id932747118)确认支持内置 Tailscale。本页按设置中存在 **Tailscale / Auth Key（认证密钥）** 字段的版本编写；菜单位置、中文译名和可选项以实际界面为准。发布说明不能替代字段级配置验证，**本仓库尚未完成该组合的实机验收**。资料核对日期：2026-10-27。
+Shadowrocket 的 [App Store 更新记录](https://apps.apple.com/us/app/shadowrocket/id932747118)确认支持内置 Tailscale。本页按设置中存在 **Tailscale / Auth Key（认证密钥）** 字段的版本编写；菜单位置、中文译名和可选项以实际界面为准。该组合已于 2026-10-27 在 iPhone 实机完成接入验证：Shadowrocket 内置 Tailscale 入网后可连接本人 Paseo 实例。不同版本的界面可能不同，请以实际设置页为准。
 
 下文统一使用虚构成员 `alice`；`<WS_IP>` 是管理员交付的工作站 Tailscale 地址，`6767` 仅为端口示例。没有真实账号、地址、密钥或截图。
 

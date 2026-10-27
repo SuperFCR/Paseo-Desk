@@ -31,7 +31,7 @@ SSH 密码与 Paseo 密码是两种不同的凭据。共享文档里不会出现
 1. 在手机和电脑安装 Tailscale，用管理员批准的本人身份登录（或接受管理员发来的设备共享邀请）。
 2. 确认 Tailscale 处于已连接状态，再打开 Paseo 或 SSH。加入 tailnet 不代表能访问所有端口，只能访问为你授权的端口。
 
-**iPhone 已在使用 Shadowrocket？**可参考[内置 Tailscale 接入教程](ios-shadowrocket.md)，用正确成员身份的 Auth key 注册新设备，再连接本人 Paseo 实例。该方案依赖客户端版本，尚待实机验收；Auth key 与 Paseo 密码用途不同，不要互填。
+**iPhone 已在使用 Shadowrocket？**可参考[内置 Tailscale 接入教程](ios-shadowrocket.md)，用正确成员身份的 Auth key 注册新设备，再连接本人 Paseo 实例。该方案已在 iPhone 实机验证，界面以所用版本为准；Auth key 与 Paseo 密码用途不同，不要互填。
 
 首次接入建议先在电脑上检查 SSH：
 

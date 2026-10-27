@@ -16,7 +16,7 @@
 - 初次 macOS CI 暴露了 Shell 变量紧邻中文标点时的输出编码问题；使用 `${变量}` 明确边界后修复，保留严格 UTF-8 解码，并补充缺少 Node 与组权限拒绝的回归检查。
 - 17 项检查在 Ubuntu 与 macOS CI 上全部通过；ShellCheck / Python 语法和 Windows PowerShell 解析也通过。对应代码提交为 `9aff302`，见[成功运行记录](https://github.com/SuperFCR/Paseo-Desk/actions/runs/40468792764)。
 - 后续提交的状态以 [GitHub Actions](https://github.com/SuperFCR/Paseo-Desk/actions) 为准。CI 使用模拟用户、模拟下载与临时目录，不代表系统部署或真实网络验收。
-- [Shadowrocket 内置 Tailscale 教程](ios-shadowrocket.md)已核对官方发布说明与相关文档；具体字段、真实手机入网和成员授权仍待实机验收。
+- [Shadowrocket 内置 Tailscale 教程](ios-shadowrocket.md)已核对官方发布说明与相关文档，并于 2026-10-27 在 iPhone 实机完成入网与 Paseo 连接验证。
 
 ## 不改动部署的检查
 
@@ -56,7 +56,7 @@ GitHub Actions 配置了 Ubuntu 的 ShellCheck、Ubuntu/macOS 的上述检查，
 | macOS 实机安装、launchd 与后台模型认证 | 待验收 |
 | Windows 冷启动无人登录、WSL 常驻恢复 | 待在部署设备验收 |
 | 从成员客户端验证 tailnet 授权和跨用户拒绝 | 待在实际 tailnet 验收 |
-| iPhone Shadowrocket 内置 Tailscale | 文档已核对，具体界面与完整接入流程待实机验收 |
+| iPhone Shadowrocket 内置 Tailscale | 2026-10-27 iPhone 实机验证通过（入网并连接本人 Paseo 实例） |
 | 可选出口网关真实节点、断网与恢复 | 待在独立测试环境验收；不要在本机 tailscaled 场景启用 |
 
 正式交付时按[验收清单](acceptance-checklist.md)记录设备、系统、版本、日期和结果。macOS 特别核对 FileVault 解锁、休眠、钥匙串及后台认证，不能只检查进程存在。

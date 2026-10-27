@@ -80,7 +80,7 @@ tests/                 不依赖真实用户、服务或模型的安装与运行
 - [按宿主平台部署](docs/platforms.md)：Windows + WSL2 / 原生 Linux / macOS 的差异与完整步骤
 - [管理员部署指南](docs/admin-guide.md)：安装、新增/停用用户、Windows 转发、Tailscale 授权、常驻运行
 - [成员使用教程](docs/user-guide.md)：连接、首个任务、远程计算、结果拉回、网页隧道
-- [iPhone：Shadowrocket 内置 Tailscale](docs/ios-shadowrocket.md)：可选入网方式、成员身份、密钥用途与排错（待实机验收）
+- [iPhone：Shadowrocket 内置 Tailscale](docs/ios-shadowrocket.md)：可选入网方式、成员身份、密钥用途与排错（已在 iPhone 实机验证）
 - [验收清单](docs/acceptance-checklist.md)
 - [故障排查](docs/troubleshooting.md)
 - [可选：出口网关模块](docs/egress-proxy.md)
