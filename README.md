@@ -4,13 +4,17 @@
 
 把一台常开的电脑（Windows + WSL2、原生 Linux 或 macOS）变成小团队共用的 AI 编程入口：每位成员用手机或笔记本，经 [Tailscale](https://tailscale.com) 连接到**自己的** [Paseo](https://paseo.sh) 实例，驱动 Claude Code / Codex 写代码；训练、推理等重计算通过各自的 SSH 身份提交到远程计算节点。
 
-![架构示意](docs/architecture.svg)
-
 ## 30 秒看懂手机与 Mac 如何接续
 
-[![手机发起、Mac 接续的脱敏演示](docs/demo/poster.png)](docs/demo/paseo-phone-mac.mp4)
+**[▶ 下载演示视频后播放（30 秒 · 720p · 255 KiB）](https://github.com/SuperFCR/Paseo-Desk/raw/refs/heads/main/docs/demo/paseo-phone-mac.mp4)**
 
-[播放 / 下载短片](docs/demo/paseo-phone-mac.mp4) · [离线交互演示](docs/demo/index.html) · [分镜与制作说明](docs/demo/README.md)。画面由代码重建，账号、主机、路径、指标和用量均为虚构示例。
+[![手机发起、Mac 接续的脱敏演示封面，点击下载 MP4](docs/demo/poster.png)](https://github.com/SuperFCR/Paseo-Desk/raw/refs/heads/main/docs/demo/paseo-phone-mac.mp4)
+
+封面是静态预览；下载 MP4 后用系统播放器打开。[离线交互演示源码](docs/demo/index.html) · [分镜与制作说明](docs/demo/README.md)。画面由代码重建，账号、主机、路径、指标和用量均为虚构示例。
+
+## 工作方式
+
+![架构示意](docs/architecture.svg)
 
 固定链路（macOS 使用每用户 LaunchDaemon）：
 
