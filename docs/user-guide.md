@@ -1,12 +1,14 @@
 # 成员使用教程
 
-你通过 Tailscale 连接工作站，由自己的 Linux 用户运行自己的 Paseo、Claude Code 和 Codex。手机与电脑可以进入同一个用户环境，继续开发、查看运行状态、收取结果。重计算在远程计算节点执行，工作站只用于代码编辑、版本管理和轻量结果查看。
+你通过 Tailscale 连接工作站，由自己的系统用户运行自己的 Paseo、Claude Code 和 Codex。手机与电脑可以进入同一个用户环境，继续开发、查看运行状态、收取结果。重计算在远程计算节点执行，工作站只用于代码编辑、版本管理和轻量结果查看。
 
 ```text
 手机或电脑 → Tailscale → 本人 Paseo 实例 → Claude Code / Codex → SSH 计算节点
 ```
 
 全程只登录自己获授权的环境。下文以 `alice` 为例，`<WS_IP>` 表示工作站的 Tailscale 地址。
+
+目录示例使用 Linux / WSL 的 `/home/alice`；macOS 对应 `/Users/alice`。SSH 命令示例中的 `2222` 在原生 Linux / macOS 上通常改为 `22`，一律以交付单为准。
 
 ## 1. 确认连接信息
 
@@ -15,11 +17,11 @@
 | 项目 | 示例 |
 | --- | --- |
 | 工作站 Host | `<WS_IP>`（100.x.y.z） |
-| SSH 端口 / 用户名 | `2222` / `alice` |
+| SSH 端口 / 用户名 | `2222` / `alice`（端口以交付单为准，原生 Linux / macOS 工作站通常是 22） |
 | SSH 主机指纹 | 首次连接时核对 |
 | Paseo 端口 | `6767` |
 | Paseo 密码 | 管理员私下交付，或从本人 `~/.paseo/client.env` 读取 |
-| 工作根目录 | `/home/alice/projects` |
+| 工作根目录 | Linux / WSL：`/home/alice/projects`；macOS：`/Users/alice/projects` |
 | 计算节点 | 地址、远程用户名、授权目录 |
 
 SSH 密码与 Paseo 密码是两种不同的凭据。共享文档里不会出现任何明文密码。
@@ -43,7 +45,7 @@ printf 'HOME=%s\n' "$HOME"
 command -v paseo claude codex
 ```
 
-应看到 `alice` 和 `HOME=/home/alice`。用户或 HOME 不符时立即退出，避免在错误环境中工作。
+应看到 `alice`，HOME 为 `/home/alice`（Linux / WSL）或 `/Users/alice`（macOS）。用户或 HOME 不符时立即退出，避免在错误环境中工作。
 
 ### 取得 Paseo 密码
 
@@ -85,7 +87,7 @@ codex login
 mkdir -p ~/projects/paseo-demo ~/results/paseo-demo
 ```
 
-在 Paseo 新建工作区：确认选中本人的 Host，选择 Claude Code 或 Codex 及可用模型，工作目录填**工作站上的**绝对路径 `/home/alice/projects/paseo-demo`。
+在 Paseo 新建工作区：确认选中本人的 Host，选择 Claude Code 或 Codex 及可用模型，工作目录填**工作站上的**绝对路径 `/home/alice/projects/paseo-demo`（macOS 是 `/Users/alice/projects/paseo-demo`）。
 
 第一条消息：
 

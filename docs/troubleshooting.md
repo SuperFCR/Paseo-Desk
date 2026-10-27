@@ -1,5 +1,7 @@
 # 故障排查
 
+SSH 端口按交付单填写：WSL 示例为 `2222`，原生 Linux / macOS 通常为 `22`。下面 `systemctl`、`paseo-user` 命令适用于 Linux / WSL；macOS 使用文末的 launchd 检查步骤。
+
 ## 成员侧
 
 | 现象 | 先检查 | 处理 |
@@ -51,3 +53,17 @@
 - **`paseo-user add` 报找不到 auth.js**：Paseo 升级后内部路径变化。临时办法：成员在本人终端 `paseo daemon set-password`，然后把新密码写进 `~/.paseo/client.env`（`export PASEO_PASSWORD='...'`，权限 600），管理员重启其服务。
 - **代理环境不一致**：服务不读取交互 shell 的配置。代理变量统一放在 `/etc/paseo-workstation/proxy.env`，修改后重启 `paseo@*`。
 - **改了 config.json 里的监听地址不生效**：服务环境变量 `PASEO_LISTEN` 优先，改端口用 `paseo-user add`。
+
+## macOS 检查
+
+```bash
+sudo launchctl print system/sh.paseo.workstation.alice
+sudo lsof -nP -iTCP:6767 -sTCP:LISTEN
+sudo -iu alice tail -n 80 /Users/alice/.paseo/launchd.log
+```
+
+- `claude` / `codex` 找不到：检查成员的 `~/.zprofile` 或 `~/.bash_profile` 中是否加入公共入口目录；服务通过 plist 使用独立 PATH。
+- SSH 里能用模型、Paseo 里认证失败：检查后台运行身份、凭据与钥匙串可用性。LaunchDaemon 不加载成员 shell 配置，重新启动服务后从 Paseo 再测。
+- 修改 plist 不生效：先 `sudo launchctl bootout system/sh.paseo.workstation.alice`，再 `sudo launchctl bootstrap system /Library/LaunchDaemons/sh.paseo.workstation.alice.plist`。仅改密码或普通配置时使用 `kickstart -k`。
+- 本机可连、远程不通：核对 Tailscale 变体、节点状态、grants、macOS 防火墙；采用 Serve 时执行 `tailscale serve status`。不要把实例改成 `0.0.0.0` 作为排错手段。
+- 重启后离线：检查 FileVault 是否已解锁、`tailscaled` 是否作为系统服务启动、电脑是否休眠。配置步骤见[平台文档](platforms.md)。

@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
       - name: shellcheck
         run: |
           shellcheck -x linux/install.sh linux/bin/* linux/libexec/env.sh linux/libexec/paseo-daemon \
@@ -12,12 +14,21 @@ jobs:
             optional/egress-proxy/install.sh optional/egress-proxy/sbin/*
       - name: python
         run: python3 -m py_compile linux/sbin/paseo-user
+  smoke:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: isolated installer and runtime checks
+        run: python3 -m unittest discover -s tests -v
   powershell:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - name: parse
-        shell: pwsh
+        shell: powershell
         run: |
           $failed = $false
           Get-ChildItem -Recurse -Filter *.ps1 | ForEach-Object {

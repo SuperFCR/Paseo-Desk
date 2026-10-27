@@ -9,3 +9,9 @@ optional/egress-proxy/config.yaml
 client.env
 *.bak-*
 mihomo*
+# 个人部署记录与轻量检查生成的缓存
+CLAUDE.local.md
+AGENTS.local.md
+__pycache__/
+*.py[cod]
+.venv/

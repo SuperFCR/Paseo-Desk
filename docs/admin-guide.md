@@ -1,5 +1,7 @@
 # 管理员部署指南
 
+本指南以 **Windows + WSL2** 为主线。工作站是原生 Linux 或 macOS 时，先阅读[按宿主平台部署](platforms.md)：原生 Linux 复用本指南的大部分步骤，但不需要第 3 节；macOS 的用户与实例改用 launchd 手动配置。
+
 本章由管理员执行。示例成员 `alice`（端口 6767）、`bob`（端口 6768），SSH 对外端口 2222。所有尖括号内容替换为实际值。
 
 ## 0. 前提
@@ -10,7 +12,7 @@
   [boot]
   systemd=true
   ```
-- 管理员拥有 sudo；已安装 `openssh-server`、`python3`、`curl`、`xz-utils`。
+- 管理员拥有 sudo；已安装 `openssh-server`、`python3`、`curl`、`tar`、`gzip`。
 - Tailscale：WSL 场景装在 Windows，原生 Linux 装在本机。管理员能编辑 tailnet 的访问策略。
 
 ## 1. 安装公共部分
@@ -20,8 +22,8 @@ git clone <本仓库地址> && cd paseo-multiuser-workstation
 sudo ./linux/install.sh --install-node 24.22.1 --install-packages
 ```
 
-- `--install-node` 下载官方 Node 并校验 SHA256，装到 `/usr/local/lib/node-shared`。已有公共 Node 时省略，并在 `/etc/paseo-workstation/workstation.conf` 中修改 `PW_NODE`。
-- `--install-packages` 用 npm 把 `@getpaseo/cli`、`@openai/codex`、`@anthropic-ai/claude-code` 装到各自的公共前缀。也可以用其他方式安装，只要把配置中的 `PW_CLAUDE_BIN`、`PW_CODEX_BIN` 指向实际可执行文件。
+- `--install-node` 下载官方 `.tar.gz` 并校验 SHA256，装到 `/usr/local/lib/node-shared`，支持 x64 / arm64。自定义安装目录须为 `/usr/local/lib/<专用目录>/bin/node` 或 `/opt/<专用目录>/bin/node`，避免替换系统目录。已有公共 Node 时省略，并在 `/etc/paseo-workstation/workstation.conf` 中修改 `PW_NODE`。
+- `--install-packages` 把 Paseo、Codex、Claude Code 装到各自公共前缀。Paseo 固定为 `PW_PASEO_VERSION`（默认 0.13.2），另外两个包使用 latest；部署时记录实际版本。也可以用其他方式安装，只要把配置中的 `PW_CLAUDE_BIN`、`PW_CODEX_BIN` 指向实际可执行文件。
 - 脚本可重复运行，不会覆盖已有的 `workstation.conf`。
 
 安装结果：
@@ -45,15 +47,17 @@ sudo ./linux/install.sh --install-node 24.22.1 --install-packages
 sudo sshd -t && sudo systemctl reload ssh
 ```
 
-之后 `paseo-user add` / `remove --revoke-ssh` 会自动维护 `AllowUsers`，修改前执行 `sshd -t` 校验，失败自动还原。把主机指纹（`ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub`）记进交付单，供成员首次连接时核对。
+之后 `paseo-user add` / `remove --revoke-ssh` 会自动维护 `AllowUsers`，写入后执行 `sshd -t` 校验，失败自动还原。把主机指纹（`ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub`）记进交付单，供成员首次连接时核对。
 
 ### 让终端也走公共入口（可选）
 
 成员在 SSH 终端中直接输入 `claude` / `codex` 时，若希望同样经过启动前检查，可在 `/etc/profile.d/paseo-workstation.sh` 中加入：
 
 ```bash
-export PATH="/usr/local/lib/paseo-workstation/bin:$PATH"
+export PATH="/usr/local/lib/paseo-workstation/bin:/usr/local/lib/node-shared/bin:$PATH"
 ```
+
+Node 目录与 `PW_NODE` 保持一致；macOS 不读取 `/etc/profile.d/`，按平台文档修改成员的登录 shell 配置。
 
 ## 2. 新增成员
 
@@ -126,12 +130,9 @@ netsh interface portproxy show all
 
 PC 的电源与休眠策略由管理员按实际安排：休眠期间任务和连接都会中断。
 
-## 4. 原生 Linux 入口
+## 4. 原生 Linux / macOS 入口
 
-两种方式任选其一：
-
-- **直接监听 Tailscale 地址**：在 `workstation.conf` 中设置 `PW_LISTEN_HOST=<本机 100.x.y.z>`，对每位成员重新执行一次 `paseo-user add <user> <port>`。tailscaled 尚未就绪时服务会按 `Restart=on-failure` 自动重试。
-- **保持 127.0.0.1，用 `tailscale serve` 转发 TCP**：对每个端口配置 TCP 转发到 `127.0.0.1:<port>`（具体参数以 `tailscale serve --help` 为准），并用 `tailscale serve status` 核对。
+Tailscale 装在工作站本机时，不需要转发：Paseo 直接监听 Tailscale 地址，或者保持 127.0.0.1、由 `tailscale serve` 转发。完整步骤见[按宿主平台部署](platforms.md)。
 
 ## 5. Tailscale 授权
 

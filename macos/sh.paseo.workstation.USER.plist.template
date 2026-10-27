@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  每用户 Paseo 实例（macOS LaunchDaemon）。开机即启动，不需要该用户登录。
+  把 __USER__、__LISTEN__（如 100.x.y.z:6767 或 127.0.0.1:6767）替换后保存为
+  /Library/LaunchDaemons/sh.paseo.workstation.__USER__.plist（root:wheel 644）。
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>sh.paseo.workstation.__USER__</string>
+  <key>UserName</key>
+  <string>__USER__</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/lib/paseo-workstation/libexec/paseo-daemon</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/__USER__</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HOME</key>
+    <string>/Users/__USER__</string>
+    <key>PASEO_HOME</key>
+    <string>/Users/__USER__/.paseo</string>
+    <key>PASEO_LISTEN</key>
+    <string>__LISTEN__</string>
+    <key>PATH</key>
+    <string>/usr/local/lib/paseo-workstation/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>ThrottleInterval</key>
+  <integer>10</integer>
+  <!-- 077：新建文件仅本人可读写 -->
+  <key>Umask</key>
+  <integer>63</integer>
+  <key>StandardOutPath</key>
+  <string>/Users/__USER__/.paseo/launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/__USER__/.paseo/launchd.log</string>
+</dict>
+</plist>

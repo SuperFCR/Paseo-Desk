@@ -121,10 +121,9 @@ def write_config(owner, paseo_dir, listen, hashed):
     # 默认关闭本地语音，避免在开发入口下载并运行语音模型；需要时按用户单独开启
     features.setdefault('dictation', {'enabled': False})
     features.setdefault('voiceMode', {'enabled': False})
-    cfg.setdefault('agents', {}).setdefault('providers', {}).update({
-        'claude': {'command': [str(WRAPPERS / 'claude')]},
-        'codex': {'command': [str(WRAPPERS / 'codex')]},
-    })
+    providers = cfg.setdefault('agents', {}).setdefault('providers', {})
+    for provider in ('claude', 'codex'):
+        providers.setdefault(provider, {})['command'] = [str(WRAPPERS / provider)]
     owner.file(path, json.dumps(cfg, indent=2) + '\n')
 
 
@@ -213,7 +212,7 @@ def cmd_add(conf, a):
     # 已在运行的实例需要重启才能读取新的监听地址或密码
     subprocess.run(['systemctl', 'restart', f'paseo@{a.user}.service'], check=True)
     print(f'{a.user}: 监听 {listen}；连接密码在 {paseo_dir}/client.env（600）。')
-    print('WSL 部署：Windows 同步任务会在下一轮自动建立端口转发，也可手动运行 Sync-PaseoEndpoints.ps1。')
+    print('WSL 部署：Windows 同步任务会在下一轮自动建立端口转发，也可手动运行 Sync-WorkstationEndpoints.ps1。')
 
 
 def cmd_reset(conf, a):
@@ -277,6 +276,8 @@ def main():
     s.add_argument('--json', action='store_true')
     s.set_defaults(func=cmd_list)
     a = p.parse_args()
+    if not sys.platform.startswith('linux'):
+        die('仅支持 Linux（systemd）；macOS 请按 docs/platforms.md 手动配置')
     if os.geteuid() != 0:
         die('请用 sudo 执行')
     a.func(load_conf(), a)

@@ -4,6 +4,9 @@
 PW_ETC=/etc/paseo-workstation
 # shellcheck source=/dev/null
 . "$PW_ETC/workstation.conf"
+# npm 安装的 CLI 用 /usr/bin/env node；systemd / launchd 不加载个人 shell 配置。
+PATH="$(dirname "$PW_NODE"):$PATH"
+export PATH
 # shellcheck disable=SC2034  # 供 source 本文件的入口脚本使用
 PW_PASEO_CLI="$PW_PASEO_PREFIX/node_modules/@getpaseo/cli/dist/index.js"
 

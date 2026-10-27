@@ -2,6 +2,7 @@
 # 把工作站约定写入本人 ~/.claude/CLAUDE.md 与 ~/.codex/AGENTS.md 的标记区块内。
 # 在本人终端执行（paseo-user add 也会以该用户身份调用）；区块外的已有内容保持不变，修改前留备份。
 set -euo pipefail
+umask 077
 policy=${1:-/usr/local/share/paseo-workstation/workstation-policy.md}
 python3 - "$policy" <<'PY'
 import sys

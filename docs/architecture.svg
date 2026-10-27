@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1260" viewBox="0 0 1800 1260">
 <title>Paseo 多用户工作站架构</title>
-<desc>每人独立Linux身份、Paseo及代理进程，共享程序与网络，通过 SSH 访问远程计算节点。</desc>
+<desc>Windows + WSL2、Linux 或 macOS 工作站；每人独立系统身份、Paseo及代理进程，通过 SSH 访问远程计算节点。</desc>
 <style>text{font-family:"Heiti SC","PingFang SC","Microsoft YaHei",sans-serif}</style>
 <rect x="0" y="0" width="1800" height="1260" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"/>
 <text x="48" y="63" font-size="42" fill="#17243A" font-weight="600" text-anchor="start">Paseo 多用户开发工作站</text>
@@ -27,11 +27,11 @@
 <text x="1500" y="287" font-size="22" fill="#2966AA" font-weight="400" text-anchor="middle">Tailscale 身份 → 专属端口 6769…</text>
 <text x="1500" y="320" font-size="22" fill="#5C6B80" font-weight="400" text-anchor="middle">独立实例密码</text>
 <rect x="40" y="350" width="1720" height="640" rx="24" fill="#F9FAFD" stroke="#C9D3E2" stroke-width="2"/>
-<text x="75" y="397" font-size="31" fill="#17243A" font-weight="600" text-anchor="start">常开本地 PC  |  Linux / WSL 运行层</text>
+<text x="75" y="397" font-size="31" fill="#17243A" font-weight="600" text-anchor="start">常开工作站  |  Linux / WSL2 / macOS</text>
 <text x="1725" y="397" font-size="24" fill="#5C6B80" font-weight="400" text-anchor="end">24 小时在线 · 大容量存储</text>
-<text x="75" y="426" font-size="21" fill="#5C6B80" font-weight="400" text-anchor="start">WSL 场景：Windows Tailscale 地址经 portproxy 转入 WSL；端口为示例。</text>
+<text x="75" y="426" font-size="21" fill="#5C6B80" font-weight="400" text-anchor="start">WSL 用 portproxy；Linux / macOS 直接接入 Tailscale。Linux HOME 为 /home，macOS 为 /Users。</text>
 <rect x="75" y="448" width="500" height="315" rx="16" fill="#F2EFFA" stroke="#C9BFE1" stroke-width="2"/>
-<text x="100" y="492" font-size="29" fill="#6753A5" font-weight="600" text-anchor="start">Linux 用户：alice</text>
+<text x="100" y="492" font-size="29" fill="#6753A5" font-weight="600" text-anchor="start">系统用户：alice</text>
 <text x="550" y="492" font-size="24" fill="#6753A5" font-weight="600" text-anchor="end">6767</text>
 <text x="100" y="536" font-size="23" fill="#17243A" font-weight="400" text-anchor="start">以 alice 身份运行 Paseo 后台服务</text>
 <text x="100" y="573" font-size="23" fill="#17243A" font-weight="400" text-anchor="start">CC / Codex 各自启动独立进程</text>
@@ -40,7 +40,7 @@
 <text x="100" y="684" font-size="23" fill="#17243A" font-weight="400" text-anchor="start">.ssh / projects / results</text>
 <text x="100" y="721" font-size="23" fill="#17243A" font-weight="400" text-anchor="start">独立密码 · 独立登录缓存</text>
 <rect x="650" y="448" width="500" height="315" rx="16" fill="#F2EFFA" stroke="#C9BFE1" stroke-width="2"/>
-<text x="675" y="492" font-size="29" fill="#6753A5" font-weight="600" text-anchor="start">Linux 用户：bob</text>
+<text x="675" y="492" font-size="29" fill="#6753A5" font-weight="600" text-anchor="start">系统用户：bob</text>
 <text x="1125" y="492" font-size="24" fill="#6753A5" font-weight="600" text-anchor="end">6768</text>
 <text x="675" y="536" font-size="23" fill="#17243A" font-weight="400" text-anchor="start">以 bob 身份运行 Paseo 后台服务</text>
 <text x="675" y="573" font-size="23" fill="#17243A" font-weight="400" text-anchor="start">CC / Codex 各自启动独立进程</text>
@@ -49,7 +49,7 @@
 <text x="675" y="684" font-size="23" fill="#17243A" font-weight="400" text-anchor="start">.ssh / projects / results</text>
 <text x="675" y="721" font-size="23" fill="#17243A" font-weight="400" text-anchor="start">独立密码 · 独立登录缓存</text>
 <rect x="1225" y="448" width="500" height="315" rx="16" fill="#F2EFFA" stroke="#C9BFE1" stroke-width="2"/>
-<text x="1250" y="492" font-size="29" fill="#6753A5" font-weight="600" text-anchor="start">Linux 用户：user n</text>
+<text x="1250" y="492" font-size="29" fill="#6753A5" font-weight="600" text-anchor="start">系统用户：user n</text>
 <text x="1700" y="492" font-size="24" fill="#6753A5" font-weight="600" text-anchor="end">6769…</text>
 <text x="1250" y="536" font-size="23" fill="#17243A" font-weight="400" text-anchor="start">以 user n 身份运行 Paseo 后台服务</text>
 <text x="1250" y="573" font-size="23" fill="#17243A" font-weight="400" text-anchor="start">CC / Codex 各自启动独立进程</text>
@@ -69,7 +69,7 @@
 <text x="1475" y="828" font-size="26" fill="#A56414" font-weight="600" text-anchor="middle">模型账号与额度</text>
 <text x="1475" y="864" font-size="22" fill="#17243A" font-weight="400" text-anchor="middle">每人自行登录 Codex / Claude</text>
 <text x="1475" y="894" font-size="20" fill="#5C6B80" font-weight="400" text-anchor="middle">个人订阅、团队席位或 API Key；凭据不共写</text>
-<text x="900" y="952" font-size="22" fill="#5C6B80" font-weight="400" text-anchor="middle">用户隔离依赖真实 Linux UID 与文件权限；管理员与共享网络仍在共同信任边界内。</text>
+<text x="900" y="952" font-size="22" fill="#5C6B80" font-weight="400" text-anchor="middle">用户隔离依赖真实系统 UID 与文件权限；管理员与共享网络仍在共同信任边界内。</text>
 <line x1="900" y1="992" x2="900" y2="1040" stroke="#187D70" stroke-width="3"/>
 <line x1="300" y1="1040" x2="1500" y2="1040" stroke="#187D70" stroke-width="3"/>
 <text x="60" y="1020" font-size="22" fill="#187D70" font-weight="400" text-anchor="start">按用户 SSH 身份选择任意授权节点</text>

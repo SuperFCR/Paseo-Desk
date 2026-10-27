@@ -4,6 +4,8 @@
 # 公共 Node 与 Paseo 安装（root 所有，普通用户只读执行）
 PW_NODE=/usr/local/lib/node-shared/bin/node
 PW_PASEO_PREFIX=/usr/local/lib/paseo-shared
+# paseo-user 使用此版本的内部密码哈希模块；升级时先复测，不自动追踪 latest。
+PW_PASEO_VERSION=0.13.2
 
 # Claude Code / Codex 的公共安装前缀（install.sh --install-packages 使用）与真实可执行文件。
 # Paseo 和终端都经由包装脚本调用它们；改用其他安装方式时只需把 *_BIN 指向实际文件。
@@ -12,11 +14,11 @@ PW_CLAUDE_BIN=/usr/local/lib/claude-shared/node_modules/.bin/claude
 PW_CODEX_PREFIX=/usr/local/lib/codex-shared
 PW_CODEX_BIN=/usr/local/lib/codex-shared/node_modules/.bin/codex
 
-# 允许使用公共 CLI 的 Linux 组；留空则不检查
+# 允许使用公共 CLI 的本地用户组（Linux / macOS）；留空则不检查
 PW_GROUP=ai-cli-users
 
 # Paseo 监听地址。WSL + Windows Tailscale 用 127.0.0.1（由 Windows portproxy 转入）；
-# 原生 Linux 可改成本机 Tailscale 地址（100.x.y.z），见 docs/admin-guide.md
+# 原生 Linux / macOS 可改成本机 Tailscale 地址（100.x.y.z），见 docs/platforms.md
 PW_LISTEN_HOST=127.0.0.1
 
 # 维护 AllowUsers 白名单的 sshd 配置片段；文件不存在或没有 AllowUsers 行时跳过

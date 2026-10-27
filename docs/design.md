@@ -26,6 +26,8 @@
 
 HOME 与状态目录 700、私钥和凭据文件 600，Paseo 服务以 `UMask=0077` 运行。`PASEO_HOME`、`CLAUDE_CONFIG_DIR`、`CODEX_HOME` 若设置，都必须解析到本人目录；改变这些变量只改变状态位置，不能替代真实 Linux 用户身份。
 
+上面的目录和 systemd 名称用于 Linux / WSL。macOS 使用 `/Users/<user>` 和每用户 LaunchDaemon，`Umask` 设为十进制 `63`（八进制 `077`）；隔离与工作站用途约定相同，配置步骤见[平台文档](platforms.md)。
+
 边界说明：
 
 - 保护的是普通用户之间的本地文件与会话。root、sudo 管理员、Windows 宿主管理员属于可信管理方。
@@ -45,9 +47,9 @@ WSL 不能直接绑定 Windows 的 Tailscale 地址。各实例在 WSL 内监听
 
 `windows/Start-PaseoWorkstation.ps1` 每 30 秒执行一轮：保持 WSL 存活、读取 WSL 中 `paseo-user list --json`、增删转发与防火墙规则。Tailscale 地址变化、新增或停用用户都会自动跟进。
 
-**原生 Linux（Tailscale 装在本机）**
+**原生 Linux / macOS（Tailscale 装在本机）**
 
-把 `PW_LISTEN_HOST` 设为本机 Tailscale 地址，实例直接监听该地址；或保持 127.0.0.1，用 `tailscale serve` 的 TCP 转发暴露端口。
+实例直接监听本机 Tailscale 地址；或保持 127.0.0.1，用 `tailscale serve` 的 TCP 转发暴露端口。Linux 用 systemd 托管实例，macOS 用 launchd LaunchDaemon（`UserName` 设为成员）托管。详见[按宿主平台部署](platforms.md)。
 
 **授权**
 

@@ -67,7 +67,7 @@ sudo pw-egress-repair                         # 恢复
 
 ## 边界
 
-- 已验证环境：WSL2 NAT 网络模式，Tailscale 运行在 Windows。**原生 Linux 上若 tailscaled 也在本机，其出站会被规则拦截**，本模块未提供该场景的放行，需要自行为 tailscaled 增加例外后再用。
+- 仅支持 Linux（依赖 nftables），macOS 不适用。已验证环境：WSL2 NAT 网络模式，Tailscale 运行在 Windows。**原生 Linux 上若 tailscaled 也在本机，其出站会被规则拦截**，本模块未提供该场景的放行，需要自行为 tailscaled 增加例外后再用。
 - IPv6 默认关闭；ICMP 和其他原始 IP 协议被阻断，不要用 `ping` 判断网络是否正常。
 - 在 WSL 中执行的 Windows `.exe` 使用 Windows 网络栈，不受这些规则约束。
 - root 可以修改或删除规则，本模块不防管理员。
