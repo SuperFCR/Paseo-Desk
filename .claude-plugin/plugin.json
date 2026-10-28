@@ -1,11 +1,11 @@
 {
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
-  "name": "paseo-desk",
+  "name": "pocketrig",
   "version": "1.0.0",
-  "description": "Paseo Desk skills: turn an always-on computer into your AI coding workstation reachable from phone and Mac over Tailscale, keep it online 24/7, run heavy jobs on GPU nodes and view results on your phone.",
+  "description": "PocketRig skills: turn an always-on computer into your AI coding workstation reachable from phone and Mac over Tailscale, keep it online 24/7, run heavy jobs on GPU nodes and view results on your phone.",
   "author": { "name": "SuperFCR" },
-  "homepage": "https://github.com/SuperFCR/Paseo-Desk",
-  "repository": "https://github.com/SuperFCR/Paseo-Desk",
+  "homepage": "https://github.com/SuperFCR/PocketRig",
+  "repository": "https://github.com/SuperFCR/PocketRig",
   "license": "MIT",
   "keywords": ["paseo", "tailscale", "claude-code", "codex", "workstation", "remote-compute"],
   "skills": ["./skills/"]

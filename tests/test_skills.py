@@ -51,7 +51,7 @@ class SkillTests(TestCase):
     def test_plugin_and_marketplace_manifests(self):
         plugin = json.loads((REPO / '.claude-plugin/plugin.json').read_text(encoding='utf-8'))
         market = json.loads((REPO / '.claude-plugin/marketplace.json').read_text(encoding='utf-8'))
-        self.assertEqual(plugin['name'], 'paseo-desk')
+        self.assertEqual(plugin['name'], 'pocketrig')
         for rel in plugin['skills']:
             self.assertTrue((REPO / rel).is_dir())
         entry = next(p for p in market['plugins'] if p['name'] == plugin['name'])
@@ -61,14 +61,14 @@ class SkillTests(TestCase):
     def test_installer_copies_skills_and_backs_up_existing(self):
         with tempfile.TemporaryDirectory(prefix='paseo-skills-') as tmp:
             target = Path(tmp) / 'skills'
-            (target / 'paseo-desk-setup').mkdir(parents=True)
-            (target / 'paseo-desk-setup' / 'SKILL.md').write_text('old', encoding='utf-8')
+            (target / 'pocketrig-setup').mkdir(parents=True)
+            (target / 'pocketrig-setup' / 'SKILL.md').write_text('old', encoding='utf-8')
             env = dict(os.environ, HOME=tmp, LC_ALL='C.UTF-8')
             for _ in range(2):
                 subprocess.run([str(SKILLS / 'install.sh'), '--target', str(target)],
                                check=True, env=env, capture_output=True)
             installed = sorted(p.name for p in target.iterdir() if '.bak-' not in p.name)
             self.assertEqual(installed, [d.name for d in self.skill_dirs()])
-            self.assertTrue(any(p.name.startswith('paseo-desk-setup.bak-') for p in target.iterdir()))
-            self.assertIn('name: paseo-desk-setup',
-                          (target / 'paseo-desk-setup' / 'SKILL.md').read_text(encoding='utf-8'))
+            self.assertTrue(any(p.name.startswith('pocketrig-setup.bak-') for p in target.iterdir()))
+            self.assertIn('name: pocketrig-setup',
+                          (target / 'pocketrig-setup' / 'SKILL.md').read_text(encoding='utf-8'))

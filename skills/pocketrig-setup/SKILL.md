@@ -1,11 +1,11 @@
 ---
-name: paseo-desk-setup
-description: 在自己一台常开的电脑（Windows + WSL2、原生 Linux 或 macOS）上从零装好 Paseo Desk，并为自己创建第一个 Paseo 实例。用户说“安装 Paseo Desk”“把这台电脑变成工作站”“给我自己建一个 Paseo 实例”“set up Paseo Desk”时使用；多人管理用 paseo-desk-team，常驻与开机自启用 paseo-desk-always-on。
+name: pocketrig-setup
+description: 在自己一台常开的电脑（Windows + WSL2、原生 Linux 或 macOS）上从零装好 PocketRig，并为自己创建第一个 Paseo 实例。用户说“安装 PocketRig”“把这台电脑变成工作站”“给我自己建一个 Paseo 实例”“set up PocketRig”时使用；多人管理用 pocketrig-team，常驻与开机自启用 pocketrig-always-on。
 ---
 
-# paseo-desk-setup：单人起步
+# pocketrig-setup：单人起步
 
-目标：工作站上跑着属于你自己的 Paseo 实例，Claude Code / Codex 以你的系统用户运行。完成后接着用 [paseo-desk-connect](../paseo-desk-connect/SKILL.md) 让手机和 Mac 连进来。
+目标：工作站上跑着属于你自己的 Paseo 实例，Claude Code / Codex 以你的系统用户运行。完成后接着用 [pocketrig-connect](../pocketrig-connect/SKILL.md) 让手机和 Mac 连进来。
 
 ## 先确认
 
@@ -17,7 +17,7 @@ description: 在自己一台常开的电脑（Windows + WSL2、原生 Linux 或 
 | 运行用户 | 你自己的系统用户（通常 `$USER`），不要用 root |
 | Paseo 端口 | 默认 6767，先确认空闲 |
 | sudo | 安装与创建实例需要 sudo；没有就停下 |
-| 仓库位置 | 已有克隆就用，没有则 `git clone https://github.com/SuperFCR/Paseo-Desk.git` |
+| 仓库位置 | 已有克隆就用，没有则 `git clone https://github.com/SuperFCR/PocketRig.git` |
 
 ## 步骤（Linux / WSL）
 
@@ -30,7 +30,7 @@ description: 在自己一台常开的电脑（Windows + WSL2、原生 Linux 或 
    WSL 未启用 systemd 时，告诉用户在 `/etc/wsl.conf` 加 `[boot] systemd=true`，再在 Windows 执行 `wsl --shutdown`；这一步会中断 WSL 中所有进程，必须先征得同意。
 2. **安装公共部分**（可重复执行，不覆盖已有配置）：
    ```bash
-   cd Paseo-Desk
+   cd PocketRig
    sudo ./linux/install.sh --install-node 24.22.1 --install-packages
    ```
    已有公共 Node 时去掉 `--install-node`，并在 `/etc/paseo-workstation/workstation.conf` 中设置 `PW_NODE`。Paseo 固定为 `PW_PASEO_VERSION`（默认 0.13.2），不要擅自升级。
@@ -55,7 +55,7 @@ paseo daemon status
 paseo provider diagnostic claude
 ```
 
-Resolved path 应指向 `/usr/local/lib/paseo-workstation/bin/claude`。全部通过后告诉用户：端口、密码所在文件（不要在对话里回显密码）、下一步用 paseo-desk-connect。
+Resolved path 应指向 `/usr/local/lib/paseo-workstation/bin/claude`。全部通过后告诉用户：端口、密码所在文件（不要在对话里回显密码）、下一步用 pocketrig-connect。
 
 ## 停下来问用户的情况
 

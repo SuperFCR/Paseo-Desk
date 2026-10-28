@@ -1,9 +1,9 @@
 ---
-name: paseo-desk-team
-description: 把单人 Paseo Desk 扩展给家人或小团队：为每人创建独立系统用户与 Paseo 实例、分配端口、重设密码、停用成员、生成交付单、配置按人授权。用户说“给 alice 开一个 Paseo”“新增成员”“重设某人的 Paseo 密码”“停用成员”“多人共用工作站”时使用。单人起步用 paseo-desk-setup。
+name: pocketrig-team
+description: 把单人 PocketRig 扩展给家人或小团队：为每人创建独立系统用户与 Paseo 实例、分配端口、重设密码、停用成员、生成交付单、配置按人授权。用户说“给 alice 开一个 Paseo”“新增成员”“重设某人的 Paseo 密码”“停用成员”“多人共用工作站”时使用。单人起步用 pocketrig-setup。
 ---
 
-# paseo-desk-team：扩展给小团队
+# pocketrig-team：扩展给小团队
 
 适用于**相互信任**的小团队：隔离依靠系统 UID 与文件权限，root/sudo 管理员、宿主管理员与共享网络都在共同信任边界内，不是面向恶意租户的隔离。开始前把这条边界告诉用户。
 

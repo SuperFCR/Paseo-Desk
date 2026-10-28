@@ -12,11 +12,16 @@
 
 ## 发布验证（2026-10-27）
 
-- 仓库已发布为 [SuperFCR/Paseo-Desk](https://github.com/SuperFCR/Paseo-Desk)，包含虚构界面重建的手机 / Mac 短片；原始截图和私人部署记录未入库。
+- 仓库已发布为 [SuperFCR/PocketRig](https://github.com/SuperFCR/PocketRig)，包含虚构界面重建的手机 / Mac 短片；原始截图和私人部署记录未入库。
 - 初次 macOS CI 暴露了 Shell 变量紧邻中文标点时的输出编码问题；使用 `${变量}` 明确边界后修复，保留严格 UTF-8 解码，并补充缺少 Node 与组权限拒绝的回归检查。
-- 17 项检查在 Ubuntu 与 macOS CI 上全部通过；ShellCheck / Python 语法和 Windows PowerShell 解析也通过。对应代码提交为 `9aff302`，见[成功运行记录](https://github.com/SuperFCR/Paseo-Desk/actions/runs/40468792764)。
-- 后续提交的状态以 [GitHub Actions](https://github.com/SuperFCR/Paseo-Desk/actions) 为准。CI 使用模拟用户、模拟下载与临时目录，不代表系统部署或真实网络验收。
+- 17 项检查在 Ubuntu 与 macOS CI 上全部通过；ShellCheck / Python 语法和 Windows PowerShell 解析也通过。对应代码提交为 `9aff302`，见[成功运行记录](https://github.com/SuperFCR/PocketRig/actions/runs/40468792764)。
+- 后续提交的状态以 [GitHub Actions](https://github.com/SuperFCR/PocketRig/actions) 为准。CI 使用模拟用户、模拟下载与临时目录，不代表系统部署或真实网络验收。
 - [Shadowrocket 内置 Tailscale 教程](ios-shadowrocket.md)已核对官方发布说明与相关文档，并于 2026-10-27 在 iPhone 实机完成入网与 Paseo 连接验证。
+
+## 更名（2026-10-28）
+
+- 项目更名为 PocketRig（原 Paseo Desk），仓库地址改为 SuperFCR/PocketRig，旧地址由 GitHub 自动跳转。插件与 skill 改为 `pocketrig`、`pocketrig-*`；`remote-compute` 不变。系统路径、命令与服务名不变。
+- README 默认英文，[中文版](../README.zh-CN.md)与之互相切换。实测 GitHub 不在 README 或文件页内播放仓库中的 MP4（文件页提示 View raw，raw 地址以 `application/octet-stream` 下载），因此 README 使用自动循环的亮点 GIF（`docs/promo/pocketrig-highlights.gif`），点击下载完整 MP4。宣传片按新名称重新渲染。
 
 ## Skills 与宣传片（2026-10-27）
 

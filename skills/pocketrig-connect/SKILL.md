@@ -1,9 +1,9 @@
 ---
-name: paseo-desk-connect
+name: pocketrig-connect
 description: 让自己的手机（iPhone / Android）和 Mac / 笔记本通过 Tailscale 连到工作站上的本人 Paseo 实例：Tailscale 入网与授权、Paseo 客户端添加 Host、首个任务验证。用户说“手机怎么连工作站”“Paseo 添加 Host”“Tailscale 授权端口”“iPhone 用 Shadowrocket 连”“Mac 接着手机的会话继续”时使用。
 ---
 
-# paseo-desk-connect：手机与 Mac 连进来
+# pocketrig-connect：手机与 Mac 连进来
 
 目标：手机和 Mac 都能打开**同一个**本人 Paseo 实例，在手机上发起的会话可以在 Mac 上接着做。
 
@@ -22,7 +22,7 @@ description: 让自己的手机（iPhone / Android）和 Mac / 笔记本通过 T
 
 ## 1. 工作站侧入口
 
-- **WSL**：确认 Windows 计划任务已同步转发：`netsh interface portproxy show all` 中有 `<WS_IP>:<端口>`；没有就运行 `windows\Sync-WorkstationEndpoints.ps1`（见 [paseo-desk-always-on](../paseo-desk-always-on/SKILL.md)）。
+- **WSL**：确认 Windows 计划任务已同步转发：`netsh interface portproxy show all` 中有 `<WS_IP>:<端口>`；没有就运行 `windows\Sync-WorkstationEndpoints.ps1`（见 [pocketrig-always-on](../pocketrig-always-on/SKILL.md)）。
 - **原生 Linux / macOS**：实例直接监听 Tailscale 地址，或保持 127.0.0.1 用 `tailscale serve` 转发，按 [平台文档](../../docs/platforms.md) 选择一种。**不要**改成监听 `0.0.0.0`。
 
 ## 2. Tailscale 授权
@@ -47,6 +47,6 @@ iPhone 已在用 Shadowrocket 时，可按 [内置 Tailscale 教程](../../docs/
 2. 确认用户与目录正确后，让 Agent 创建并运行一个小脚本。
 3. 手机锁屏；在 Mac 上用同一 Host 打开同一工作区，确认能看到刚才的会话并继续发消息。
 
-成功标准：两台设备看到同一会话、文件落在本人项目目录、任务不因手机锁屏中断。连不上时转 [paseo-desk-doctor](../paseo-desk-doctor/SKILL.md)。
+成功标准：两台设备看到同一会话、文件落在本人项目目录、任务不因手机锁屏中断。连不上时转 [pocketrig-doctor](../pocketrig-doctor/SKILL.md)。
 
 参考：[成员使用教程](../../docs/user-guide.md) · [交付单模板](../../templates/handover.md)

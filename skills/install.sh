@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 把仓库中的 Paseo Desk skills 复制到本人 skills 目录。
+# 把仓库中的 PocketRig skills 复制到本人 skills 目录。
 # 用法：skills/install.sh [--codex | --target DIR]
 set -euo pipefail
 

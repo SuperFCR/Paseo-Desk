@@ -1,16 +1,16 @@
 ---
-name: paseo-desk-always-on
-description: 让 Paseo Desk 工作站 24 小时在线：开机自启、断开客户端不影响任务、WSL 不被回收、电源与休眠设置，并做冷启动验收。用户说“让工作站一直开着”“关掉终端/锁屏后任务别停”“WSL 老是自己退出”“开机自动启动 Paseo”“24 小时在线”时使用。
+name: pocketrig-always-on
+description: 让 PocketRig 工作站 24 小时在线：开机自启、断开客户端不影响任务、WSL 不被回收、电源与休眠设置，并做冷启动验收。用户说“让工作站一直开着”“关掉终端/锁屏后任务别停”“WSL 老是自己退出”“开机自动启动 Paseo”“24 小时在线”时使用。
 ---
 
-# paseo-desk-always-on：24 小时在线
+# pocketrig-always-on：24 小时在线
 
 工作站不在线，手机就连不上，节点上的结果也拉不回来。这个 skill 把“常驻”拆成三层逐层确认：**机器不睡、宿主不回收、服务自启**。
 
 ## 先确认
 
 - 宿主平台：Windows + WSL2 / 原生 Linux / macOS。
-- 已完成 [paseo-desk-setup](../paseo-desk-setup/SKILL.md)，`paseo@<user>`（macOS 为 `sh.paseo.workstation.<user>`）已存在。
+- 已完成 [pocketrig-setup](../pocketrig-setup/SKILL.md)，`paseo@<user>`（macOS 为 `sh.paseo.workstation.<user>`）已存在。
 - 改电源、计划任务、重启机器都会影响正在跑的东西，执行前说明并征得同意。
 
 ## 1. 机器不睡
@@ -58,4 +58,4 @@ sudo launchctl print "system/sh.paseo.workstation.$USER" | grep -E 'state|pid'
 3. 重启工作站，**不登录桌面**，从手机连接本人实例。
 4. WSL：`wsl -l -v` 显示发行版 Running；`netsh interface portproxy show all` 有本人端口。
 
-完整清单见 [验收清单](../../docs/acceptance-checklist.md) 的“整机常驻”一节；失败时转 [paseo-desk-doctor](../paseo-desk-doctor/SKILL.md)。
+完整清单见 [验收清单](../../docs/acceptance-checklist.md) 的“整机常驻”一节；失败时转 [pocketrig-doctor](../pocketrig-doctor/SKILL.md)。

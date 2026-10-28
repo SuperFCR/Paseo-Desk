@@ -7,7 +7,7 @@ cd $P/video
 mkdir -p $P/output $P/logs
 case "${1:?draft|1080p}" in
   draft) OUT=$P/output/draft.mp4; ARGS=(--quality draft) ;;
-  1080p) OUT=$P/output/paseo-desk-promo-1080p.mp4; ARGS=(--quality high) ;;
+  1080p) OUT=$P/output/pocketrig-promo-1080p.mp4; ARGS=(--quality high) ;;
   *) echo "用法：render.sh draft|1080p" >&2; exit 2 ;;
 esac
 start=$(date +%s)

@@ -1,9 +1,9 @@
 ---
-name: paseo-desk-doctor
-description: 诊断与验收 Paseo Desk：按“服务 → 程序与登录 → 宿主转发 → 网络授权 → 客户端”的顺序只读排查连不上、Claude/Codex 启动失败、密码错误、WSL 被回收、任务中断等问题，并按验收清单逐项确认。用户说“手机连不上 Paseo”“Paseo 连接超时/被拒绝”“Claude 在 Paseo 里起不来”“帮我验收部署”“检查工作站状态”时使用。
+name: pocketrig-doctor
+description: 诊断与验收 PocketRig：按“服务 → 程序与登录 → 宿主转发 → 网络授权 → 客户端”的顺序只读排查连不上、Claude/Codex 启动失败、密码错误、WSL 被回收、任务中断等问题，并按验收清单逐项确认。用户说“手机连不上 Paseo”“Paseo 连接超时/被拒绝”“Claude 在 Paseo 里起不来”“帮我验收部署”“检查工作站状态”时使用。
 ---
 
-# paseo-desk-doctor：诊断与验收
+# pocketrig-doctor：诊断与验收
 
 原则：**先只读，后修改**。每一步给出命令输出的结论，定位到具体层后再提出修复，修复前征得同意。不为排错开放全部权限、不把监听地址改成 `0.0.0.0`、不共享整个 HOME。
 
