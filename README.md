@@ -8,9 +8,9 @@ PocketRig turns one always-on computer (Windows + WSL2, native Linux, or macOS) 
 
 ## See it in 4 minutes
 
-[![PocketRig highlights (click to download the full promo video)](docs/promo/pocketrig-highlights.gif)](docs/promo/pocketrig-promo.mp4)
+[![PocketRig highlights](docs/promo/pocketrig-highlights.gif)](docs/promo/pocketrig-promo.mp4)
 
-The animation above loops the highlights of the promo video right in the README. For the full version, [download the promo MP4](docs/promo/pocketrig-promo.mp4) (4:05, 1080p, music only, ~17 MB; on-screen text is in Chinese) · [storyboard and source](docs/promo/README.md) · [30-second clip: start on the phone, continue on the Mac](https://paseo-desk-demo.chic-alder-0364.chatgpt.site). All visuals are rebuilt in code; accounts, hosts, addresses, jobs and metrics are fictional.
+[▶ Watch the full video](docs/promo/pocketrig-promo.mp4) · [Storyboard & source](docs/promo/README.md) · [30-second clip](https://paseo-desk-demo.chic-alder-0364.chatgpt.site)
 
 ## Two highlights
 

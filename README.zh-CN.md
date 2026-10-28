@@ -8,9 +8,9 @@
 
 ## 4 分钟看懂
 
-[![PocketRig 亮点动图：点击播放完整宣传片](docs/promo/pocketrig-highlights.gif)](docs/promo/pocketrig-promo.mp4)
+[![PocketRig 亮点](docs/promo/pocketrig-highlights.gif)](docs/promo/pocketrig-promo.mp4)
 
-上面的动图是宣传片的亮点片段，在 README 中自动循环播放；完整版请[下载宣传片 MP4](docs/promo/pocketrig-promo.mp4)（4 分 05 秒，1080p，纯音乐，约 17 MB）· [分镜与源码](docs/promo/README.md) · [30 秒短片：手机发起、Mac 接续](https://paseo-desk-demo.chic-alder-0364.chatgpt.site)。画面由代码重建，账号、主机、地址、任务与指标均为虚构示例。
+[▶ 观看完整宣传片](docs/promo/pocketrig-promo.mp4) · [分镜与源码](docs/promo/README.md) · [30 秒短片](https://paseo-desk-demo.chic-alder-0364.chatgpt.site)
 
 ## 两个亮点
 
