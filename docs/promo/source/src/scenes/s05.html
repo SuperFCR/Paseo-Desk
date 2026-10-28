@@ -1,0 +1,84 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    #s05-net { left: 362px; top: 196px; padding: 4px 14px; font-size: 19px; letter-spacing: 0.1em; color: var(--violet); background: #0b0b10; }
+    #s05-mac { left: 560px; top: 280px; } #s05-ph { left: 560px; top: 506px; } #s05-desk { left: 1140px; top: 360px; }
+    #s05-ip { left: 676px; top: 327px; }
+    #s05-www { left: 1600px; top: 400px; width: 150px; height: 150px; margin-left: -75px; border-radius: 50%;
+      border: 2px dashed #5c5b66; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--muted); }
+    #s05-x { left: 1424px; top: 448px; font-size: 44px; color: var(--red); font-weight: 700; }
+    #s05-no { left: 1350px; top: 580px; color: #ffb3b3; border-color: var(--red); }
+    #s05-chips { left: 0; width: 1920px; top: 820px; display: flex; justify-content: center; gap: 26px; }
+    #s05-chips .chip { font-size: 23px; padding: 10px 22px; }
+    #s05-chips b { color: var(--green); font-weight: 700; margin-right: 8px; }
+    #s05-va { left: 470px; top: 290px; } #s05-vb { left: 1050px; top: 290px; } #s05-vsx { left: 922px; top: 354px; }
+    #s05-hint { top: 760px; } #s05-say { top: 820px; }
+  </style>
+  <div id="root" data-composition-id="s05" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="s05-w" class="wrap">
+      <h1 id="s05-t" class="ttl">第一层 · Tailscale 私有网络</h1>
+      <div id="s05-s" class="sub">设备组网示意</div>
+      <div id="s05-p1">
+        <svg class="lines" viewBox="0 0 1920 1080">
+          <rect id="s05-box" x="340" y="210" width="1010" height="560" rx="30" stroke="#a597ff" stroke-width="2" />
+          <path id="s05-l1" d="M680 346 H920 V430 H1060" stroke="#f2b64c" stroke-width="3" />
+          <path id="s05-l2" d="M600 586 H920 V500 H1060" stroke="#f2b64c" stroke-width="3" />
+          <path id="s05-l3" d="M1350 475 H1525" stroke="#ff6b6b" stroke-width="2.5" stroke-dasharray="6 9" />
+        </svg>
+        <div id="s05-net" class="abs mono">私有网络 · tailnet</div>
+        <div id="s05-mac" class="dev">{{dev:laptop:200}}<div class="nm">MacBook</div></div>
+        <div id="s05-ph" class="dev">{{dev:phone:84}}<div class="nm">手机</div></div>
+        <div id="s05-desk" class="dev">{{dev:desk:150}}<div class="nm">常开工作站</div></div>
+        <div id="s05-ip" class="tag mono">100.x.y.z:6767</div>
+        <div id="s05-pa" class="pulse"></div><div id="s05-pb" class="pulse"></div>
+        <div id="s05-www" class="abs">公网</div>
+        <div id="s05-x" class="abs">✕</div>
+        <div id="s05-no" class="tag">不开放公网端口</div>
+        <div id="s05-chips" class="abs">
+          <span id="s05-c1" class="chip"><b>✓</b>只有自己登录的设备能连</span>
+          <span id="s05-c2" class="chip"><b>✓</b>流量端到端加密</span>
+          <span id="s05-c3" class="chip"><b>✓</b>换网络、换地点，地址不变</span>
+        </div>
+      </div>
+      <div id="s05-p2">
+        <div id="s05-va" class="vs a"><div class="card"><div class="t">设备组网</div><div class="d">连接自己的设备</div></div><div class="cone"></div><div class="pool"></div></div>
+        <div id="s05-vsx" class="vsx">VS</div>
+        <div id="s05-vb" class="vs b"><div class="card"><div class="t">访问外网</div><div class="d">另一回事</div></div><div class="cone"></div><div class="pool"></div></div>
+        <div id="s05-hint" class="hint">Tailscale 是设备之间的组网工具</div>
+        <div id="s05-say" class="say">它只负责把<span class="hl">自己的设备</span>连起来，不改变上网出口</div>
+      </div>
+      <div class="note">示意画面 · 地址为虚构</div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#s05-w", D);
+      rise(tl, ["#s05-t", "#s05-s"], 0.3);
+      draw(tl, "#s05-box", 0.8, { dur: 1.4 });
+      blurIn(tl, "#s05-net", 1.8);
+      pop(tl, "#s05-mac", 2.2, { from: 0.8, y: 30 });
+      pop(tl, "#s05-ph", 2.8, { from: 0.8, y: 30 });
+      pop(tl, "#s05-desk", 3.4, { from: 0.8, y: 30 });
+      draw(tl, ["#s05-l1", "#s05-l2"], 4.4, { dur: 1.0, stagger: 0.3 });
+      pop(tl, "#s05-ip", 5.2);
+      travel(tl, "#s05-pa", [[680, 346], [920, 346], [920, 430], [1060, 430]], 5.6, 1.3);
+      travel(tl, "#s05-pb", [[600, 586], [920, 586], [920, 500], [1060, 500]], 6.2, 1.3);
+      blurIn(tl, "#s05-www", 7.4);
+      draw(tl, "#s05-l3", 7.8, { dur: 0.6 });
+      pop(tl, "#s05-x", 8.3, { from: 1.8, ease: "power4.out", dur: 0.4 });
+      pop(tl, "#s05-no", 8.6);
+      rise(tl, ["#s05-c1", "#s05-c2", "#s05-c3"], 9.6, { stagger: 0.7 });
+      out(tl, "#s05-p1", 13.6, { dur: 0.6 });
+      pop(tl, "#s05-va", 14.4, { from: 0.85, y: 30 });
+      blurIn(tl, "#s05-vsx", 15.0);
+      pop(tl, "#s05-vb", 15.4, { from: 0.85, y: 30 });
+      blurIn(tl, "#s05-hint", 16.6);
+      charsRise(tl, "#s05-say", 17.4, { y: 20, stagger: 0.04 });
+      window.__timelines["s05"] = tl;
+    })();
+  </script>
+</template>

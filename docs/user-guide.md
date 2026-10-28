@@ -6,6 +6,8 @@
 手机或电脑 → Tailscale → 本人 Paseo 实例 → Claude Code / Codex → SSH 计算节点
 ```
 
+连接与首个任务也可以交给 [paseo-desk-connect](../skills/paseo-desk-connect/SKILL.md)，远程计算与把结果拉回手机查看交给 [remote-compute](../skills/remote-compute/SKILL.md)。
+
 全程只登录自己获授权的环境。下文以 `alice` 为例，`<WS_IP>` 表示工作站的 Tailscale 地址。
 
 目录示例使用 Linux / WSL 的 `/home/alice`；macOS 对应 `/Users/alice`。SSH 命令示例中的 `2222` 在原生 Linux / macOS 上通常改为 `22`，一律以交付单为准。

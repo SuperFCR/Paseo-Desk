@@ -1,0 +1,51 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    .s10-c { top: 260px; width: 470px; height: 380px; padding: 40px 38px; }
+    #s10-a { left: 175px; } #s10-b { left: 725px; } #s10-c { left: 1275px; }
+    .s10-c svg { display: block; }
+    .s10-c .a { margin-top: 26px; font-size: 36px; font-weight: 700; }
+    .s10-c .b { margin-top: 16px; font-size: 23px; line-height: 1.65; color: var(--ink2); }
+    #s10-hint { top: 738px; } #s10-say { top: 790px; }
+  </style>
+  <div id="root" data-composition-id="s10" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="s10-w" class="wrap">
+      <h1 id="s10-t" class="ttl">先说清楚边界</h1>
+      <div id="s10-s" class="sub">使用须知</div>
+      <div id="s10-a" class="card s10-c">
+        <svg viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#f2b64c" stroke-width="4" stroke-linecap="round"><path d="M32 6 V30" /><path d="M18 14 A22 22 0 1 0 46 14" /></svg>
+        <div class="a">工作站要常开</div>
+        <div class="b">休眠或关机时手机就连不上；Windows 上还要让 WSL 保持运行</div>
+      </div>
+      <div id="s10-b" class="card s10-c">
+        <svg viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#f2b64c" stroke-width="4" stroke-linecap="round"><circle cx="20" cy="32" r="12" /><path d="M32 32 H58 M50 32 V42 M58 32 V40" /></svg>
+        <div class="a">模型账号用自己的</div>
+        <div class="b">个人订阅、团队席位或 API Key，遵守服务商条款，不共享登录凭据</div>
+      </div>
+      <div id="s10-c" class="card s10-c">
+        <svg viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#a597ff" stroke-width="4" stroke-linecap="round"><circle cx="12" cy="32" r="7" /><circle cx="52" cy="14" r="7" /><circle cx="52" cy="50" r="7" /><path d="M19 29 L45 17 M19 35 L45 47" /></svg>
+        <div class="a">Tailscale 只是组网</div>
+        <div class="b">连接的是自己的设备，不是代理，也不改变网络出口</div>
+      </div>
+      <div id="s10-hint" class="hint">并非官方方案</div>
+      <div id="s10-say" class="say">只是我自己每天在用的一套工作流</div>
+      <div class="note">示意画面</div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#s10-w", D);
+      rise(tl, ["#s10-t", "#s10-s"], 0.3);
+      pop(tl, "#s10-a", 1.2, { from: 0.9, y: 40 });
+      pop(tl, "#s10-b", 4.0, { from: 0.9, y: 40 });
+      pop(tl, "#s10-c", 6.8, { from: 0.9, y: 40 });
+      blurIn(tl, "#s10-hint", 10.6, { dur: 0.6 });
+      charsRise(tl, "#s10-say", 11.2, { y: 20, stagger: 0.05 });
+      window.__timelines["s10"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,95 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    #res-gpu { left: 300px; top: 362px; } #res-desk { left: 720px; top: 348px; }
+    #res-g1 { left: 432px; top: 392px; font-size: 18px; } #res-g2 { left: 900px; top: 392px; font-size: 18px; }
+    #res-chips { left: 150px; width: 960px; top: 650px; display: flex; justify-content: center; gap: 16px; }
+    #res-keep { left: 150px; width: 960px; top: 730px; text-align: center; font-size: 21px; color: var(--muted); }
+    #res-ph { left: 1190px; top: 150px; width: 400px; height: 760px; border-radius: 52px; border: 11px solid #2c2c33;
+      background: linear-gradient(180deg, #121722, #0a0d13); box-shadow: 0 40px 80px -30px #000, 0 0 0 2px #45454f, 0 0 80px -20px var(--amber-glow); overflow: hidden; }
+    #res-ph .isl { margin: 13px auto 0; width: 104px; height: 28px; border-radius: 14px; background: #000; }
+    #res-hd { padding: 20px 26px 16px; border-bottom: 1px solid var(--line); }
+    #res-hd .a { font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    #res-hd .a i { width: 12px; height: 12px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); }
+    #res-hd .b { margin-top: 6px; font-size: 16px; color: var(--muted); }
+    #res-grid { margin: 18px 20px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .res-m { padding: 12px 14px; border-radius: 12px; background: rgba(255, 255, 255, 0.045); border: 1px solid var(--line); }
+    .res-m .k { font-size: 15px; color: var(--muted); }
+    .res-m .v { margin-top: 4px; font-size: 28px; font-weight: 700; }
+    #res-chart { margin: 14px 20px 0; padding: 12px 12px 8px; border-radius: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line); }
+    #res-chart .lg { display: flex; gap: 18px; font-size: 14px; color: var(--muted); margin-bottom: 4px; }
+    #res-chart .lg b { display: inline-block; width: 16px; height: 4px; border-radius: 2px; vertical-align: 3px; margin-right: 6px; }
+    #res-ft { margin: 12px 22px 0; font-size: 14px; color: var(--muted); }
+    #res-me { position: absolute; left: 70px; right: 18px; bottom: 26px; padding: 12px 16px; border-radius: 16px 16px 4px 16px;
+      background: var(--amber); color: #1d1408; font-size: 18px; line-height: 1.5; }
+    #res-say { top: 950px; }
+  </style>
+  <div id="root" data-composition-id="res" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="res-w" class="wrap">
+      <h1 id="res-t" class="ttl">亮点 · 手机上直接看实验结果</h1>
+      <div id="res-s" class="sub">结果同步示意 · 界面为示意重建</div>
+      <svg class="lines" viewBox="0 0 1920 1080">
+        <path id="res-l1" d="M410 440 H640" stroke="#a597ff" stroke-width="3" />
+        <path id="res-l2" d="M800 440 H1180" stroke="#f2b64c" stroke-width="3" />
+      </svg>
+      <div id="res-gpu" class="dev">{{dev:gpu:190}}<div class="nm">GPU 计算节点</div></div>
+      <div id="res-desk" class="dev">{{dev:desk:140}}<div class="nm">常开工作站</div></div>
+      <div id="res-g1" class="tag v">跑完自动拉回</div>
+      <div id="res-g2" class="tag">Tailscale · 随时可看</div>
+      <div id="res-p1" class="pulse v"></div><div id="res-p2" class="pulse"></div>
+      <div id="res-chips" class="abs"><span class="chip">loss / acc 曲线</span><span class="chip mono">metrics.json</span><span class="chip">评估样例</span><span class="chip">日志摘要</span></div>
+      <div id="res-keep" class="abs">只同步几 MB 的小结果，完整数据和权重留在节点</div>
+      <div id="res-ph" class="abs">
+        <div class="isl"></div>
+        <div id="res-hd"><div class="a"><i></i>job-0427 · 已完成</div><div class="b">my-project · 来自 gpu-node</div></div>
+        <div id="res-grid">
+          <div class="res-m"><div class="k">val acc</div><div class="v mono" style="color: var(--green)">91.4%</div></div>
+          <div class="res-m"><div class="k">val loss</div><div class="v mono">0.62</div></div>
+          <div class="res-m"><div class="k">用时</div><div class="v mono">3h 12m</div></div>
+          <div class="res-m"><div class="k">step</div><div class="v mono">5000</div></div>
+        </div>
+        <div id="res-chart">
+          <div class="lg"><span><b style="background: var(--amber2)"></b>loss</span><span><b style="background: var(--violet)"></b>acc</span></div>
+          <svg viewBox="0 0 320 150" width="320" height="150">
+            <path d="M4 146 H318 M4 4 V146" stroke="#33333c" stroke-width="2" fill="none" />
+            <path id="res-c1" d="M8 14 C40 50 70 78 110 92 S190 112 240 118 S300 122 316 123" stroke="#ffd58a" stroke-width="3.5" fill="none" stroke-linecap="round" />
+            <path id="res-c2" d="M8 136 C40 100 70 74 110 58 S190 40 240 34 S300 30 316 29" stroke="#a597ff" stroke-width="3.5" fill="none" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div id="res-ft">同步于 07:30 · loss.png · metrics.json</div>
+        <div id="res-me">帮我写一份实验小结，和上一版对比</div>
+      </div>
+      <div id="res-say" class="say">节点上的实验结果，<span class="hl">手机上直接看</span></div>
+      <div class="note">示意画面 · 任务与数值为虚构</div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#res-w", D);
+      rise(tl, ["#res-t", "#res-s"], 0.3);
+      pop(tl, "#res-gpu", 0.9, { from: 0.8, y: 30 });
+      pop(tl, "#res-desk", 1.5, { from: 0.8, y: 30 });
+      draw(tl, "#res-l1", 2.4, { dur: 0.7 });
+      travel(tl, "#res-p1", [[410, 440], [640, 440]], 2.6, 0.7);
+      pop(tl, "#res-g1", 3.0);
+      draw(tl, "#res-l2", 3.9, { dur: 0.8 });
+      travel(tl, "#res-p2", [[800, 440], [1180, 440]], 4.1, 0.8);
+      pop(tl, "#res-g2", 4.4);
+      pop(tl, "#res-ph", 4.9, { from: 0.92, y: 50 });
+      blurIn(tl, "#res-hd", 5.5);
+      pop(tl, ".res-m", 6.0, { from: 0.85, stagger: 0.18 });
+      blurIn(tl, "#res-chart", 7.0);
+      draw(tl, ["#res-c1", "#res-c2"], 7.3, { dur: 2.0, ease: "power1.inOut", stagger: 0.3 });
+      blurIn(tl, "#res-ft", 9.4);
+      rise(tl, "#res-chips .chip", 9.8, { stagger: 0.25, y: 16 });
+      blurIn(tl, "#res-keep", 11.0);
+      pop(tl, "#res-me", 12.2, { from: 0.8, y: 20 });
+      charsRise(tl, "#res-say", 13.6, { y: 20, stagger: 0.05 });
+      window.__timelines["res"] = tl;
+    })();
+  </script>
+</template>

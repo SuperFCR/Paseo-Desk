@@ -2,6 +2,8 @@
 
 本指南以 **Windows + WSL2** 为主线。工作站是原生 Linux 或 macOS 时，先阅读[按宿主平台部署](platforms.md)：原生 Linux 复用本指南的大部分步骤，但不需要第 3 节；macOS 的用户与实例改用 launchd 手动配置。
 
+也可以让 Claude Code / Codex 按 [paseo-desk-setup](../skills/paseo-desk-setup/SKILL.md)、[paseo-desk-always-on](../skills/paseo-desk-always-on/SKILL.md) 和 [paseo-desk-team](../skills/paseo-desk-team/SKILL.md) 执行本指南，遇到 sudo、网络或重启步骤时由你确认。
+
 本章由管理员执行。示例成员 `alice`（端口 6767）、`bob`（端口 6768），SSH 对外端口 2222。所有尖括号内容替换为实际值。
 
 ## 0. 前提

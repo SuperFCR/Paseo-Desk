@@ -1,0 +1,87 @@
+/* 公共样式：近黑底 + 暖黄 / 淡紫两团微光，左上标题，卡片与设备示意。
+   颜色约定：琥珀 = 自己的设备与工作流，淡紫 = 网络与计算节点 */
+#root {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  font-family: "NotoSansSC", sans-serif;
+  color: #f3f1ec;
+  --amber: #f2b64c;
+  --amber2: #ffd58a;
+  --amber-glow: rgba(242, 182, 76, 0.45);
+  --violet: #a597ff;
+  --violet-glow: rgba(165, 151, 255, 0.4);
+  --green: #6fd39b;
+  --red: #ff6b6b;
+  --ink2: #c9c7cf;
+  --muted: #85848d;
+  --line: rgba(255, 255, 255, 0.09);
+}
+#root * { box-sizing: border-box; }
+.ch { display: inline-block; white-space: pre; }
+.abs { position: absolute; }
+
+.bg { position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 48% 42% at 28% 62%, rgba(242, 182, 76, 0.075), transparent 70%),
+    radial-gradient(ellipse 45% 42% at 74% 52%, rgba(165, 151, 255, 0.065), transparent 70%),
+    radial-gradient(ellipse 90% 80% at 50% 50%, #111116 0%, #08080b 100%); }
+.wrap { position: absolute; inset: 0; }
+
+/* 左上标题 + 小号说明 */
+.ttl { position: absolute; left: 72px; top: 58px; margin: 0; font-size: 48px; font-weight: 700; letter-spacing: 0.03em; white-space: nowrap; }
+.sub { position: absolute; left: 75px; top: 128px; font-size: 18px; color: var(--muted); letter-spacing: 0.14em; white-space: nowrap; }
+.note { position: absolute; right: 44px; bottom: 30px; font-size: 15px; color: #4b4a53; letter-spacing: 0.06em; white-space: nowrap; }
+
+/* 场景底部的一句结论（暖黄小字 + 白色主句） */
+.say { position: absolute; left: 0; width: 1920px; text-align: center; font-size: 36px; font-weight: 600; letter-spacing: 0.04em; white-space: nowrap; }
+.say .hl, .hl { color: var(--amber2); }
+.hint { position: absolute; left: 0; width: 1920px; text-align: center; font-size: 24px; color: var(--amber); letter-spacing: 0.06em; white-space: nowrap; }
+
+/* 卡片 */
+.card { position: absolute; border-radius: 18px; border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(30, 30, 37, 0.96), rgba(17, 17, 21, 0.96));
+  box-shadow: 0 40px 80px -40px #000, inset 0 1px 0 rgba(255, 255, 255, 0.05); }
+.card.amb { border-color: rgba(242, 182, 76, 0.55); box-shadow: 0 0 46px -12px var(--amber-glow), 0 40px 80px -40px #000; }
+.card.vio { border-color: rgba(165, 151, 255, 0.5); box-shadow: 0 0 46px -12px var(--violet-glow), 0 40px 80px -40px #000; }
+
+/* VS 对比卡：卡片 + 下方光锥 + 光池 */
+.vs { position: absolute; width: 400px; }
+.vs .card { position: relative; height: 196px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.vs .t { font-size: 42px; font-weight: 700; letter-spacing: 0.04em; }
+.vs .d { margin-top: 14px; font-size: 21px; color: var(--muted); letter-spacing: 0.08em; }
+.vs .cone { position: relative; margin: 0 auto; width: 300px; height: 190px; clip-path: polygon(14% 0, 86% 0, 100% 100%, 0 100%); }
+.vs .pool { position: relative; margin: -60px auto 0; width: 360px; height: 90px; border-radius: 50%; }
+.vs.a .cone { background: linear-gradient(180deg, rgba(242, 182, 76, 0.02), rgba(242, 182, 76, 0.2)); }
+.vs.a .pool { background: radial-gradient(closest-side, rgba(242, 182, 76, 0.42), transparent); }
+.vs.b .cone { background: linear-gradient(180deg, rgba(165, 151, 255, 0.02), rgba(165, 151, 255, 0.2)); }
+.vs.b .pool { background: radial-gradient(closest-side, rgba(165, 151, 255, 0.42), transparent); }
+.vsx { position: absolute; font-size: 54px; font-weight: 300; color: #6d6c76; letter-spacing: 0.05em; }
+
+/* 设备示意 */
+.dev { position: absolute; display: flex; flex-direction: column; align-items: center; width: 320px; margin-left: -160px; }
+.dev svg { display: block; filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.6)); }
+.dev .nm { margin-top: 18px; font-size: 27px; font-weight: 600; white-space: nowrap; }
+.dev .rl { margin-top: 8px; font-size: 21px; color: var(--amber); white-space: nowrap; }
+.dev .rl.v { color: var(--violet); }
+
+/* 标签 */
+.tag { position: absolute; padding: 7px 18px; border-radius: 9px; font-size: 21px; white-space: nowrap;
+  color: var(--amber2); border: 1.5px solid var(--amber); background: rgba(20, 16, 8, 0.92); }
+.tag.v { color: #d6cfff; border-color: var(--violet); background: rgba(14, 12, 24, 0.92); }
+.chip { display: inline-block; padding: 8px 18px; border-radius: 999px; font-size: 20px; color: var(--ink2);
+  border: 1px solid var(--line); background: rgba(255, 255, 255, 0.04); white-space: nowrap; }
+.mono { font-family: "JBMono", "NotoSansSC", monospace; }
+
+/* 列表行（琥珀圆点） */
+.row { position: absolute; height: 76px; display: flex; align-items: center; gap: 22px; padding: 0 30px;
+  border-radius: 14px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.035); font-size: 28px; white-space: nowrap; }
+.row .dot { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 18px var(--amber-glow); flex: none; }
+.row .dot.x { background: var(--red); box-shadow: 0 0 18px rgba(255, 107, 107, 0.45); }
+.row .r { margin-left: auto; font-size: 22px; color: var(--amber); }
+
+svg.lines { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; pointer-events: none; }
+svg.lines path, svg.lines rect { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.pulse { position: absolute; left: 0; top: 0; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: var(--amber2);
+  box-shadow: 0 0 16px 4px var(--amber-glow); }
+.pulse.v { background: #d6cfff; box-shadow: 0 0 16px 4px var(--violet-glow); }

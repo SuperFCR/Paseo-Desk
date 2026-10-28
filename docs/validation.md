@@ -18,6 +18,13 @@
 - 后续提交的状态以 [GitHub Actions](https://github.com/SuperFCR/Paseo-Desk/actions) 为准。CI 使用模拟用户、模拟下载与临时目录，不代表系统部署或真实网络验收。
 - [Shadowrocket 内置 Tailscale 教程](ios-shadowrocket.md)已核对官方发布说明与相关文档，并于 2026-10-27 在 iPhone 实机完成入网与 Paseo 连接验证。
 
+## Skills 与宣传片（2026-10-27）
+
+- 新增 5 个 skill（setup、always-on、connect、doctor、team），增强 remote-compute 的“结果回传到手机”，并提供 Claude Code 插件 / 插件市场清单与 `skills/install.sh`。
+- `claude plugin validate .` 与 `claude plugin validate --strict .claude-plugin/marketplace.json` 通过（Claude Code 2.1.308）；新增 5 项结构检查：frontmatter 与目录名一致、索引完整、无密钥与真实地址、清单一致、安装脚本在临时目录复制与备份。回归检查共 22 项。
+- skill 内容按现有文档整理，尚未由 Agent 在空白设备上完整执行一遍部署；验收仍以[验收清单](acceptance-checklist.md)为准。
+- [宣传片](promo/README.md)由 HyperFrames 在计算节点以 Chrome 软件渲染，未使用 GPU；画面为代码重建的虚构示例，音乐为程序合成。
+
 ## 不改动部署的检查
 
 在仓库根目录执行，只需 Python 3、Bash 和系统自带的安装/归档工具：

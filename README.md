@@ -1,33 +1,74 @@
 # Paseo Desk
 
-基于 Paseo 与 Tailscale 的多用户 AI 开发工作台。
+用手机驱动家里那台常开的电脑写代码：工作站 24 小时在线，GPU 节点上的实验结果在手机上直接看。
 
-把一台常开的电脑（Windows + WSL2、原生 Linux 或 macOS）变成小团队共用的 AI 编程入口：每位成员用手机或笔记本，经 [Tailscale](https://tailscale.com) 连接到**自己的** [Paseo](https://paseo.sh) 实例，驱动 Claude Code / Codex 写代码；训练、推理等重计算通过各自的 SSH 身份提交到远程计算节点。
+把一台常开的电脑（Windows + WSL2、原生 Linux 或 macOS）变成自己的 AI 编程工位：手机和 Mac 经 [Tailscale](https://tailscale.com) 连到工作站上**自己的** [Paseo](https://paseo.sh) 实例，驱动 Claude Code / Codex 写代码；训练、推理等重计算通过 SSH 提交到 GPU / 计算节点，跑完把小结果拉回工作站，手机打开就能看。先从一个人用起，需要时再扩展给家人或小团队。
 
-## 30 秒看懂手机与 Mac 如何接续
+## 4 分钟看懂
 
-[![播放 30 秒演示 · 在线观看](docs/demo/play-button.svg)](https://paseo-desk-demo.chic-alder-0364.chatgpt.site)
+[![Paseo Desk 宣传片：点击播放](docs/promo/poster.jpg)](docs/promo/paseo-desk-promo.mp4)
 
-[![手机发起、Mac 接续的脱敏演示，点击打开播放器](docs/demo/poster.png)](https://paseo-desk-demo.chic-alder-0364.chatgpt.site)
+[播放宣传片](docs/promo/paseo-desk-promo.mp4)（4 分 05 秒，1080p，纯音乐）· [分镜与源码](docs/promo/README.md) · [30 秒短片：手机发起、Mac 接续](https://paseo-desk-demo.chic-alder-0364.chatgpt.site)。画面由代码重建，账号、主机、地址、任务与指标均为虚构示例。
 
-点击按钮或封面打开在线播放器，支持播放、暂停、拖动进度和全屏。[下载 MP4](docs/demo/paseo-phone-mac.mp4) · [离线交互演示源码](docs/demo/index.html) · [分镜与制作说明](docs/demo/README.md)。画面由代码重建，账号、主机、路径、指标和用量均为虚构示例。
+## 两个亮点
+
+| 工作站 24 小时在线 | 实验结果手机上看 |
+| --- | --- |
+| 每个实例由 systemd / launchd 托管、开机自启；Windows 计划任务让 WSL 常驻。手机锁屏、Mac 合盖、关掉终端，会话和 Agent 都还在工作站上跑。 | 重计算留在 GPU 节点，跑完只把指标、曲线、日志摘要这类几 MB 的小结果拉回工作站。手机打开同一个 Paseo 会话就能看，并直接发下一条指令。 |
+
+## 交给 Agent 来部署：Skills
+
+仓库的每个部分都整理成了 [Agent Skill](skills/README.md)。装好后直接对 Claude Code / Codex 说“帮我把这台电脑装成 Paseo Desk 工作站”“手机连不上 Paseo，帮我查一下”，它会按步骤执行，遇到 sudo、改网络、重启时先停下来确认。
+
+```text
+/plugin install paseo-desk --marketplace SuperFCR/Paseo-Desk
+```
+
+较早版本的 Claude Code 分两步：`/plugin marketplace add SuperFCR/Paseo-Desk`，再 `/plugin install paseo-desk@paseo-desk`。Codex 或其他工具：`./skills/install.sh --codex`（或 `--target <目录>`）。
+
+| Skill | 做什么 |
+| --- | --- |
+| [paseo-desk-setup](skills/paseo-desk-setup/SKILL.md) | 单人起步：安装公共部分，给自己建 Paseo 实例 |
+| [paseo-desk-always-on](skills/paseo-desk-always-on/SKILL.md) | 24 小时在线：不睡眠、WSL 不回收、开机自启、冷启动验收 |
+| [paseo-desk-connect](skills/paseo-desk-connect/SKILL.md) | 手机与 Mac 经 Tailscale 连进来，验证会话接续 |
+| [remote-compute](skills/remote-compute/SKILL.md) | 提交节点任务、查询、拉回小结果，整理成手机能看的摘要 |
+| [paseo-desk-doctor](skills/paseo-desk-doctor/SKILL.md) | 按层只读诊断与验收 |
+| [paseo-desk-team](skills/paseo-desk-team/SKILL.md) | 扩展给家人或小团队：新增、重设密码、停用成员 |
 
 ## 工作方式
 
 ![架构示意](docs/architecture.svg)
 
-固定链路（macOS 使用每用户 LaunchDaemon）：
-
 ```text
-手机 / 笔记本（Paseo 客户端或网页）
-        │ Tailscale：按成员身份授权到专属端口
-工作站：每个系统用户一个 Paseo 服务，独立端口与连接密码
-        │ 以该用户 UID 运行 Claude Code / Codex（公共安装，经包装脚本启动）
-        │ 每人自己的 ~/.ssh 配置
-计算节点：数据、模型、实验与完整产物
+手机 / Mac（Paseo 客户端或网页）
+        │ Tailscale 私有网络：不开放公网端口，只放行自己的设备
+常开工作站：本人 Paseo 实例（systemd / launchd 托管，24 小时在线）
+        │ 以本人 UID 运行 Claude Code / Codex（公共安装，经包装脚本启动）
+        │ 本人 ~/.ssh 配置
+GPU / 计算节点：数据、模型、训练与完整产物；只把小结果拉回工作站
 ```
 
-## 共享什么、独立什么
+## 快速开始（一个人）
+
+不想手动操作时，装好上面的插件，让 Agent 按 `paseo-desk-setup` → `paseo-desk-always-on` → `paseo-desk-connect` 依次完成。手动步骤（Linux / WSL；macOS 见[平台文档](docs/platforms.md)）：
+
+1. 安装公共部分，并给自己创建实例：
+   ```bash
+   git clone https://github.com/SuperFCR/Paseo-Desk.git
+   cd Paseo-Desk
+   sudo ./linux/install.sh --install-node 24.22.1 --install-packages   # 版本号按需选择
+   sudo paseo-user add "$USER" 6767
+   claude auth login && codex login                                    # 登录你自己的账号
+   ```
+2. 保持常驻：WSL 部署在 Windows 侧注册常驻任务（同时维护 Tailscale 入口转发），见[管理员部署指南](docs/admin-guide.md)第 3 节；原生 Linux / macOS 让 Paseo 监听本机 Tailscale 地址。
+3. 手机和 Mac 登录 Tailscale，在 Paseo 中添加 Host（`<WS_IP>:6767`，Use SSL 关闭，密码在 `~/.paseo/client.env`），按[使用教程](docs/user-guide.md)完成第一个任务。
+4. 计算节点：在本人 `~/.ssh/config` 配好节点，用 [remote-compute](skills/remote-compute/SKILL.md) 提交任务、把结果拉回给手机看。
+
+上线前按[验收清单](docs/acceptance-checklist.md)逐项确认。
+
+## 扩展给家人或小团队
+
+同一台工作站可以给每人一个独立系统用户和 Paseo 实例（`sudo paseo-user add alice 6767`、`sudo paseo-user add bob 6768`），按人授权 Tailscale 端口，用[交付单模板](templates/handover.md)私下交付连接参数。详见 [paseo-desk-team](skills/paseo-desk-team/SKILL.md) 与[管理员部署指南](docs/admin-guide.md)。
 
 | 对象 | 安排 | 边界 |
 | --- | --- | --- |
@@ -43,9 +84,10 @@
 ## 仓库内容
 
 ```text
+skills/                Agent Skills（安装、常驻、连接、远程计算、诊断、多人扩展）+ install.sh
+.claude-plugin/        Claude Code 插件与插件市场清单
 linux/                 工作站公共部分（root 安装）
   install.sh           安装包装脚本、systemd 模板、管理工具；可选下载 Node、npm 安装三个程序
-  workstation.conf.example
   bin/                 claude、codex、paseo 公共入口（启动前检查 + 原样传参）
   sbin/paseo-user      add / reset-password / remove / list 每用户实例
   systemd/paseo@.service
@@ -53,50 +95,33 @@ linux/                 工作站公共部分（root 安装）
 windows/               Tailscale 在 Windows、Paseo 在 WSL 时的入口转发与常驻任务
 macos/                 macOS 每用户实例的 launchd 模板
 optional/egress-proxy/ 可选：全用户透明出口网关（mihomo TUN + nftables 防直连）
-templates/             SSH 配置、Tailscale ACL、成员交付单模板
-skills/remote-compute/ 远程计算任务的 Agent Skill 模板
-docs/                  设计方案、管理员部署、成员教程、验收清单、故障排查
-tests/                 不依赖真实用户、服务或模型的安装与运行回归检查
+templates/             SSH 配置、Tailscale ACL、交付单模板
+docs/                  设计方案、部署、使用教程、验收、排错；promo/ 宣传片与源码，demo/ 30 秒短片
+tests/                 不依赖真实用户、服务或模型的安装、运行与 skills 回归检查
 ```
-
-## 快速开始
-
-1. 阅读 [设计方案](docs/design.md)，确认适用场景与信任边界；按 [宿主平台对照](docs/platforms.md) 选择部署路线。
-2. Linux / WSL 管理员按 [部署指南](docs/admin-guide.md) 安装公共部分并创建成员（macOS 按平台文档配置 launchd）：
-   ```bash
-   git clone https://github.com/SuperFCR/Paseo-Desk.git
-   cd Paseo-Desk
-   sudo ./linux/install.sh --install-node 24.22.1 --install-packages   # 版本号按需选择
-   sudo paseo-user add alice 6767
-   sudo paseo-user add bob 6768
-   ```
-3. WSL 部署在 Windows 侧注册常驻任务（自动维护 Tailscale 入口转发）；原生 Linux / macOS 直接让 Paseo 监听本机 Tailscale 地址（macOS 用 launchd 托管实例，见平台文档）。
-4. 按 [验收清单](docs/acceptance-checklist.md) 逐项验证后，用 [交付单模板](templates/handover.md) 私下把连接参数交给成员。
-5. 成员阅读 [使用教程](docs/user-guide.md)。
 
 ## 文档
 
+- [Skills 总览](skills/README.md)：每个 skill 的用途、典型说法与安装方式
 - [设计方案](docs/design.md)：隔离边界、任务流、用量统计、分阶段上线
 - [按宿主平台部署](docs/platforms.md)：Windows + WSL2 / 原生 Linux / macOS 的差异与完整步骤
 - [管理员部署指南](docs/admin-guide.md)：安装、新增/停用用户、Windows 转发、Tailscale 授权、常驻运行
-- [成员使用教程](docs/user-guide.md)：连接、首个任务、远程计算、结果拉回、网页隧道
-- [iPhone：Shadowrocket 内置 Tailscale](docs/ios-shadowrocket.md)：可选入网方式、成员身份、密钥用途与排错（已在 iPhone 实机验证）
-- [验收清单](docs/acceptance-checklist.md)
-- [故障排查](docs/troubleshooting.md)
+- [使用教程](docs/user-guide.md)：连接、首个任务、远程计算、结果拉回、网页隧道
+- [iPhone：Shadowrocket 内置 Tailscale](docs/ios-shadowrocket.md)：可选入网方式（已在 iPhone 实机验证）
+- [验收清单](docs/acceptance-checklist.md) · [故障排查](docs/troubleshooting.md) · [验证记录](docs/validation.md)
 - [可选：出口网关模块](docs/egress-proxy.md)
-- [验证记录与本地检查](docs/validation.md)
-- [参与开发](CONTRIBUTING.md)
+- [宣传片分镜与源码](docs/promo/README.md) · [参与开发](CONTRIBUTING.md)
 
 ## 已验证环境
 
-参考部署运行在 Windows + WSL2；本仓库脚本有静态检查和临时目录中的模拟测试，尚未从空白系统完成整套部署验收。原生 Linux / macOS 均待实机验收，详见[验证记录](docs/validation.md)和[平台对照](docs/platforms.md)。
+参考部署运行在 Windows + WSL2；本仓库脚本有静态检查和临时目录中的模拟测试，尚未从空白系统完成整套部署验收。原生 Linux / macOS 均待实机验收，详见[验证记录](docs/validation.md)和[平台对照](docs/platforms.md)。Skills 与插件清单通过结构测试和 `claude plugin validate`；skill 驱动的端到端部署同样需要在测试设备上验收。
 
 参考版本：Paseo 0.13.2、Node 24、Codex 0.164、Claude Code 2.1.308，Windows 11 + WSL2（Ubuntu，systemd 启用，NAT 网络模式）+ Windows 版 Tailscale。安装器默认固定 Paseo 0.13.2（`PW_PASEO_VERSION`），因为 `paseo-user` 生成密码哈希时使用了内部模块路径。升级后须重新验证；若路径变化，可改由成员在本人终端执行 `paseo daemon set-password`。
 
 ## 使用须知
 
-- 每位成员应使用自己有权使用的模型账号（个人订阅、团队/企业席位或 API Key），并遵守 Anthropic、OpenAI 等服务商的使用条款。本项目不提供、也不鼓励共享登录凭据。
-- 可选出口网关模块只是通用的网络出口控制工具；使用者须自行确保符合所在地法律法规及服务商条款（包括其支持地区政策）。
+- 每个人应使用自己有权使用的模型账号（个人订阅、团队/企业席位或 API Key），并遵守 Anthropic、OpenAI 等服务商的使用条款（包括其支持地区政策）。本项目不提供、也不鼓励共享登录凭据或规避服务商的限制。
+- Tailscale 只负责连接自己的设备，不是代理。可选出口网关模块只是通用的网络出口控制工具；使用者须自行确保符合所在地法律法规及服务商条款。
 - 本项目与 Paseo、Tailscale、Anthropic、OpenAI 均无隶属关系。
 
 ## 许可证

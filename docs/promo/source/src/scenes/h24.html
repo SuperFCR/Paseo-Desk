@@ -1,0 +1,63 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    #h24-desk { left: 960px; top: 372px; }
+    #h24-desk .nm { font-size: 24px; }
+    .h24-k { position: absolute; width: 80px; margin-left: -40px; text-align: center; font-size: 22px; color: var(--muted); }
+    #h24-k0 { left: 960px; top: 150px; } #h24-k6 { left: 1270px; top: 456px; } #h24-k12 { left: 960px; top: 754px; } #h24-k18 { left: 650px; top: 456px; }
+    .h24-r { width: 470px; height: 72px; font-size: 24px; }
+    .h24-r .mono { color: var(--amber2); font-weight: 700; }
+    #h24-r1 { left: 120px; top: 330px; } #h24-r2 { left: 120px; top: 430px; }
+    #h24-r3 { left: 1330px; top: 330px; } #h24-r4 { left: 1330px; top: 430px; }
+    #h24-chips { left: 0; width: 1920px; top: 830px; display: flex; justify-content: center; gap: 26px; }
+    #h24-chips .chip { font-size: 22px; padding: 10px 22px; }
+    #h24-chips b { color: var(--green); margin-right: 8px; }
+    #h24-say { top: 920px; }
+  </style>
+  <div id="root" data-composition-id="h24" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="h24-w" class="wrap">
+      <h1 id="h24-t" class="ttl">亮点 · 工作站 24 小时在线</h1>
+      <div id="h24-s" class="sub">常驻运行示意</div>
+      <svg class="lines" viewBox="0 0 1920 1080">
+        <circle id="h24-track" cx="960" cy="470" r="260" stroke="rgba(255,255,255,0.08)" stroke-width="10" fill="none" />
+        <path id="h24-arc" d="M960 210 A260 260 0 1 1 959.9 210" stroke="#f2b64c" stroke-width="10" />
+      </svg>
+      <div id="h24-k0" class="h24-k mono">00</div><div id="h24-k6" class="h24-k mono">06</div>
+      <div id="h24-k12" class="h24-k mono">12</div><div id="h24-k18" class="h24-k mono">18</div>
+      <div id="h24-desk" class="dev">{{dev:desk:150}}<div class="nm">常开工作站</div></div>
+      <div id="h24-r1" class="row h24-r"><span class="mono">23:40</span>节点上的训练还在跑</div>
+      <div id="h24-r2" class="row h24-r"><span class="mono">03:10</span>会话和进程都在线</div>
+      <div id="h24-r3" class="row h24-r"><span class="mono">07:30</span>手机打开就看结果</div>
+      <div id="h24-r4" class="row h24-r"><span class="mono">全天</span>不用一直开着笔记本</div>
+      <div id="h24-chips" class="abs">
+        <span class="chip"><b>✓</b>开机自动启动</span>
+        <span class="chip"><b>✓</b>客户端断开不影响任务</span>
+        <span class="chip"><b>✓</b>Windows 上自动保活 WSL</span>
+      </div>
+      <div id="h24-say" class="say">你睡觉的时候，<span class="hl">它还在干活</span></div>
+      <div class="note">示意画面 · 时间为虚构</div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#h24-w", D);
+      rise(tl, ["#h24-t", "#h24-s"], 0.3);
+      pop(tl, "#h24-desk", 0.9, { from: 0.8, y: 30 });
+      blurIn(tl, "#h24-track", 1.1, { dur: 0.8 });
+      blurIn(tl, ".h24-k", 1.3, { stagger: 0.12 });
+      draw(tl, "#h24-arc", 1.6, { dur: 6.0, ease: "none" });
+      slideIn(tl, "#h24-r1", 2.6);
+      slideIn(tl, "#h24-r2", 3.9);
+      slideIn(tl, "#h24-r3", 5.3, { x: 40 });
+      slideIn(tl, "#h24-r4", 6.6, { x: 40 });
+      rise(tl, "#h24-chips .chip", 8.4, { stagger: 0.5, y: 16 });
+      charsRise(tl, "#h24-say", 10.6, { y: 20, stagger: 0.05 });
+      later(tl, "#h24-arc", { opacity: 1 }, { opacity: 0.55, duration: 0.6, yoyo: true, repeat: 5, ease: "sine.inOut" }, 8.0);
+      window.__timelines["h24"] = tl;
+    })();
+  </script>
+</template>

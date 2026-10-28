@@ -11,7 +11,7 @@ jobs:
         run: |
           shellcheck -x linux/install.sh linux/bin/* linux/libexec/env.sh linux/libexec/paseo-daemon \
             linux/sbin/paseo-workstation-keepalive linux/share/sync-agent-policy.sh \
-            optional/egress-proxy/install.sh optional/egress-proxy/sbin/*
+            optional/egress-proxy/install.sh optional/egress-proxy/sbin/* skills/install.sh
       - name: python
         run: python3 -m py_compile linux/sbin/paseo-user
   smoke:

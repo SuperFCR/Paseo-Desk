@@ -1,0 +1,49 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    #s04-d1 { left: 330px; top: 300px; } #s04-d2 { left: 750px; top: 346px; }
+    #s04-d3 { left: 1170px; top: 330px; } #s04-d4 { left: 1590px; top: 336px; }
+    .s04-pl { margin-top: 10px; font-size: 18px; color: var(--muted); letter-spacing: 0.12em; }
+    #s04-tag1 { left: 640px; top: 712px; } #s04-tag2 { left: 1290px; top: 742px; }
+    #s04-say { top: 880px; }
+  </style>
+  <div id="root" data-composition-id="s04" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="s04-w" class="wrap">
+      <h1 id="s04-t" class="ttl">日常设备分工</h1>
+      <div id="s04-s" class="sub">角色示意</div>
+      <svg class="lines" viewBox="0 0 1920 1080">
+        <rect id="s04-ring" x="1010" y="300" width="320" height="380" rx="26" stroke="#f2b64c" stroke-width="2.5" opacity="0" />
+        <path id="s04-p1" d="M330 690 V730 H1150 V690" stroke="#f2b64c" stroke-width="3" opacity="0" />
+        <path id="s04-p2" d="M750 690 V730" stroke="#f2b64c" stroke-width="3" opacity="0" />
+        <path id="s04-p3" d="M1190 690 V760 H1590 V690" stroke="#a597ff" stroke-width="3" stroke-dasharray="2 10" opacity="0" />
+      </svg>
+      <div id="s04-d1" class="dev">{{dev:phone:110}}<div class="nm">手机</div><div class="rl">随时下指令、看进度</div><div class="s04-pl">随身</div></div>
+      <div id="s04-d2" class="dev">{{dev:laptop:250}}<div class="nm">MacBook</div><div class="rl">细看结果、动手修改</div><div class="s04-pl">带出门</div></div>
+      <div id="s04-d3" class="dev">{{dev:desk:160}}<div class="nm">常开工作站</div><div class="rl">跑 Claude Code / Codex</div><div class="s04-pl">家里 · 24 小时开着</div></div>
+      <div id="s04-d4" class="dev">{{dev:gpu:220}}<div class="nm">GPU 计算节点</div><div class="rl v">数据 · 模型 · 训练</div><div class="s04-pl">机房 / 云端</div></div>
+      <div id="s04-tag1" class="tag">发指令 · 看结果</div>
+      <div id="s04-tag2" class="tag v">SSH · 提交计算</div>
+      <div id="s04-say" class="say">工作站是中心：<span class="hl">代码、会话、Agent</span> 都在这里</div>
+      <div class="note">示意画面</div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#s04-w", D);
+      rise(tl, ["#s04-t", "#s04-s"], 0.3);
+      ["#s04-d1", "#s04-d2", "#s04-d3", "#s04-d4"].forEach((d, i) => pop(tl, d, 1.0 + i * 1.7, { from: 0.8, y: 40, dur: 0.9 }));
+      draw(tl, ["#s04-p1", "#s04-p2"], 8.4, { dur: 1.2 });
+      pop(tl, "#s04-tag1", 9.2);
+      draw(tl, "#s04-p3", 10.2, { dur: 1.0 });
+      pop(tl, "#s04-tag2", 10.9);
+      draw(tl, "#s04-ring", 12.6, { dur: 1.2 });
+      dim(tl, ["#s04-d1", "#s04-d2", "#s04-d4"], 12.8, { to: 0.4 });
+      charsRise(tl, "#s04-say", 13.4, { y: 20, stagger: 0.04 });
+      window.__timelines["s04"] = tl;
+    })();
+  </script>
+</template>

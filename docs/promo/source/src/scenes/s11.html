@@ -1,0 +1,33 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    .s11-r { left: 460px; width: 1000px; }
+    #s11-r1 { top: 290px; } #s11-r2 { top: 390px; } #s11-r3 { top: 490px; }
+    #s11-hint { top: 680px; } #s11-say { top: 730px; }
+  </style>
+  <div id="root" data-composition-id="s11" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="s11-w" class="wrap">
+      <h1 id="s11-t" class="ttl">真正值钱的是自己的工作积累</h1>
+      <div id="s11-r1" class="row s11-r"><span class="dot"></span>项目文件<span class="r">在自己的工作站</span></div>
+      <div id="s11-r2" class="row s11-r"><span class="dot"></span>会话记录<span class="r">在自己的工作站</span></div>
+      <div id="s11-r3" class="row s11-r"><span class="dot"></span>实验结果<span class="r">节点保存完整，工作站留摘要</span></div>
+      <div id="s11-hint" class="hint">设备只是入口</div>
+      <div id="s11-say" class="say">换手机、换电脑，打开就能<span class="hl">接着干</span></div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#s11-w", D);
+      rise(tl, "#s11-t", 0.3);
+      slideIn(tl, ["#s11-r1", "#s11-r2", "#s11-r3"], 1.2, { stagger: 1.0 });
+      rise(tl, ['#s11-r1 .r', '#s11-r2 .r', '#s11-r3 .r'], 2.0, { stagger: 1.0, y: 0 });
+      blurIn(tl, "#s11-hint", 5.6, { dur: 0.6 });
+      charsRise(tl, "#s11-say", 6.2, { y: 20, stagger: 0.05 });
+      window.__timelines["s11"] = tl;
+    })();
+  </script>
+</template>

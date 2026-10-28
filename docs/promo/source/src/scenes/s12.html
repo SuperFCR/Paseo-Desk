@@ -1,0 +1,32 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    #s12-n { left: 0; width: 1920px; top: 330px; text-align: center; font-size: 120px; font-weight: 800; letter-spacing: 0.06em; }
+    #s12-d { left: 0; width: 1920px; top: 500px; text-align: center; font-size: 38px; color: var(--ink2); letter-spacing: 0.08em; }
+    #s12-g { left: 0; width: 1920px; top: 610px; text-align: center; }
+    #s12-g .tag { position: relative; display: inline-block; font-size: 28px; padding: 12px 28px; }
+    #s12-m { left: 0; width: 1920px; top: 740px; text-align: center; font-size: 22px; color: var(--muted); letter-spacing: 0.1em; }
+  </style>
+  <div id="root" data-composition-id="s12" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="s12-w" class="wrap">
+      <div id="s12-n" class="abs">Paseo Desk</div>
+      <div id="s12-d" class="abs">工作站 <span class="hl">24 小时在线</span>，实验结果<span class="hl">手机上看</span></div>
+      <div id="s12-g" class="abs"><span class="tag mono">github.com/SuperFCR/Paseo-Desk</span></div>
+      <div id="s12-m" class="abs">MIT 开源 · 同一套方案，也能扩展给家人或小团队</div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#s12-w", D, { out: 1.6, zoom: 1.03 });
+      charsRise(tl, "#s12-n", 0.5, { stagger: 0.06, dur: 0.8 });
+      charsRise(tl, "#s12-d", 1.8, { y: 20, stagger: 0.04 });
+      pop(tl, "#s12-g", 3.4, { from: 0.9 });
+      blurIn(tl, "#s12-m", 4.6, { dur: 0.8 });
+      window.__timelines["s12"] = tl;
+    })();
+  </script>
+</template>

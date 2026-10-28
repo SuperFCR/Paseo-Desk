@@ -1,0 +1,47 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    #s02-a { left: 470px; top: 236px; }
+    #s02-b { left: 1050px; top: 236px; }
+    #s02-vs { left: 922px; top: 300px; }
+    .s02-r { left: 470px; width: 980px; }
+    #s02-r1 { top: 560px; } #s02-r2 { top: 656px; } #s02-r3 { top: 752px; }
+    #s02-say { top: 900px; }
+  </style>
+  <div id="root" data-composition-id="s02" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="s02-w" class="wrap">
+      <h1 id="s02-t" class="ttl">最常见的两个麻烦</h1>
+      <div id="s02-s" class="sub">日常经历示意</div>
+      <div id="s02-top">
+        <div id="s02-a" class="vs a"><div class="card"><div class="t">想法在路上</div><div class="d">通勤 · 出差 · 排队</div></div><div class="cone"></div><div class="pool"></div></div>
+        <div id="s02-vs" class="vsx">VS</div>
+        <div id="s02-b" class="vs b"><div class="card"><div class="t">环境在桌前</div><div class="d">代码 · 依赖 · 密钥 · GPU</div></div><div class="cone"></div><div class="pool"></div></div>
+      </div>
+      <div id="s02-r1" class="row s02-r"><span class="dot x"></span>笔记本一合，跑到一半的任务就断了</div>
+      <div id="s02-r2" class="row s02-r"><span class="dot x"></span>每换一台设备，都要再配一遍环境</div>
+      <div id="s02-r3" class="row s02-r"><span class="dot x"></span>手机上只能干看，接不上手</div>
+      <div id="s02-say" class="say">问题不在设备，而在<span class="hl">工作被绑在某一台设备上</span></div>
+      <div class="note">示意画面</div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#s02-w", D);
+      rise(tl, ["#s02-t", "#s02-s"], 0.3);
+      pop(tl, "#s02-a", 1.0, { from: 0.85, y: 30 });
+      blurIn(tl, "#s02-vs", 1.8);
+      pop(tl, "#s02-b", 2.3, { from: 0.85, y: 30 });
+      later(tl, "#s02-top", { y: 0 }, { y: -40, duration: 1.0, ease: "power2.inOut" }, 6.6);
+      dim(tl, "#s02-top", 6.6, { to: 0.45, dur: 1.0 });
+      slideIn(tl, "#s02-r1", 7.4);
+      slideIn(tl, "#s02-r2", 9.0);
+      slideIn(tl, "#s02-r3", 10.6);
+      charsRise(tl, "#s02-say", 12.8, { y: 20, stagger: 0.04 });
+      window.__timelines["s02"] = tl;
+    })();
+  </script>
+</template>

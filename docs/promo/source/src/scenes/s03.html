@@ -1,0 +1,28 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    #s03-bar { left: 470px; top: 400px; width: 300px; height: 3px; background: linear-gradient(90deg, var(--amber), transparent); }
+    #s03-t { left: 470px; top: 430px; font-size: 104px; font-weight: 800; letter-spacing: 0.05em; white-space: nowrap; }
+    #s03-d { left: 474px; top: 600px; font-size: 30px; color: var(--ink2); letter-spacing: 0.08em; white-space: nowrap; }
+  </style>
+  <div id="root" data-composition-id="s03" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="s03-w" class="wrap">
+      <div id="s03-bar" class="abs"></div>
+      <div id="s03-t" class="abs">这套工作流怎么跑？</div>
+      <div id="s03-d" class="abs">一台<span class="hl">常开的电脑</span> + 一张<span class="hl">私有网络</span> + 一个<span class="hl">不掉线的会话</span></div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#s03-w", D, { zoom: 1.05 });
+      bar(tl, "#s03-bar", 0.4, { dur: 1.0 });
+      charsRise(tl, "#s03-t", 0.6, { stagger: 0.07 });
+      blurIn(tl, "#s03-d", 2.8, { dur: 0.9 });
+      window.__timelines["s03"] = tl;
+    })();
+  </script>
+</template>

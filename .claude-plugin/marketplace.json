@@ -1,0 +1,14 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "paseo-desk",
+  "owner": { "name": "SuperFCR" },
+  "metadata": { "description": "Paseo Desk：手机与 Mac 经 Tailscale 驱动常开工作站上的 Claude Code / Codex" },
+  "plugins": [
+    {
+      "name": "paseo-desk",
+      "source": "./",
+      "description": "安装、常驻、连接、远程计算、诊断与多人扩展六个 skill",
+      "version": "1.0.0"
+    }
+  ]
+}

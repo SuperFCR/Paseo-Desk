@@ -17,4 +17,5 @@ ShellCheck 与 PowerShell 解析方法见验证记录。脚本修改应说明目
 - 不提交真实 IP、节点凭据、SSH 密钥、账号登录文件或个人部署记录。`.gitignore` 只是辅助，提交前检查暂存内容。
 - 保持公共程序安装与每用户状态分开，不引入复制他人模型登录凭据的功能。
 - PowerShell 保留 UTF-8 BOM 和 CRLF，以兼容 Windows PowerShell 5.1；Shell 文件使用 LF。
+- Skill（`skills/<name>/SKILL.md`）：目录名与 frontmatter 的 `name` 一致；description 写清“什么时候用”和典型说法；正文写步骤、验证与停止条件，涉及 sudo、网络策略、电源、重启或删除数据的步骤要求先征得同意。新增 skill 同步更新 `skills/README.md`，并运行 `claude plugin validate .`。
 - PR 描述说明问题、修改后的行为、验证方法和平台限制；没有实机运行过的平台应明确标注。

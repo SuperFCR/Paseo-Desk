@@ -1,0 +1,113 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    #s06-ph { left: 160px; top: 196px; width: 340px; height: 650px; border-radius: 48px; border: 10px solid #2c2c33;
+      background: linear-gradient(180deg, #121722, #0a0d13); box-shadow: 0 40px 80px -30px #000, 0 0 0 2px #45454f; overflow: hidden; }
+    #s06-ph .isl { margin: 12px auto 0; width: 96px; height: 26px; border-radius: 14px; background: #000; }
+    .s06-hd { padding: 18px 24px 14px; border-bottom: 1px solid var(--line); }
+    .s06-hd .a { font-size: 22px; font-weight: 700; }
+    .s06-hd .b { margin-top: 6px; font-size: 16px; color: var(--muted); }
+    .s06-me { margin: 22px 18px 0 54px; padding: 14px 16px; border-radius: 16px 16px 4px 16px; background: var(--amber); color: #1d1408;
+      font-size: 19px; line-height: 1.55; font-weight: 500; }
+    .s06-ag { margin: 18px 22px 0; font-size: 18px; line-height: 1.7; color: var(--ink2); }
+    .s06-ag i { font-style: normal; color: var(--green); }
+    #s06-in { position: absolute; left: 18px; right: 18px; bottom: 22px; height: 46px; border-radius: 23px; border: 1px solid var(--line);
+      font-size: 16px; color: var(--muted); padding: 12px 20px; }
+
+    #s06-ws { left: 690px; top: 250px; width: 560px; height: 500px; padding: 26px 30px; }
+    #s06-ws .h { display: flex; align-items: center; gap: 16px; }
+    #s06-ws .h .n { font-size: 28px; font-weight: 700; }
+    #s06-ws .h .chip { margin-left: auto; font-size: 17px; padding: 6px 14px; }
+    #s06-ws .ss { margin-top: 18px; font-size: 19px; color: var(--muted); }
+    .s06-st { margin-top: 16px; display: flex; align-items: center; gap: 16px; font-size: 23px; }
+    .s06-st .ic { width: 30px; text-align: center; color: var(--green); font-weight: 700; }
+    .spin { display: inline-block; width: 22px; height: 22px; border-radius: 50%; border: 3px solid rgba(242, 182, 76, 0.25); border-top-color: var(--amber); vertical-align: -3px; }
+    #s06-prog { margin-top: 28px; }
+    #s06-prog .lb { display: flex; justify-content: space-between; font-size: 18px; color: var(--ink2); }
+    #s06-prog .tr { margin-top: 12px; height: 10px; border-radius: 5px; background: rgba(255, 255, 255, 0.07); overflow: hidden; }
+    #s06-fill { height: 100%; width: 100%; border-radius: 5px; background: linear-gradient(90deg, #c98a2a, var(--amber2)); transform-origin: 0 50%; }
+
+    #s06-mac { left: 1300px; top: 250px; width: 520px; }
+    #s06-mac .scr { height: 340px; border-radius: 14px 14px 4px 4px; border: 8px solid #1d1d22; box-shadow: 0 0 0 2px #4a4a53;
+      background: linear-gradient(180deg, #13161f, #0b0d13); padding: 16px 20px; overflow: hidden; }
+    #s06-mac .base { margin: 0 -26px; height: 20px; border-radius: 2px 2px 14px 14px; background: linear-gradient(180deg, #dfe1e6, #8f9299); }
+    #s06-mac .old { margin-top: 12px; font-size: 16px; line-height: 1.65; color: #6e6d77; }
+    #s06-mac .s06-me { margin: 14px 0 0 90px; font-size: 18px; }
+
+    #s06-off { left: 506px; top: 524px; color: #ffb3b3; border-color: var(--red); font-size: 18px; }
+    #s06-cont { left: 862px; top: 772px; }
+    #s06-say { top: 900px; }
+  </style>
+  <div id="root" data-composition-id="s06" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="s06-w" class="wrap">
+      <h1 id="s06-t" class="ttl">第二层 · 工作站上的 Paseo</h1>
+      <div id="s06-s" class="sub">会话接续示意 · 界面为示意重建</div>
+      <svg class="lines" viewBox="0 0 1920 1080">
+        <path id="s06-l1" d="M500 500 H690" stroke="#f2b64c" stroke-width="3" />
+        <path id="s06-l2" d="M1250 470 H1300" stroke="#f2b64c" stroke-width="3" />
+      </svg>
+      <div id="s06-ph" class="abs">
+        <div class="isl"></div>
+        <div class="s06-hd"><div class="a">my-project</div><div class="b">常开工作站 · 会话 #12</div></div>
+        <div id="s06-q" class="s06-me">给训练脚本加上断点续训，跑通测试后提交到 GPU 节点</div>
+        <div id="s06-r" class="s06-ag">好的，开始处理：<br><i>✓</i> 已读取 train.py<br><i>✓</i> 正在修改…</div>
+        <div id="s06-in">发消息给 Agent…</div>
+      </div>
+      <div id="s06-ws" class="card amb">
+        <div class="h">{{dev:desk:46}}<span class="n">常开工作站</span><span class="chip">Paseo · Claude Code</span></div>
+        <div class="ss mono">my-project · 会话 #12</div>
+        <div id="s06-a1" class="s06-st"><span class="ic">✓</span>读取 train.py</div>
+        <div id="s06-a2" class="s06-st"><span class="ic">✓</span>添加断点续训</div>
+        <div id="s06-a3" class="s06-st"><span class="ic">✓</span>运行单元测试 · 12 passed</div>
+        <div id="s06-a4" class="s06-st"><span class="ic"><span id="s06-spin" class="spin"></span></span>提交到 GPU 节点</div>
+        <div id="s06-prog"><div class="lb"><span>Agent 工作中</span><span class="mono">job-0427</span></div><div class="tr"><div id="s06-fill"></div></div></div>
+      </div>
+      <div id="s06-mac" class="abs">
+        <div class="scr">
+          <div class="s06-hd" style="padding: 4px 0 12px"><div class="a">my-project</div><div class="b">常开工作站 · 会话 #12 · 同一个会话</div></div>
+          <div class="old">你：给训练脚本加上断点续训…<br>Agent：✓ 测试通过，job-0427 已提交</div>
+          <div id="s06-q2" class="s06-me">顺便把学习率调度改成 cosine</div>
+        </div>
+        <div class="base"></div>
+      </div>
+      <div id="s06-off" class="tag">手机锁屏 / 断网</div>
+      <div id="s06-cont" class="hint" style="width: 216px; left: 862px">任务照常运行</div>
+      <div id="s06-pa" class="pulse"></div><div id="s06-pb" class="pulse"></div>
+      <div id="s06-say" class="say">会话在<span class="hl">工作站</span>上，不在任何一台设备上</div>
+      <div class="note">示意画面 · 项目与任务为虚构</div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#s06-w", D);
+      rise(tl, ["#s06-t", "#s06-s"], 0.3);
+      pop(tl, "#s06-ph", 0.9, { from: 0.9, y: 50 });
+      pop(tl, "#s06-q", 2.0, { from: 0.8, y: 20 });
+      draw(tl, "#s06-l1", 3.2, { dur: 0.6 });
+      travel(tl, "#s06-pa", [[500, 500], [690, 500]], 3.6, 0.6);
+      pop(tl, "#s06-ws", 4.0, { from: 0.9, y: 40 });
+      blurIn(tl, "#s06-r", 4.6);
+      rise(tl, ["#s06-a1", "#s06-a2", "#s06-a3", "#s06-a4"], 5.2, { stagger: 1.1, x: 0 });
+      blurIn(tl, "#s06-prog", 8.6);
+      tl.fromTo("#s06-fill", { scaleX: 0.08 }, { scaleX: 0.66, duration: 9.5, ease: "none" }, 8.6);
+      tl.fromTo("#s06-spin", { rotation: 0 }, { rotation: 360 * 8, duration: 16, ease: "none" }, 8.6);
+      // 手机断开，任务继续
+      dim(tl, "#s06-ph", 9.8, { to: 0.3, dur: 0.6 });
+      later(tl, "#s06-l1", { opacity: 1 }, { opacity: 0.15, duration: 0.6 }, 9.8);
+      pop(tl, "#s06-off", 10.1);
+      blurIn(tl, "#s06-cont", 11.0);
+      // Mac 打开同一个会话
+      draw(tl, "#s06-l2", 14.2, { dur: 0.4 });
+      pop(tl, "#s06-mac", 14.4, { from: 0.9, y: 40 });
+      travel(tl, "#s06-pb", [[1250, 470], [1300, 470]], 14.6, 0.4);
+      pop(tl, "#s06-q2", 16.8, { from: 0.8, y: 20 });
+      charsRise(tl, "#s06-say", 19.6, { y: 20, stagger: 0.045 });
+      later(tl, "#s06-ws", { scale: 1 }, { scale: 1.03, duration: 0.5, ease: "power2.out" }, 20.4);
+      window.__timelines["s06"] = tl;
+    })();
+  </script>
+</template>

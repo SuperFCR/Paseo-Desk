@@ -1,0 +1,36 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    #s01-l1 { left: 0; width: 1920px; top: 352px; text-align: center; font-size: 104px; font-weight: 800; letter-spacing: 0.06em; white-space: nowrap; }
+    #s01-l2 { left: 0; width: 1920px; top: 528px; text-align: center; font-size: 44px; font-weight: 500; color: var(--ink2); letter-spacing: 0.08em; white-space: nowrap; }
+    #s01-bar { left: 900px; top: 676px; width: 120px; height: 3px; background: var(--amber); box-shadow: 0 0 18px var(--amber-glow); }
+    #s01-brand { left: 0; width: 1920px; top: 712px; text-align: center; font-size: 34px; font-weight: 700; letter-spacing: 0.32em; color: var(--amber2); }
+    #s01-tagline { left: 0; width: 1920px; top: 770px; text-align: center; font-size: 22px; letter-spacing: 0.3em; color: var(--muted); }
+  </style>
+  <div id="root" data-composition-id="s01" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="s01-w" class="wrap">
+      <div id="s01-l1" class="abs">人在路上，代码在家里</div>
+      <div id="s01-l2" class="abs">工作站 <span class="hl">24 小时在线</span>，实验结果<span class="hl">手机上看</span></div>
+      <div id="s01-bar" class="abs"></div>
+      <div id="s01-brand" class="abs mono">PASEO DESK</div>
+      <div id="s01-tagline" class="abs">一个人的 AI 编程工作流</div>
+      <div class="note">画面为示意 · 账号、主机与地址均为虚构</div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#s01-w", D, { in: 1.0, zoom: 1.04 });
+      charsRise(tl, "#s01-l1", 0.7, { stagger: 0.09, dur: 0.8 });
+      charsRise(tl, "#s01-l2", 3.0, { y: 24, stagger: 0.05 });
+      bar(tl, "#s01-bar", 5.4, { dur: 0.9 });
+      blurIn(tl, "#s01-brand", 5.7, { dur: 0.8 });
+      blurIn(tl, "#s01-tagline", 6.4, { dur: 0.8 });
+      blurIn(tl, '[data-composition-id="s01"] .note', 1.5, { dur: 1 });
+      window.__timelines["s01"] = tl;
+    })();
+  </script>
+</template>

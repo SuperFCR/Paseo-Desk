@@ -1,0 +1,103 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    .s08-col { position: absolute; top: 230px; width: 380px; margin-left: -190px; display: flex; flex-direction: column; align-items: center; }
+    #s08-n1 { left: 330px; } #s08-n2 { left: 750px; } #s08-n3 { left: 1170px; } #s08-n4 { left: 1590px; }
+    .s08-dot { width: 26px; height: 26px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 0 8px rgba(242, 182, 76, 0.16), 0 0 24px var(--amber-glow); }
+    .s08-tm { margin-top: 26px; font-size: 52px; font-weight: 700; color: var(--amber2); }
+    .s08-pl { margin-top: 6px; font-size: 22px; color: var(--muted); letter-spacing: 0.08em; white-space: nowrap; }
+    .s08-cd { position: relative; margin-top: 26px; width: 360px; height: 330px; padding: 26px 26px; }
+    .s08-ac { font-size: 23px; line-height: 1.55; font-weight: 600; }
+    .s08-vis { margin-top: 20px; }
+    .s08-bub { margin-left: 40px; padding: 12px 16px; border-radius: 14px 14px 4px 14px; background: var(--amber); color: #1d1408; font-size: 18px; line-height: 1.5; }
+    .s08-term { padding: 14px 16px; border-radius: 10px; background: #07080b; border: 1px solid var(--line); font-size: 17px; line-height: 1.8; color: var(--ink2); }
+    .s08-term i { font-style: normal; color: var(--green); }
+    .s08-tr { margin-top: 12px; height: 10px; border-radius: 5px; background: rgba(255, 255, 255, 0.07); overflow: hidden; }
+    #s08-fill { height: 100%; width: 100%; border-radius: 5px; background: linear-gradient(90deg, #c98a2a, var(--amber2)); transform-origin: 0 50%; }
+    .s08-row { display: flex; justify-content: space-between; font-size: 18px; color: var(--ink2); }
+    #s08-say { top: 900px; }
+  </style>
+  <div id="root" data-composition-id="s08" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="s08-w" class="wrap">
+      <h1 id="s08-t" class="ttl">一天里的一次任务</h1>
+      <div id="s08-s" class="sub">使用过程示意</div>
+      <svg class="lines" viewBox="0 0 1920 1080">
+        <path d="M200 243 H1720" stroke="rgba(255,255,255,0.08)" stroke-width="3" />
+        <path id="s08-g1" d="M330 243 H750" stroke="#f2b64c" stroke-width="3" />
+        <path id="s08-g2" d="M750 243 H1170" stroke="#f2b64c" stroke-width="3" />
+        <path id="s08-g3" d="M1170 243 H1590" stroke="#f2b64c" stroke-width="3" />
+      </svg>
+      <div id="s08-n1" class="s08-col">
+        <div class="s08-dot"></div><div class="s08-tm mono">08:30</div><div class="s08-pl">地铁上 · 手机</div>
+        <div class="s08-cd card">
+          <div class="s08-ac">让 Agent 给训练加上断点续训</div>
+          <div class="s08-vis">{{dev:phone:54}}<div class="s08-bub" style="margin-top: -96px; margin-left: 80px">加上断点续训，跑通后提交</div></div>
+        </div>
+      </div>
+      <div id="s08-n2" class="s08-col">
+        <div class="s08-dot"></div><div class="s08-tm mono">09:10</div><div class="s08-pl">家里 · 常开工作站</div>
+        <div class="s08-cd card">
+          <div class="s08-ac">改好代码、跑通测试，提交到 GPU 节点</div>
+          <div class="s08-vis s08-term mono"><span id="s08-tl1"><i>✓</i> 12 passed</span><br><span id="s08-tl2">→ submit job-0427</span><br><span id="s08-tl3"><i>✓</i> running on gpu-node</span></div>
+        </div>
+      </div>
+      <div id="s08-n3" class="s08-col">
+        <div class="s08-dot"></div><div class="s08-tm mono">12:20</div><div class="s08-pl">午休 · 手机</div>
+        <div class="s08-cd card">
+          <div class="s08-ac">看一眼进度，顺手回一句</div>
+          <div class="s08-vis">
+            <div class="s08-row mono"><span>job-0427</span><span id="s08-step">step 3100 / 5000</span></div>
+            <div class="s08-tr"><div id="s08-fill"></div></div>
+            <div class="s08-row mono" style="margin-top: 14px"><span>loss</span><span style="color: var(--green)">0.84 ↓</span></div>
+          </div>
+        </div>
+      </div>
+      <div id="s08-n4" class="s08-col">
+        <div class="s08-dot"></div><div class="s08-tm mono">19:00</div><div class="s08-pl">回家 · MacBook</div>
+        <div class="s08-cd card amb">
+          <div class="s08-ac">打开报告和曲线，接着改</div>
+          <div class="s08-vis">
+            <svg viewBox="0 0 300 120" width="300" height="120">
+              <path d="M0 110 H300 M0 0 V110" stroke="#3a3a44" stroke-width="2" fill="none" />
+              <path id="s08-curve" d="M6 12 C40 40 60 62 96 74 S170 92 210 97 S270 102 296 103" stroke="#ffd58a" stroke-width="3.5" fill="none" stroke-linecap="round" />
+            </svg>
+            <div class="s08-row mono" style="margin-top: 8px"><span>report.md</span><span>loss.png</span></div>
+          </div>
+        </div>
+      </div>
+      <div id="s08-pa" class="pulse"></div>
+      <div id="s08-say" class="say">从早到晚，始终是<span class="hl">同一个会话</span></div>
+      <div class="note">示意画面 · 时间与数值为虚构</div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#s08-w", D, { zoom: 1.02 });
+      rise(tl, ["#s08-t", "#s08-s"], 0.3);
+      const col = (n, at) => {
+        pop(tl, `#s08-n${n} .s08-dot`, at, { from: 0.2 });
+        rise(tl, [`#s08-n${n} .s08-tm`, `#s08-n${n} .s08-pl`], at + 0.2);
+        pop(tl, `#s08-n${n} .s08-cd`, at + 0.7, { from: 0.9, y: 40 });
+      };
+      col(1, 1.0);
+      draw(tl, "#s08-g1", 6.4, { dur: 1.0 });
+      travel(tl, "#s08-pa", [[330, 243], [750, 243]], 6.4, 1.0);
+      col(2, 7.4);
+      rise(tl, ["#s08-tl1", "#s08-tl2", "#s08-tl3"], 9.2, { stagger: 0.9, y: 10 });
+      draw(tl, "#s08-g2", 13.0, { dur: 1.0 });
+      travel(tl, "#s08-pa", [[750, 243], [1170, 243]], 13.0, 1.0);
+      col(3, 14.0);
+      tl.fromTo("#s08-fill", { scaleX: 0.2 }, { scaleX: 0.62, duration: 3.0, ease: "power1.out" }, 15.0);
+      draw(tl, "#s08-g3", 19.4, { dur: 1.0 });
+      travel(tl, "#s08-pa", [[1170, 243], [1590, 243]], 19.4, 1.0);
+      col(4, 20.4);
+      draw(tl, "#s08-curve", 21.4, { dur: 1.8, ease: "power1.inOut" });
+      charsRise(tl, "#s08-say", 25.0, { y: 20, stagger: 0.05 });
+      window.__timelines["s08"] = tl;
+    })();
+  </script>
+</template>

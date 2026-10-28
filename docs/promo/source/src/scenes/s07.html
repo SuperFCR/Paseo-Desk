@@ -1,0 +1,72 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    #s07-desk { left: 360px; top: 250px; } #s07-gpu { left: 1560px; top: 270px; }
+    .s07-lb { position: absolute; left: 0; width: 1920px; text-align: center; }
+    .s07-lb .tag { position: relative; display: inline-block; }
+    .s07-lb .m { margin-top: 10px; font-size: 18px; color: var(--muted); }
+    #s07-b1 { top: 262px; } #s07-b2 { top: 372px; } #s07-b3 { top: 482px; }
+    #s07-c1 { left: 220px; top: 640px; width: 680px; height: 200px; padding: 28px 36px; }
+    #s07-c2 { left: 1020px; top: 640px; width: 680px; height: 200px; padding: 28px 36px; }
+    .s07-k { font-size: 30px; font-weight: 700; }
+    .s07-c { margin-top: 22px; display: flex; gap: 14px; flex-wrap: wrap; }
+    #s07-say { top: 910px; }
+  </style>
+  <div id="root" data-composition-id="s07" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="s07-w" class="wrap">
+      <h1 id="s07-t" class="ttl">第三层 · 重计算交给节点</h1>
+      <div id="s07-s" class="sub">远程计算示意</div>
+      <div id="s07-top">
+        <svg class="lines" viewBox="0 0 1920 1080">
+          <path id="s07-l1" d="M520 281 H1400 M1384 271 L1400 281 L1384 291" stroke="#f2b64c" stroke-width="3" />
+          <path id="s07-l2" d="M1400 391 H520 M536 381 L520 391 L536 401" stroke="#a597ff" stroke-width="3" />
+          <path id="s07-l3" d="M1400 501 H520 M536 491 L520 501 L536 511" stroke="#f2b64c" stroke-width="3" />
+        </svg>
+        <div id="s07-desk" class="dev">{{dev:desk:150}}<div class="nm">常开工作站</div></div>
+        <div id="s07-gpu" class="dev">{{dev:gpu:200}}<div class="nm">GPU 计算节点</div></div>
+        <div id="s07-b1" class="s07-lb"><span class="tag">① 同步代码，提交任务</span><div class="m mono">git a1b2c3d → job-0427</div></div>
+        <div id="s07-b2" class="s07-lb"><span class="tag v">② 随时查询状态</span><div class="m mono">step 1200 / 5000 · loss 0.84</div></div>
+        <div id="s07-b3" class="s07-lb"><span class="tag">③ 只拉回小结果</span><div class="m mono">metrics.json · loss.png · 2 MB</div></div>
+        <div id="s07-p1" class="pulse"></div><div id="s07-p2" class="pulse v"></div><div id="s07-p3" class="pulse"></div>
+      </div>
+      <div id="s07-c1" class="card amb">
+        <div class="s07-k"><span class="hl">拉回</span>工作站</div>
+        <div class="s07-c"><span class="chip">日志摘要</span><span class="chip">指标</span><span class="chip">图表</span><span class="chip">少量样例</span></div>
+      </div>
+      <div id="s07-c2" class="card vio">
+        <div class="s07-k"><span style="color: #d6cfff">留在</span>计算节点</div>
+        <div class="s07-c"><span class="chip">数据集</span><span class="chip">模型权重</span><span class="chip">检查点</span><span class="chip">完整结果</span></div>
+      </div>
+      <div id="s07-say" class="say">工作站保持轻量，<span class="hl">算力按需</span>去节点上用</div>
+      <div class="note">示意画面 · 任务与数值为虚构</div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#s07-w", D);
+      rise(tl, ["#s07-t", "#s07-s"], 0.3);
+      pop(tl, "#s07-desk", 0.9, { from: 0.8, y: 40 });
+      pop(tl, "#s07-gpu", 1.5, { from: 0.8, y: 40 });
+      draw(tl, "#s07-l1", 2.6, { dur: 0.9 });
+      travel(tl, "#s07-p1", [[520, 281], [1400, 281]], 2.9, 1.0);
+      rise(tl, "#s07-b1", 3.2);
+      draw(tl, "#s07-l2", 5.0, { dur: 0.9 });
+      travel(tl, "#s07-p2", [[1400, 391], [520, 391]], 5.3, 1.0);
+      rise(tl, "#s07-b2", 5.6);
+      draw(tl, "#s07-l3", 7.4, { dur: 0.9 });
+      travel(tl, "#s07-p3", [[1400, 501], [520, 501]], 7.7, 1.0);
+      rise(tl, "#s07-b3", 8.0);
+      dim(tl, "#s07-top", 10.6, { to: 0.5 });
+      pop(tl, "#s07-c1", 11.0, { from: 0.9, y: 40 });
+      rise(tl, '#s07-c1 .chip', 11.5, { stagger: 0.18, y: 16 });
+      pop(tl, "#s07-c2", 13.2, { from: 0.9, y: 40 });
+      rise(tl, '#s07-c2 .chip', 13.7, { stagger: 0.18, y: 16 });
+      charsRise(tl, "#s07-say", 16.0, { y: 20, stagger: 0.045 });
+      window.__timelines["s07"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,62 @@
+<template>
+  <style>
+    /*SHARED_CSS*/
+    .s09-st { position: absolute; left: 110px; width: 640px; height: 140px; padding: 20px 0 0 120px; border-left: 3px solid transparent; }
+    .s09-st .n { position: absolute; left: 28px; top: 8px; font-size: 76px; font-weight: 700; color: var(--amber); }
+    .s09-st .a { font-size: 34px; font-weight: 700; white-space: nowrap; }
+    .s09-st .b { margin-top: 12px; font-size: 22px; color: var(--muted); white-space: nowrap; }
+    #s09-1 { top: 250px; } #s09-2 { top: 420px; } #s09-3 { top: 590px; }
+    #s09-term { left: 800px; top: 226px; width: 1020px; height: 560px; padding: 0; overflow: hidden; }
+    #s09-term .bar { height: 48px; display: flex; align-items: center; gap: 10px; padding: 0 20px; border-bottom: 1px solid var(--line); }
+    #s09-term .bar i { width: 13px; height: 13px; border-radius: 50%; background: #3a3a43; }
+    #s09-term .bar span { margin-left: 16px; font-size: 17px; color: var(--muted); }
+    #s09-code { padding: 22px 30px; font-size: 22px; line-height: 50px; white-space: pre; color: #e9e7e2; }
+    #s09-code .ok { color: var(--green); } #s09-code .cm { color: #7d7c86; } #s09-code .pr { color: var(--amber); }
+    #s09-hint { top: 870px; }
+  </style>
+  <div id="root" data-composition-id="s09" data-width="1920" data-height="1080">
+    <div class="bg"></div>
+    <div id="s09-w" class="wrap">
+      <h1 id="s09-t" class="ttl">搭起来只要三步</h1>
+      <div id="s09-s" class="sub">部署过程示意 · 命令来自仓库文档，输出为示意</div>
+      <div id="s09-1" class="s09-st"><span class="n mono">1</span><div class="a">工作站装好公共部分</div><div class="b">Node、Paseo、Claude Code / Codex 一次装好</div></div>
+      <div id="s09-2" class="s09-st"><span class="n mono">2</span><div class="a">创建自己的 Paseo 实例</div><div class="b">独立端口与连接密码，开机自动运行</div></div>
+      <div id="s09-3" class="s09-st"><span class="n mono">3</span><div class="a">手机和 Mac 连进来</div><div class="b">登录同一个 Tailscale，在 Paseo 里添加 Host</div></div>
+      <div id="s09-term" class="card">
+        <div class="bar"><i></i><i></i><i></i><span class="mono">工作站 · bash</span></div>
+        <div id="s09-code" class="mono"><div id="s09-c1"><span class="pr">$</span> git clone https://github.com/SuperFCR/Paseo-Desk.git</div><div id="s09-c2"><span class="pr">$</span> sudo ./linux/install.sh --install-node 24.22.1 --install-packages</div><div id="s09-c3" class="ok">✓ 公共程序与包装脚本已安装</div><div id="s09-c4"><span class="pr">$</span> sudo paseo-user add alice 6767</div><div id="s09-c5" class="ok">✓ paseo@alice 已启动 · 端口 6767</div><div id="s09-c6" class="ok">✓ 连接密码已写入 ~/.paseo/client.env</div><div id="s09-c7" class="cm"># 手机 / Mac：登录 Tailscale → Paseo 添加 Host</div><div id="s09-c8">  Host 100.x.y.z:6767 · Use SSL 关</div></div>
+      </div>
+      <div id="s09-hint" class="hint">Windows + WSL2 · 原生 Linux · macOS 都有对应文档</div>
+      <div class="note">示意画面 · 用户名与地址为虚构</div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      /*SHARED_JS*/
+      const tl = gsap.timeline({ paused: true });
+      const D = {{dur}};
+      frame(tl, "#s09-w", D);
+      rise(tl, ["#s09-t", "#s09-s"], 0.3);
+      pop(tl, "#s09-term", 0.8, { from: 0.94, y: 30 });
+      tl.fromTo(".s09-st", { opacity: 0, x: -30 }, { opacity: 0.32, x: 0, duration: 0.8, stagger: 0.15, ease: "expo.out" }, 0.9);
+      const step = (n, at) => {
+        later(tl, `#s09-${n}`, { opacity: 0.32, borderLeftColor: "rgba(242,182,76,0)" }, { opacity: 1, borderLeftColor: "rgba(242,182,76,1)", duration: 0.4 }, at);
+        if (n > 1) later(tl, `#s09-${n - 1}`, { opacity: 1, borderLeftColor: "rgba(242,182,76,1)" }, { opacity: 0.55, borderLeftColor: "rgba(242,182,76,0)", duration: 0.4 }, at);
+      };
+      step(1, 1.8);
+      let t = typeOn(tl, "#s09-c1", 2.2, 30);
+      t = typeOn(tl, "#s09-c2", t + 0.4, 30);
+      blurIn(tl, "#s09-c3", t + 0.8, { dur: 0.3 });
+      step(2, 8.6);
+      t = typeOn(tl, "#s09-c4", 9.0, 26);
+      blurIn(tl, "#s09-c5", t + 0.7, { dur: 0.3 });
+      blurIn(tl, "#s09-c6", t + 1.3, { dur: 0.3 });
+      step(3, 13.4);
+      t = typeOn(tl, "#s09-c7", 13.8, 24);
+      blurIn(tl, "#s09-c8", t + 0.5, { dur: 0.4 });
+      later(tl, ["#s09-1", "#s09-2"], { opacity: 0.55 }, { opacity: 1, duration: 0.5 }, 17.6);
+      blurIn(tl, "#s09-hint", 17.8, { dur: 0.7 });
+      window.__timelines["s09"] = tl;
+    })();
+  </script>
+</template>
